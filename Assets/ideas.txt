@@ -1,0 +1,5 @@
+* Terrain certain cubes can stand on
+* Moving entities that reset cube when touched
+* Portals/other dimensions
+* Pad that switches sky and floor
+* Fade in/out terrain

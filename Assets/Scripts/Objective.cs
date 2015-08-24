@@ -33,7 +33,7 @@ public class Objective : MonoBehaviour {
 	void OnTriggerEnter2D(Collider2D otherObject) {
 		if (otherObject.transform.tag == lookingForTag) {
 			renderer.color = Color.black;
-            otherObject.transform.position = transform.position;
+            //otherObject.transform.position = transform.position;
 			objectiveHandler.SetObjectiveActivated(lookingForTag, true);
 		}
 	}

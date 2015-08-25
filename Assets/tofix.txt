@@ -1,7 +1,7 @@
 * Fix collision shuttering
 * Make tutorial playable
-* Fix floating boxes
-* <Possible> Snap to objective
+* Fix floating boxes <done>
+* <Possible> Snap to objective <disabled>
 * Tweak colors of Objectives and Characters
 * Jump spamming can sometimes climb walls
 * Speed pads

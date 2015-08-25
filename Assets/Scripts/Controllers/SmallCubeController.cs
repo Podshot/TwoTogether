@@ -60,27 +60,33 @@ public class SmallCubeController : MonoBehaviour {
 			}
 		}
 		if (!(fadeOut || fadeIn || settingUp)) {
-			if (Input.GetKey(KeyCode.LeftArrow) && !collidedOnLeft) {
+			if (Input.GetKey(KeyCode.LeftArrow)) {
                 moveLeft();
 			}
-			if (Input.GetKey(KeyCode.RightArrow) && !collidedOnRight) {
+			if (Input.GetKey(KeyCode.RightArrow)) {
                 moveRight();
 			}
 			if (Input.GetKeyDown(KeyCode.UpArrow) && !jumping) {
 				rigidbody.AddForce(Vector2.up * jumpForce);
 				jumping = true;
 			}
+            if (Input.GetKeyUp(KeyCode.LeftArrow)) {
+                rigidbody.velocity = new Vector2(0f, rigidbody.velocity.y);
+            }
+            if (Input.GetKeyUp(KeyCode.RightArrow)) {
+                rigidbody.velocity = new Vector2(0f, rigidbody.velocity.y);
+            }
 		}
 	}
 
 
     // Start Movement Controllers
     void MoveLeftNormal() {
-        transform.Translate(Vector3.left * Time.deltaTime * speed);
+        rigidbody.velocity = new Vector2(speed * Vector2.left.x, rigidbody.velocity.y);
     }
 
     void MoveRightNormal() {
-        transform.Translate(Vector3.right * Time.deltaTime * speed);
+        rigidbody.velocity = new Vector2(speed * Vector2.right.x, rigidbody.velocity.y);
     }
     // End Movement Controllers
 

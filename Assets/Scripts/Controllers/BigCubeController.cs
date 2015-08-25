@@ -58,26 +58,32 @@ public class BigCubeController : MonoBehaviour {
 		}
 
 		if (!(fadeOut || fadeOut || settingUp)) {
-			if (Input.GetKey(KeyCode.A) && !collidedOnLeft) {
+			if (Input.GetKey(KeyCode.A)) {
                 moveLeft();
 			}
-			if (Input.GetKey(KeyCode.D) && !collidedOnRight) {
+			if (Input.GetKey(KeyCode.D)) {
                 moveRight();
 			}
 			if (Input.GetKeyDown(KeyCode.W) && !jumping) {
 				rigidbody.AddForce(Vector2.up * jumpForce);
 				jumping = true;
 			}
-		}
+            if (Input.GetKeyUp(KeyCode.A)) {
+                rigidbody.velocity = new Vector2(0f, rigidbody.velocity.y);
+            }
+            if (Input.GetKeyUp(KeyCode.D)) {
+                rigidbody.velocity = new Vector2(0f, rigidbody.velocity.y);
+            }
+        }
 	}
 
     // Start Movement Controllers
     void MoveLeftNormal() {
-        transform.Translate(Vector3.left * Time.deltaTime * speed);
+        rigidbody.velocity = new Vector2(speed * Vector2.left.x, rigidbody.velocity.y);
     }
 
     void MoveRightNormal() {
-        transform.Translate(Vector3.right * Time.deltaTime * speed);
+        rigidbody.velocity = new Vector2(speed * Vector2.right.x, rigidbody.velocity.y);
     }
     // End Movement Controllers
 

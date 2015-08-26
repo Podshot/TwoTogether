@@ -1,3 +1,4 @@
+* Add physics material that lowers friction
 * Fix collision shuttering
 * Make tutorial playable
 * Fix floating boxes <done>

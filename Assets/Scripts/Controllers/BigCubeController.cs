@@ -5,8 +5,8 @@ public class BigCubeController : MonoBehaviour {
 
 	private Rigidbody2D rigidbody;
 	private float speed = 1.25f;
-	private float jumpForce = 200f;
-	private bool collidedOnRight = false;
+    private float jumpForce = 200f;
+    private bool collidedOnRight = false;
 	private bool collidedOnLeft = false;
 	private bool fadeIn = false;
 	private bool fadeOut = false;
@@ -56,25 +56,38 @@ public class BigCubeController : MonoBehaviour {
 				fadeOut = false;
 			}
 		}
-
+        if (rigidbody.IsSleeping() && !rigidbody.isKinematic) {
+            rigidbody.isKinematic = true;
+        } else if (!rigidbody.IsSleeping()) {
+            rigidbody.isKinematic = false;
+        }
 		if (!(fadeOut || fadeOut || settingUp)) {
 			if (Input.GetKey(KeyCode.A)) {
+                //rigidbody.isKinematic = false;
                 moveLeft();
 			}
 			if (Input.GetKey(KeyCode.D)) {
+                //rigidbody.isKinematic = false;
                 moveRight();
 			}
 			if (Input.GetKeyDown(KeyCode.W) && !jumping) {
-				rigidbody.AddForce(Vector2.up * jumpForce);
+                //rigidbody.isKinematic = false;
+                rigidbody.AddForce(Vector2.up * jumpForce);
 				jumping = true;
 			}
+            if (jumping) {
+                //rigidbody.isKinematic = false;
+            }
             if (Input.GetKeyUp(KeyCode.A)) {
                 rigidbody.velocity = new Vector2(0f, rigidbody.velocity.y);
+                //rigidbody.isKinematic = true;
             }
             if (Input.GetKeyUp(KeyCode.D)) {
                 rigidbody.velocity = new Vector2(0f, rigidbody.velocity.y);
+                //rigidbody.isKinematic = true;
             }
         }
+        
 	}
 
     // Start Movement Controllers

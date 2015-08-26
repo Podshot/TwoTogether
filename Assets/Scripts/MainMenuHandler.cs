@@ -17,13 +17,8 @@ public class MainMenuHandler : MonoBehaviour {
 
 	private string state = "mainmenu";
 
-	/*
-	void Start() {
-		Debug.LogException(new NullReferenceException("NULL value cannot be NULL"));
-	}
-	*/
-
-	public void OnClickStartGameButton() {
+    // Called when the "Start Game" button is pressed
+    public void OnClickStartGameButton() {
 		startGameButton.GetComponent<Button>().enabled = false;
 		startGameButton.GetComponent<Image>().CrossFadeAlpha(0f, 0.5f, false);
 		startGameButton.GetComponentInChildren<Text>().CrossFadeAlpha(0f, 0.5f, false);
@@ -37,7 +32,8 @@ public class MainMenuHandler : MonoBehaviour {
 		StartCoroutine(WaitAndLoad());
 	}
 
-	public void OnClickControlsButton() {
+    // Handles enabling and disabling UI components when the "Controls & Tutorial" button is pressed
+    public void OnClickControlsButton() {
 		state = "controls";
 		startGameButton.GetComponent<Button>().enabled = false;
 		startGameButton.GetComponent<Image>().enabled = false;
@@ -59,6 +55,7 @@ public class MainMenuHandler : MonoBehaviour {
 		}
 	}
 
+    // Handles enabling and disabling UI components when the "Back" button is pressed
 	public void OnClickBackButton() {
 		if (state == "controls") {
 			state = "mainmenu";
@@ -84,10 +81,12 @@ public class MainMenuHandler : MonoBehaviour {
 
 	}
 
+    // Opens a webbrowser to the alpha downloads page
 	public void OnClickUpdateGame() {
 		Application.OpenURL("http://podshot.github.io/TwoTogether/downloads.html");
 	}
 
+    // Allows the basic, in-game leveleditor to be used. Commented out due to focus more on the actual game
 	void Update() {
         /*
 		if ((Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.RightControl)) && Input.GetKey(KeyCode.L)) {
@@ -96,13 +95,12 @@ public class MainMenuHandler : MonoBehaviour {
         */
 	}
 
+    // Waits 0.75 seconds before loading the first level
 	IEnumerator WaitAndLoad() {
-        if (Application.CanStreamedLevelBeLoaded("Level_1"))
-        {
+        if (Application.CanStreamedLevelBeLoaded("Level_1")) {
             yield return new WaitForSeconds(0.75f);
             Application.LoadLevel("Level_1");
-        } else
-        {
+        } else {
             yield return new WaitForSeconds(0.0f);
         }
 	}

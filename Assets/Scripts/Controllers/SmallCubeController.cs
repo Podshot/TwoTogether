@@ -14,11 +14,14 @@ public class SmallCubeController : MonoBehaviour {
 	private SpriteRenderer renderer;
 	private bool settingUp = false;
 	private bool jumping = false;
+    private ControlType currentControlType;
 
+    // Delegates that allow for easier modification of character movement
     delegate void MoveDelegate();
     MoveDelegate moveLeft;
     MoveDelegate moveRight;
 
+    // Delegate to modify how collisions are detected for sides
     public delegate void CollideDelegate(string side, bool collided);
     public CollideDelegate SetCollided;
 
@@ -29,6 +32,7 @@ public class SmallCubeController : MonoBehaviour {
         moveLeft = MoveLeftNormal;
         moveRight = MoveRightNormal;
         SetCollided = CollidedNormal;
+        currentControlType = ControlType.Normal;
     }
 
 	IEnumerator Start() {
@@ -74,7 +78,9 @@ public class SmallCubeController : MonoBehaviour {
 	}
 
 
-    // Start Movement Controllers
+    /* Start Movement Controllers
+    Uses Transform based movement, these methods should be called from the delegates moveLeft/moveRight respectively
+    */
     void MoveLeftNormal() {
         transform.Translate(Vector3.left * Time.deltaTime * speed);
     }
@@ -84,7 +90,9 @@ public class SmallCubeController : MonoBehaviour {
     }
     // End Movement Controllers
 
+    // Changes movement and collision detection
     public void SetControlType(ControlType type) {
+        currentControlType = type;
         if (type == ControlType.Normal) {
             moveLeft = MoveLeftNormal;
             moveRight = MoveRightNormal;
@@ -96,13 +104,20 @@ public class SmallCubeController : MonoBehaviour {
         }
     }
 
+    // Public fuction for fading in the character
 	public void FadeIn() {
 		fadeIn = true;
 	}
-	
-	public void FadeOut() {
+
+    // Public fuction for fading out the character
+    public void FadeOut() {
 		fadeOut = true;
 	}
+
+    // Returns the current ControlType
+    public ControlType GetControlType() {
+        return currentControlType;
+    }
 
 	void OnCollisionEnter2D(Collision2D other) {
 		if (jumping) {
@@ -110,7 +125,6 @@ public class SmallCubeController : MonoBehaviour {
 		}
 	}
 
-	// Getter and Setter methods
 	void CollidedNormal(string side, bool collided) {
 		if (side.Equals("RIGHT")) {
 			collidedOnRight = collided;

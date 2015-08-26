@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+// Handles side collisions for Small Cube character
 public class SmallCubeColliderScript : MonoBehaviour {
 
 	public string side;

@@ -11,7 +11,7 @@ public class Objective : MonoBehaviour {
 	private string lookingForTag;
 	private SpriteRenderer renderer;
 
-	// Use this for initialization
+    // Gets the ObjectiveHandler component and sets the original color of the objective
 	void Start () {
 		objectiveHandler = handler.GetComponent<ObjectiveHandler>();
 		renderer = GetComponent<SpriteRenderer>();
@@ -21,13 +21,6 @@ public class Objective : MonoBehaviour {
             originalColor = new Color(renderer.color.r, renderer.color.g, renderer.color.b, 0.70196078431372549019607843137255f);
         }
 		lookingForTag = lookingFor.tag;
-        /*
-        Debug.Log(renderer.color);
-        Debug.Log(renderer.color.r * 255f + ", " + renderer.color.g * 255f + ", " + renderer.color.b * 255f + ", " + renderer.color.a * 255f);
-        Debug.Log(originalColor);
-        Debug.Log(originalColor.r * 255f + ", " + originalColor.g * 255f + ", " + originalColor.b * 255f + ", " + originalColor.a * 255f);
-        Debug.Log("===============================");
-        */
     }
 
 	void OnTriggerEnter2D(Collider2D otherObject) {

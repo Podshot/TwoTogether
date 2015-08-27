@@ -79,7 +79,7 @@ public class SmallCubeController : MonoBehaviour {
 
 
     /* Start Movement Controllers
-    Uses Transform based movement, these methods should be called from the delegates moveLeft/moveRight respectively
+       Uses Transform based movement, these methods should be called from the delegates moveLeft/moveRight respectively
     */
     void MoveLeftNormal() {
         transform.Translate(Vector3.left * Time.deltaTime * speed);

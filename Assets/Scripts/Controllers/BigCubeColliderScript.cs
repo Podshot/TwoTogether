@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+// Handles side collisions for Big Rectangle character
 public class BigCubeColliderScript : MonoBehaviour {
 
 	public string side;

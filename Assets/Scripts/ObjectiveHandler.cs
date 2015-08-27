@@ -21,6 +21,7 @@ public class ObjectiveHandler : MonoBehaviour {
 	private SpriteRenderer blueRenderer;
 	private bool readyToSwitch = false;
 
+    // Fades in objectives and the help text
 	IEnumerator Start() {
 		redRenderer = redObjective.GetComponent<SpriteRenderer>();
 		blueRenderer = blueObjective.GetComponent<SpriteRenderer>();
@@ -34,6 +35,7 @@ public class ObjectiveHandler : MonoBehaviour {
 		fadeables[2] = GameObject.FindGameObjectWithTag("SmallCube");
 	}
 
+    // Public callback to register completion of an objective
 	public void SetObjectiveActivated(string cubeType, bool activated) {
 		if (cubeType == "SmallCube") {
 			smallCubeActivated = activated;
@@ -54,6 +56,7 @@ public class ObjectiveHandler : MonoBehaviour {
 				oldColor.a *= 1.0625f;
 				redRenderer.color = oldColor;
 			}
+            // CrossFadeAlpha doesn't work when fading in 
 			Color textColor = helpText.color;
 			textColor.a *= 1.0625f;
 			helpText.color = textColor;
@@ -96,7 +99,8 @@ public class ObjectiveHandler : MonoBehaviour {
 		fadeIn = true;
 	}
 
-	IEnumerator /*void*/ FadeOut() {
+    // Handles fading out of all level components
+	IEnumerator FadeOut() {
 		yield return new WaitForSeconds(0.125f);
 		helpText.CrossFadeAlpha(0f, 0.5f, false);
 		fadeOut = true;
@@ -113,6 +117,7 @@ public class ObjectiveHandler : MonoBehaviour {
 		}
 	}
 
+    // Loads next level after a short delay
     IEnumerator WaitAndLoad() {
         if (Application.CanStreamedLevelBeLoaded(nextLevel))
         {

@@ -19,6 +19,7 @@ public class SpawnHandler : MonoBehaviour {
 		bigCubeActive = (GameObject) Instantiate(bigCubePrefab, bigCubeSpawn.position, Quaternion.identity);
 	}
 
+    // Handles quitting and reset
 	void Update() {
 		if (Input.GetKeyDown(KeyCode.Escape)) {
 			Application.Quit();

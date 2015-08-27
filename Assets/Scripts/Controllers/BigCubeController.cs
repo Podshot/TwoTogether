@@ -14,10 +14,12 @@ public class BigCubeController : MonoBehaviour {
 	private bool settingUp = false;
 	private bool jumping = false;
 
+    // Delegates that allow for easier modification of character movement
     delegate void MoveDelegate();
     MoveDelegate moveLeft;
     MoveDelegate moveRight;
 
+    // Delegate to modify how collisions are detected for sides
     public delegate void CollideDelegate(string side, bool collided);
     public CollideDelegate SetCollided;
 
@@ -71,7 +73,9 @@ public class BigCubeController : MonoBehaviour {
 		}
 	}
 
-    // Start Movement Controllers
+    /* Start Movement Controllers
+       Uses Transform based movement, these methods should be called from the delegates moveLeft/moveRight respectively
+   */
     void MoveLeftNormal() {
         transform.Translate(Vector3.left * Time.deltaTime * speed);
     }
@@ -81,6 +85,7 @@ public class BigCubeController : MonoBehaviour {
     }
     // End Movement Controllers
 
+    // Changes movement and collision detection
     public void SetControlType(ControlType type) {
         if (type == ControlType.Normal) {
             moveLeft = MoveLeftNormal;
@@ -93,15 +98,18 @@ public class BigCubeController : MonoBehaviour {
         }
     }
 
+    // Public fuction for fading in the character
     public void FadeIn() {
 		fadeIn = true;
 	}
 
-	public void FadeOut() {
+    // Public fuction for fading out the character
+    public void FadeOut() {
 		fadeOut = true;
 	}
 
-	void OnCollisionEnter2D(Collision2D other) {
+    // Returns the current ControlType
+    void OnCollisionEnter2D(Collision2D other) {
 		if (jumping) {
 			jumping = false;
 		}

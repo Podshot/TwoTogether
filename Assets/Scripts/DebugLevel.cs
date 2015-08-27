@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections;
 
+// No longer used
 public class DebugLevel : MonoBehaviour {
 	
 	void Update () {

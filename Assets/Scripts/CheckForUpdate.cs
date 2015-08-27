@@ -2,6 +2,7 @@
 using UnityEngine.UI;
 using System.Collections;
 
+// Checks for standalone updates
 public class CheckForUpdate : MonoBehaviour {
 
 	public string version;
@@ -20,7 +21,6 @@ public class CheckForUpdate : MonoBehaviour {
 	IEnumerator Start () {
 		WWW www = new WWW(url);
 		yield return www;
-		//Debug.Log(www.text);
 		foreach (Text text in texts) {
 			text.enabled = !(www.text.Equals(version));
 		}

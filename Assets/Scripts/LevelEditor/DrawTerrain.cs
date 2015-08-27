@@ -1,10 +1,9 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 //using UnityEditor;
-using System.Collections;
-using System.Collections.Generic;
 using System.IO;
 
+// Only use when running through Unity
 public class DrawTerrain : MonoBehaviour {
 
 	public GameObject normalTerrainPrefab;
@@ -18,7 +17,7 @@ public class DrawTerrain : MonoBehaviour {
 	private int wait;
 	private Rect oldBox;
 	private TextWriter writer;
-	// Use this for initialization
+	
 	void Start () {
         /*
 		var path = EditorUtility.SaveFilePanel("Save Level...","","level.txt","txt");
@@ -32,7 +31,7 @@ public class DrawTerrain : MonoBehaviour {
         writer = new StreamWriter("level.txt");
     }
 
-	// Update is called once per frame
+	
 	void Update () {
 
 		if (Input.GetKeyDown(KeyCode.S)) {

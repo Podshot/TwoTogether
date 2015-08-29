@@ -12,6 +12,6 @@ can be found here<redacted>.
 4. If you feel your changes improve the game, submit a Pull Request
 
 ## License
-Podshot (Ben Gothard), retains all rights to distribution and rights. For more
+Podshot (Ben Gothard), retains all rights including distribution. For more
 information, please see the "No License" section on [this site](http://choosealicense.com/licenses/)
 

@@ -1,7 +1,15 @@
 import csv
 import json
 
-data = []
+data = {"NORMAL": [], "SHADOWS": [], "SPECIAL": [], "LEVEL DATA": {}}
+level_number = raw_input("Level number: ")
+next_level = raw_input("Next level: ") 
+if "level_" not in level_number:
+    level_number = "level_" + level_number
+if "level_" not in next_level:
+    next_level = "level_" + next_level
+data["LEVEL DATA"]["Level Identifier"] = level_number
+data["LEVEL DATA"]["Next Level"] = next_level
 with open("level.txt", 'rb') as f:
     base = None
     reader = csv.reader(f)
@@ -16,9 +24,9 @@ with open("level.txt", 'rb') as f:
             elif base[i].startswith("Scale"):
                 obj["Scale"][base[i].split(" ")[1]] = r[i]
             elif base[i] == "Type":
-                obj["Type"] = r[i]
-        data.append(obj)
-fp = open("level_1.json", 'wb')
+                data[r[i]].append(obj)
+        #data.append(obj)
+fp = open("level_1_new.json", 'wb')
 json.dump(data, fp)
 fp.close()
         

@@ -1,0 +1,52 @@
+{
+	"NormalTerrain": [
+		{
+			"Scale": [25, 1, 1],
+			"Position": [0, -4.75, 0],
+			"Color": "FFFFFFFF",
+			"Name": "Base"
+		}, {
+			"Scale": [0.8888889, 1.185185, 1],
+			"Position": [-6.51, -4.161, 0],
+			"Color": "FFFFFFFF",
+			"Name": "RightWall"
+		}, {
+			"Scale": [0.2962963, 0.6666667, 1],
+			"Position": [2.523, -4.302, 0],
+			"Color": "FFFFFFFF",
+			"Name": "LeftWall"
+		}, {
+			"Scale": [0.8888889, 0.2962963, 1],
+			"Position": [2.203, -4.202, 0],
+			"Color": "FFFFFFFF",
+			"Name": "LeftRoof"
+		}, {
+			"Scale": [0.8888889, 0.5925926, 1],
+			"Position": [-5.288, -3.682, 0],
+			"Color": "FFFFFFFF",
+			"Name": "Platform"
+		}, {
+			"Scale": [0.3703704, 0.5925926, 1],
+			"Position": [-2.085, -4.325, 0],
+			"Color": "FFFFFFFF",
+			"Name": "TallBlock"
+		}, {
+			"Scale": [0.2962963, 0.2962963, 1],
+			"Position": [-3.288, -4.401, 0],
+			"Color": "FFFFFFFF",
+			"Name": "SmallBlock"
+		}
+	], "ShadowTerrain": [
+		{
+			"Scale": [0.8888889, 1.185185, 1],
+			"Position": [-5.2879, -4.161, -2],
+			"Color": "FFFFFFFF",
+			"Name": "UnderPlatform"
+		}, {
+			"Scale": [0.8888889, 0.3703704, 1],
+			"Position": [2.203, -4.3815, -2],
+			"Color": "FFFFFFFF",
+			"Name": "UnderLeftRoof"
+		}
+	]
+}

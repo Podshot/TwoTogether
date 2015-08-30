@@ -3,11 +3,17 @@ using System.IO;
 using System.Collections;
 
 public class ExportLevel : MonoBehaviour {
-    public GameObject terrainParent;
+
+    private GameObject spawnpoints;
+    private GameObject terrainParent;
+    private GameObject objectives;
     private TextWriter writer;
 
     void Start() {
         writer = new StreamWriter("level_exported.json");
+        terrainParent = GameObject.FindGameObjectWithTag("Terrain");
+        spawnpoints = GameObject.FindGameObjectWithTag("SpawnController");
+        objectives = GameObject.FindGameObjectWithTag("Objectives");
     }
 
     void Update() {
@@ -61,6 +67,34 @@ public class ExportLevel : MonoBehaviour {
             pos.Add(trans.position.z);
 
             addTo.Add(to);
+        }
+        foreach (Transform trans in spawnpoints.GetComponentInChildren<Transform>()) {
+            switch (trans.name.ToLower()) {
+                case "smallcubespawnpoint":
+                    JSONObject smallCubeObj = new JSONObject(JSONObject.Type.OBJECT);
+                    JSONObject smallCubePos = new JSONObject(JSONObject.Type.ARRAY);
+
+                    smallCubeObj.AddField("Position", smallCubePos);
+                    smallCubePos.Add(trans.position.x);
+                    smallCubePos.Add(trans.position.y);
+                    smallCubePos.Add(trans.position.z);
+
+                    level.AddField("SmallCubeSpawn", smallCubeObj);
+                    break;
+                case "bigcubespawnpoint":
+                    JSONObject bigCubeObj = new JSONObject(JSONObject.Type.OBJECT);
+                    JSONObject bigCubePos = new JSONObject(JSONObject.Type.ARRAY);
+
+                    bigCubeObj.AddField("Position", bigCubePos);
+                    bigCubePos.Add(trans.position.x);
+                    bigCubePos.Add(trans.position.y);
+                    bigCubePos.Add(trans.position.z);
+
+                    level.AddField("BigCubeSpawn", bigCubeObj);
+                    break;
+                default:
+                    break;
+            }
         }
         writer.WriteLine(level.ToString());
         writer.Close();

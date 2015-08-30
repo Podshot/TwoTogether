@@ -49,6 +49,7 @@ public class ExportLevel : MonoBehaviour {
             to.AddField("Scale", scale);
             to.AddField("Position", pos);
             to.AddField("Color", render.color.ToHexStringRGBA());
+            // Debug field, can be removed when export testing is done
             to.AddField("Name", trans.name);
 
             scale.Add(trans.lossyScale.x);

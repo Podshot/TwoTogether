@@ -14,6 +14,7 @@ public class SmallCubeController : MonoBehaviour {
 	private SpriteRenderer renderer;
 	private bool settingUp = false;
 	private bool jumping = false;
+    private int currentJumpDelay = 0;
     private ControlType currentControlType;
 
     // Delegates that allow for easier modification of character movement
@@ -71,11 +72,21 @@ public class SmallCubeController : MonoBehaviour {
                 moveRight();
 			}
 			if (Input.GetKeyDown(KeyCode.UpArrow) && !jumping) {
+                currentJumpDelay = 2;
 				rigidbody.AddForce(Vector2.up * jumpForce);
 				jumping = true;
 			}
 		}
 	}
+
+    void FixedUpdate() {
+        if (rigidbody.velocity.y == 0f && currentJumpDelay > 0) {
+            currentJumpDelay -= 1;
+        }
+        if (rigidbody.velocity.y == 0f && currentJumpDelay == 0) {
+            jumping = false;
+        }
+    }
 
 
     /* Start Movement Controllers
@@ -119,11 +130,13 @@ public class SmallCubeController : MonoBehaviour {
         return currentControlType;
     }
 
+    /*
 	void OnCollisionEnter2D(Collision2D other) {
 		if (jumping) {
 			jumping = false;
 		}
 	}
+    */
 
 	void CollidedNormal(string side, bool collided) {
 		if (side.Equals("RIGHT")) {

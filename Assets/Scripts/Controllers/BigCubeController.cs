@@ -13,6 +13,7 @@ public class BigCubeController : MonoBehaviour {
 	private SpriteRenderer renderer;
 	private bool settingUp = false;
 	private bool jumping = false;
+    private int currentJumpDelay = 0;
 
     // Delegates that allow for easier modification of character movement
     delegate void MoveDelegate();
@@ -67,11 +68,21 @@ public class BigCubeController : MonoBehaviour {
                 moveRight();
 			}
 			if (Input.GetKeyDown(KeyCode.W) && !jumping) {
-				rigidbody.AddForce(Vector2.up * jumpForce);
+                currentJumpDelay = 2;
+                rigidbody.AddForce(Vector2.up * jumpForce);
 				jumping = true;
 			}
 		}
 	}
+
+    void FixedUpdate() {
+        if (rigidbody.velocity.y == 0f && currentJumpDelay > 0) {
+            currentJumpDelay -= 1;
+        }
+        if (rigidbody.velocity.y == 0f && currentJumpDelay == 0) {
+            jumping = false;
+        }
+    }
 
     /* Start Movement Controllers
        Uses Transform based movement, these methods should be called from the delegates moveLeft/moveRight respectively
@@ -109,11 +120,13 @@ public class BigCubeController : MonoBehaviour {
 	}
 
     // Returns the current ControlType
+    /*
     void OnCollisionEnter2D(Collision2D other) {
 		if (jumping) {
 			jumping = false;
 		}
 	}
+    */
 
 	// Getter and Setter methods
 	public void CollidedNormal(string side, bool collided) {

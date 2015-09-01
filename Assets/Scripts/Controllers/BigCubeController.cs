@@ -1,19 +1,28 @@
 ﻿using System.Collections;
 using UnityEngine;
 
+[RequireComponent(typeof(Rigidbody2D), typeof(SpriteRenderer))]
 public class BigCubeController : MonoBehaviour {
-
+	
+	// Editor Fields
+	[SerializeField] private float speed = 1.25f;
+	[SerializeField] private float jumpForce = 200f;
+	[SerializeField] private float sensitivity = 0.5f;
+	[SerializeField] private int jumpDelay = 2;
+	
+	// Components
 	private Rigidbody2D rigidbody;
-	private float speed = 1.25f;
-	private float jumpForce = 200f;
+	private SpriteRenderer renderer;
+	
+	// State
 	private bool collidedOnRight = false;
 	private bool collidedOnLeft = false;
 	private bool fadeIn = false;
 	private bool fadeOut = false;
-	private SpriteRenderer renderer;
 	private bool settingUp = false;
 	private bool jumping = false;
-    private int currentJumpDelay = 0;
+	private int currentJumpDelay = 0;
+	private ControlType currentControlType;
 
     // Delegates that allow for easier modification of character movement
     delegate void MoveDelegate();
@@ -30,6 +39,7 @@ public class BigCubeController : MonoBehaviour {
         moveLeft = MoveLeftNormal;
         moveRight = MoveRightNormal;
         SetCollided = CollidedNormal;
+		currentControlType = ControlType.Normal;
     }
 
 	IEnumerator Start() {
@@ -60,15 +70,15 @@ public class BigCubeController : MonoBehaviour {
 			}
 		}
 
-		if (!(fadeOut || fadeOut || settingUp)) {
-			if (Input.GetKey(KeyCode.A) && !collidedOnLeft) {
+		if (!(fadeOut || fadeIn || settingUp)) {
+			if (Input.GetAxisRaw("HorizontalBig")<-sensitivity && !collidedOnLeft) {
                 moveLeft();
 			}
-			if (Input.GetKey(KeyCode.D) && !collidedOnRight) {
+			if (Input.GetAxisRaw("HorizontalBig")>sensitivity && !collidedOnRight) {
                 moveRight();
 			}
-			if (Input.GetKeyDown(KeyCode.W) && !jumping) {
-                currentJumpDelay = 2;
+			if (Input.GetAxisRaw("VerticalBig")>sensitivity && !jumping) {
+                currentJumpDelay = jumpDelay;
                 rigidbody.AddForce(Vector2.up * jumpForce);
 				jumping = true;
 			}
@@ -86,7 +96,7 @@ public class BigCubeController : MonoBehaviour {
 
     /* Start Movement Controllers
        Uses Transform based movement, these methods should be called from the delegates moveLeft/moveRight respectively
-   */
+    */
     void MoveLeftNormal() {
         transform.Translate(Vector3.left * Time.deltaTime * speed);
     }
@@ -98,6 +108,7 @@ public class BigCubeController : MonoBehaviour {
 
     // Changes movement and collision detection
     public void SetControlType(ControlType type) {
+		currentControlType = type;
         if (type == ControlType.Normal) {
             moveLeft = MoveLeftNormal;
             moveRight = MoveRightNormal;
@@ -119,14 +130,10 @@ public class BigCubeController : MonoBehaviour {
 		fadeOut = true;
 	}
 
-    // Returns the current ControlType
-    /*
-    void OnCollisionEnter2D(Collision2D other) {
-		if (jumping) {
-			jumping = false;
-		}
+	// Returns the current ControlType
+	public ControlType GetControlType() {
+		return currentControlType;
 	}
-    */
 
 	// Getter and Setter methods
 	public void CollidedNormal(string side, bool collided) {

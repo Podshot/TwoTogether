@@ -1,19 +1,24 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-
+[RequireComponent(typeof(Rigidbody2D), typeof(SpriteRenderer))]
 public class SmallCubeController : MonoBehaviour {
 
+	// Editor Fields
 	[SerializeField] private float speed = 1.25f;
 	[SerializeField] private float jumpForce = 112f;
 	[SerializeField] private float sensitivity = 0.5f;
+	[SerializeField] private int jumpDelay = 2;
 
+	// Components
 	private Rigidbody2D rigidbody;
+	private SpriteRenderer renderer;
+
+	// State
 	private bool collidedOnRight = false;
 	private bool collidedOnLeft = false;
 	private bool fadeIn = false;
 	private bool fadeOut = false;
-	private SpriteRenderer renderer;
 	private bool settingUp = false;
 	private bool jumping = false;
     private int currentJumpDelay = 0;
@@ -27,7 +32,6 @@ public class SmallCubeController : MonoBehaviour {
     // Delegate to modify how collisions are detected for sides
     public delegate void CollideDelegate(string side, bool collided);
     public CollideDelegate SetCollided;
-
 	
 	void Awake() {
 		rigidbody = GetComponent<Rigidbody2D>();
@@ -56,7 +60,6 @@ public class SmallCubeController : MonoBehaviour {
 				fadeIn = false;
 			}
 		}
-
 		if (fadeOut) {
 			if (!(renderer.color.a < 0)) {
 				Color color = renderer.color;
@@ -66,15 +69,16 @@ public class SmallCubeController : MonoBehaviour {
 				fadeOut = false;
 			}
 		}
+
 		if (!(fadeOut || fadeIn || settingUp)) {
-			if (Input.GetAxis("HorizontalSmall")<-sensitivity && !collidedOnLeft) {
+			if (Input.GetAxisRaw("HorizontalSmall")<-sensitivity && !collidedOnLeft) {
                 moveLeft();
 			}
-			if (Input.GetAxis("HorizontalSmall")>sensitivity && !collidedOnRight) {
+			if (Input.GetAxisRaw("HorizontalSmall")>sensitivity && !collidedOnRight) {
                 moveRight();
 			}
-			if (Input.GetAxis("VerticalSmall")>sensitivity && !jumping) {
-                currentJumpDelay = 2;
+			if (Input.GetAxisRaw("VerticalSmall")>sensitivity && !jumping) {
+                currentJumpDelay = jumpDelay;
 				rigidbody.AddForce(Vector2.up * jumpForce);
 				jumping = true;
 			}
@@ -89,8 +93,7 @@ public class SmallCubeController : MonoBehaviour {
             jumping = false;
         }
     }
-
-
+	
     /* Start Movement Controllers
        Uses Transform based movement, these methods should be called from the delegates moveLeft/moveRight respectively
     */
@@ -132,15 +135,8 @@ public class SmallCubeController : MonoBehaviour {
         return currentControlType;
     }
 
-    /*
-	void OnCollisionEnter2D(Collision2D other) {
-		if (jumping) {
-			jumping = false;
-		}
-	}
-    */
-
-	void CollidedNormal(string side, bool collided) {
+	// Getter and Setter methods
+	public void CollidedNormal(string side, bool collided) {
 		if (side.Equals("RIGHT")) {
 			collidedOnRight = collided;
 		} else if (side.Equals("LEFT")) {
@@ -151,8 +147,7 @@ public class SmallCubeController : MonoBehaviour {
     void CollidedInverted(string side, bool collided) {
         if (side.Equals("LEFT")) {
             collidedOnRight = collided;
-        }
-        else if (side.Equals("RIGHT")) {
+        } else if (side.Equals("RIGHT")) {
             collidedOnLeft = collided;
         }
     }

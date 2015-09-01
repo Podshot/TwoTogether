@@ -61,13 +61,13 @@ public class BigCubeController : MonoBehaviour {
 		}
 
 		if (!(fadeOut || fadeOut || settingUp)) {
-			if (Input.GetKey(KeyCode.A) && !collidedOnLeft) {
+			if (Input.GetAxisRaw("HorizontalBig")<0 && !collidedOnLeft) {
                 moveLeft();
 			}
-			if (Input.GetKey(KeyCode.D) && !collidedOnRight) {
+			if (Input.GetAxisRaw("HorizontalBig")>0 && !collidedOnRight) {
                 moveRight();
 			}
-			if (Input.GetKeyDown(KeyCode.W) && !jumping) {
+			if (Input.GetAxisRaw("VerticalBig")>0 && !jumping) {
                 currentJumpDelay = 2;
                 rigidbody.AddForce(Vector2.up * jumpForce);
 				jumping = true;

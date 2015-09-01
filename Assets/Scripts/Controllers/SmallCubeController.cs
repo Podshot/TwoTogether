@@ -65,13 +65,13 @@ public class SmallCubeController : MonoBehaviour {
 			}
 		}
 		if (!(fadeOut || fadeIn || settingUp)) {
-			if (Input.GetKey(KeyCode.LeftArrow) && !collidedOnLeft) {
+			if (Input.GetAxisRaw("HorizontalSmall")<0 && !collidedOnLeft) {
                 moveLeft();
 			}
-			if (Input.GetKey(KeyCode.RightArrow) && !collidedOnRight) {
+			if (Input.GetAxisRaw("HorizontalSmall")>0 && !collidedOnRight) {
                 moveRight();
 			}
-			if (Input.GetKeyDown(KeyCode.UpArrow) && !jumping) {
+			if (Input.GetAxisRaw("VerticalSmall")>0 && !jumping) {
                 currentJumpDelay = 2;
 				rigidbody.AddForce(Vector2.up * jumpForce);
 				jumping = true;

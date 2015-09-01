@@ -4,8 +4,10 @@ using UnityEngine;
 
 public class SmallCubeController : MonoBehaviour {
 
-	private float speed = 1.25f;
-	private float jumpForce = 112f;
+	[SerializeField] private float speed = 1.25f;
+	[SerializeField] private float jumpForce = 112f;
+	[SerializeField] private float sensitivity = 0.5f;
+
 	private Rigidbody2D rigidbody;
 	private bool collidedOnRight = false;
 	private bool collidedOnLeft = false;
@@ -65,13 +67,13 @@ public class SmallCubeController : MonoBehaviour {
 			}
 		}
 		if (!(fadeOut || fadeIn || settingUp)) {
-			if (Input.GetAxisRaw("HorizontalSmall")<0 && !collidedOnLeft) {
+			if (Input.GetAxis("HorizontalSmall")<-sensitivity && !collidedOnLeft) {
                 moveLeft();
 			}
-			if (Input.GetAxisRaw("HorizontalSmall")>0 && !collidedOnRight) {
+			if (Input.GetAxis("HorizontalSmall")>sensitivity && !collidedOnRight) {
                 moveRight();
 			}
-			if (Input.GetAxisRaw("VerticalSmall")>0 && !jumping) {
+			if (Input.GetAxis("VerticalSmall")>sensitivity && !jumping) {
                 currentJumpDelay = 2;
 				rigidbody.AddForce(Vector2.up * jumpForce);
 				jumping = true;

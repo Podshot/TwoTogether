@@ -2,10 +2,12 @@
 using UnityEngine;
 
 public class BigCubeController : MonoBehaviour {
+	
+	[SerializeField] private float speed = 1.25f;
+	[SerializeField] private float jumpForce = 200f;
+	[SerializeField] private float sensitivity = 0.5f;
 
 	private Rigidbody2D rigidbody;
-	private float speed = 1.25f;
-	private float jumpForce = 200f;
 	private bool collidedOnRight = false;
 	private bool collidedOnLeft = false;
 	private bool fadeIn = false;
@@ -61,13 +63,13 @@ public class BigCubeController : MonoBehaviour {
 		}
 
 		if (!(fadeOut || fadeOut || settingUp)) {
-			if (Input.GetAxisRaw("HorizontalBig")<0 && !collidedOnLeft) {
+			if (Input.GetAxisRaw("HorizontalBig")<-sensitivity && !collidedOnLeft) {
                 moveLeft();
 			}
-			if (Input.GetAxisRaw("HorizontalBig")>0 && !collidedOnRight) {
+			if (Input.GetAxisRaw("HorizontalBig")>sensitivity && !collidedOnRight) {
                 moveRight();
 			}
-			if (Input.GetAxisRaw("VerticalBig")>0 && !jumping) {
+			if (Input.GetAxisRaw("VerticalBig")>sensitivity && !jumping) {
                 currentJumpDelay = 2;
                 rigidbody.AddForce(Vector2.up * jumpForce);
 				jumping = true;

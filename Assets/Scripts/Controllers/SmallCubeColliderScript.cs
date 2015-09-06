@@ -7,10 +7,10 @@ public class SmallCubeColliderScript : MonoBehaviour {
 	public string side;
 
 	private SpawnHandler handler;
-	private SmallCubeController controller;
+	private Controller controller;
 
 	void Awake() {
-		controller = GetComponentInParent<SmallCubeController>();
+		controller = GetComponentInParent<Controller>();
 	}
 
 	void Start() {

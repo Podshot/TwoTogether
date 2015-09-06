@@ -108,11 +108,8 @@ public class ObjectiveHandler : MonoBehaviour {
 			if (obj.tag == "Terrain") {
 				obj.GetComponent<TerrainFader>().FadeOut();
 			}
-			if (obj.tag == "BigCube") {
-				obj.GetComponent<BigCubeController>().FadeOut();
-			}
-			if (obj.tag == "SmallCube") {
-				obj.GetComponent<SmallCubeController>().FadeOut();
+			if (obj.tag.Contains("Cube")) {
+				obj.GetComponent<Controller>().FadeOut();
 			}
 		}
 	}

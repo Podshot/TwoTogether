@@ -7,10 +7,10 @@ public class BigCubeColliderScript : MonoBehaviour {
 	public string side;
 
 	private SpawnHandler handler;
-	private BigCubeController controller;
+	private Controller controller;
 
 	void Awake() {
-		controller = GetComponentInParent<BigCubeController>();
+		controller = GetComponentInParent<Controller>();
 	}
 
 	void Start() {

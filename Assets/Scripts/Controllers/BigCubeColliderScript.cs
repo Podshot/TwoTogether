@@ -11,6 +11,9 @@ public class BigCubeColliderScript : MonoBehaviour {
 
 	void Awake() {
 		controller = GetComponentInParent<BigCubeController>();
+	}
+
+	void Start() {
 		handler = GameObject.FindGameObjectWithTag("SpawnController").GetComponent<SpawnHandler>();
 	}
 

@@ -14,15 +14,13 @@ public class SmallCubeColliderScript : MonoBehaviour {
 		handler = GameObject.FindGameObjectWithTag("SpawnController").GetComponent<SpawnHandler>();
 	}
 
-	void OnCollisionEnter2D(Collision2D collided) {
-		if (collided.transform.tag == "Killer_Red") {
-			handler.ResetRedCube();
-		} else {
+	void OnTriggerStay2D(Collider2D other) {
+		if (other.gameObject.tag != "Objective") {
 			controller.SetCollided(side, true);
 		}
 	}
-
-	void OnCollisionExit2D(Collision2D collided) {
+	
+	void OnTriggerExit2D(Collider2D other) {
 		controller.SetCollided(side, false);
 	}
 }

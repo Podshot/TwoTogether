@@ -5,6 +5,12 @@ TwoTogether is a 2D puzzle game written in C# using Unity.
 Currently TwoTogether is in Alpha but public standalone builds
 can be found here<redacted>.
 
+## Roadmap
+- Before first release
+  - [ ] Have a total of at least 10 levels
+  - [ ] Have the ability to either download new levels, or update the game
+  - [ ] Possibly add an ingame level editor
+
 ## Getting Started
 1. Clone this repository into a folder of your choice
 2. Open Unity and click "Open Other" and navigate to the cloned folder

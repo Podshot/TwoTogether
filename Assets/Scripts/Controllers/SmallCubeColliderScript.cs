@@ -15,9 +15,7 @@ public class SmallCubeColliderScript : MonoBehaviour {
 	}
 
 	void OnTriggerStay2D(Collider2D other) {
-		if (other.transform.tag == "Killer_Red") {
-			handler.ResetRedCube();
-		} else {
+		if (other.gameObject.tag != "Objective") {
 			controller.SetCollided(side, true);
 		}
 	}

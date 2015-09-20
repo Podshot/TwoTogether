@@ -1,7 +1,7 @@
 # TwoTogether
 
 ## Overview
-TwoTogether is a 2D puzzle game written in C# using Unity.
+TwoTogether is a 2D puzzle game written in C# using Unity 5.1.2.
 Currently TwoTogether is in Alpha but public standalone builds
 can be found here<redacted>.
 

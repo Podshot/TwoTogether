@@ -22,8 +22,6 @@ public class Controller : MonoBehaviour {
     private SpriteRenderer renderer;
 
     // State
-    private bool collidedOnRight = false;
-    private bool collidedOnLeft = false;
     private bool fadeIn = false;
     private bool fadeOut = false;
     private bool settingUp = false;
@@ -40,16 +38,11 @@ public class Controller : MonoBehaviour {
     MoveDelegate moveLeft;
     MoveDelegate moveRight;
 
-    // Delegate to modify how collisions are detected for sides
-    public delegate void CollideDelegate(string side, bool collided);
-    public CollideDelegate SetCollided;
-
     void Awake() {
         rigidbody = GetComponent<Rigidbody2D>();
         settingUp = true;
         moveLeft = MoveLeftNormal;
         moveRight = MoveRightNormal;
-        SetCollided = CollidedNormal;
         currentControlType = ControlType.Normal;
         horizontalAxis = "Horizontal" + axisID;
         verticalAxis = "Vertical" + axisID;
@@ -84,16 +77,20 @@ public class Controller : MonoBehaviour {
         }
 
         if (!(fadeOut || fadeIn || settingUp)) {
-            if (Input.GetAxisRaw(horizontalAxis) < -sensitivity && !collidedOnLeft) {
+            if (Input.GetAxisRaw(horizontalAxis) < -sensitivity) {
                 moveLeft();
             }
-            if (Input.GetAxisRaw(horizontalAxis) > sensitivity && !collidedOnRight) {
+            if (Input.GetAxisRaw(horizontalAxis) > sensitivity) {
                 moveRight();
             }
             if (Input.GetAxisRaw(verticalAxis) > sensitivity && !jumping) {
                 currentJumpDelay = jumpDelay;
                 rigidbody.AddForce(Vector2.up * jumpForce);
                 jumping = true;
+            }
+
+            if (Input.GetAxisRaw(horizontalAxis) == 0f) {
+                rigidbody.velocity = new Vector2(0f, rigidbody.velocity.y);
             }
         }
     }
@@ -108,14 +105,14 @@ public class Controller : MonoBehaviour {
     }
 
     /* Start Movement Controllers
-       Uses Transform based movement, these methods should be called from the delegates moveLeft/moveRight respectively
+       Uses Rigidbody velocity based movement, these methods should be called from the delegates moveLeft/moveRight respectively
     */
     void MoveLeftNormal() {
-        transform.Translate(Vector3.left * Time.deltaTime * speed);
+        rigidbody.velocity = new Vector2(speed * Vector2.left.x, rigidbody.velocity.y);
     }
 
     void MoveRightNormal() {
-        transform.Translate(Vector3.right * Time.deltaTime * speed);
+        rigidbody.velocity = new Vector2(speed * Vector2.right.x, rigidbody.velocity.y);
     }
     // End Movement Controllers
 
@@ -125,11 +122,9 @@ public class Controller : MonoBehaviour {
         if (type == ControlType.Normal) {
             moveLeft = MoveLeftNormal;
             moveRight = MoveRightNormal;
-            SetCollided = CollidedNormal;
         } else if (type == ControlType.Inverted) {
             moveLeft = MoveRightNormal;
             moveRight = MoveLeftNormal;
-            SetCollided = CollidedInverted;
         }
     }
 
@@ -146,22 +141,5 @@ public class Controller : MonoBehaviour {
     // Returns the current ControlType
     public ControlType GetControlType() {
         return currentControlType;
-    }
-
-    // Getter and Setter methods
-    public void CollidedNormal(string side, bool collided) {
-        if (side.Equals("RIGHT")) {
-            collidedOnRight = collided;
-        } else if (side.Equals("LEFT")) {
-            collidedOnLeft = collided;
-        }
-    }
-
-    void CollidedInverted(string side, bool collided) {
-        if (side.Equals("LEFT")) {
-            collidedOnRight = collided;
-        } else if (side.Equals("RIGHT")) {
-            collidedOnLeft = collided;
-        }
     }
 }

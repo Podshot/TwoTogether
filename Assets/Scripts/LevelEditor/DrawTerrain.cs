@@ -9,6 +9,8 @@ public class DrawTerrain : MonoBehaviour {
 	public GameObject normalTerrainPrefab;
 	public InputField inputField;
 
+#if UNITY_EDITOR
+
 	private GameObject terrainParent;
 	private Vector3 startMousePos;
 	private Vector3 currentMousePos;
@@ -88,4 +90,5 @@ public class DrawTerrain : MonoBehaviour {
 		Gizmos.color = Color.green;
 		Gizmos.DrawCube(oldBox.center, oldBox.size);
 	}
+#endif
 }

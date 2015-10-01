@@ -6,7 +6,7 @@ using Stopwatch = System.Diagnostics.Stopwatch;
 
 public class ObjectiveHandler : MonoBehaviour {
 
-	public Text helpText;
+	private Text helpText;
 	public GameObject[] fadeables;
 	public GameObject redObjective;
 	public GameObject blueObjective;
@@ -21,16 +21,21 @@ public class ObjectiveHandler : MonoBehaviour {
 	private SpriteRenderer blueRenderer;
 	private bool readyToSwitch = false;
 
+    void Start() { }
+    
+
     // Fades in objectives and the help text
-	IEnumerator Start() {
+	public void Load() {
 		redRenderer = redObjective.GetComponent<SpriteRenderer>();
 		blueRenderer = blueObjective.GetComponent<SpriteRenderer>();
 
-		helpText.color = new Color(helpText.color.r, helpText.color.g, helpText.color.b, 0.002f);
-		redRenderer.color = new Color(redRenderer.color.r, redRenderer.color.g, redRenderer.color.b, 0.002f);
+        //helpText.color = new Color(helpText.color.r, helpText.color.g, helpText.color.b, 0.002f);
+        helpText = GameState.GetHelpText();
+        helpText.color = new Color(helpText.color.r, helpText.color.g, helpText.color.b, 0.002f);
+        redRenderer.color = new Color(redRenderer.color.r, redRenderer.color.g, redRenderer.color.b, 0.002f);
 		blueRenderer.color = new Color(blueRenderer.color.r, blueRenderer.color.g, blueRenderer.color.b, 0.002f);
-		yield return new WaitForSeconds(2);
-		FadeIn();
+		//yield return new WaitForSeconds(2);
+		//FadeIn();
 		fadeables[1] = GameObject.FindGameObjectWithTag("BigCube");
 		fadeables[2] = GameObject.FindGameObjectWithTag("SmallCube");
 	}
@@ -83,16 +88,17 @@ public class ObjectiveHandler : MonoBehaviour {
 		}
 
 		if (smallCubeActivated && bigCubeActivated) {
-			if (!started) {
+            GameState.StopControllers();
+            if (!started) {
 				started = true;
-				StartCoroutine(FadeOut());
+                GameState.Switch();
 			}
 		}
-		if (readyToSwitch) {
+		//if (readyToSwitch) {
 			//if (Input.GetKeyDown(KeyCode.E)) {
-			StartCoroutine(WaitAndLoad());
+		//	StartCoroutine(WaitAndLoad());
 			//}
-		}
+		//}
 	}
 
 	public void FadeIn() {
@@ -100,18 +106,18 @@ public class ObjectiveHandler : MonoBehaviour {
 	}
 
     // Handles fading out of all level components
-	IEnumerator FadeOut() {
-		yield return new WaitForSeconds(0.125f);
-		helpText.CrossFadeAlpha(0f, 0.5f, false);
+	public void FadeOut() {
+		//yield return new WaitForSeconds(0.125f);
+		//helpText.CrossFadeAlpha(0f, 0.5f, false);
 		fadeOut = true;
-		foreach (GameObject obj in fadeables) {
-			if (obj.tag == "Terrain") {
-				obj.GetComponent<TerrainFader>().FadeOut();
-			}
-			if (obj.tag.Contains("Cube")) {
-				obj.GetComponent<Controller>().FadeOut();
-			}
-		}
+		//foreach (GameObject obj in fadeables) {
+		//	if (obj.tag == "Terrain") {
+		//		obj.GetComponent<TerrainFader>().FadeOut();
+		//	}
+		//	if (obj.tag.Contains("Cube")) {
+		//		obj.GetComponent<Controller>().FadeOut();
+		//	}
+		//}
 	}
 
     // Loads next level after a short delay

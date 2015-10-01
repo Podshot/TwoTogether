@@ -1,5 +1,18 @@
 {
-	"ID":"Level_1",
+	"Current ID":"Level_1",
+	"Next ID":"<add manually>",
+	"Text":{
+		"Position":[
+			-3.051758E-05,
+			214.1
+		],
+		"Dimensions":[
+			664,
+			38.5
+		],
+		"Text":"There's nothing wrong in asking for help.",
+		"Color":"808080B6"
+	},
 	"NormalTerrain":[
 		{
 			"Scale":[
@@ -12,8 +25,8 @@
 				-4.75,
 				0
 			],
-			"Color":"FFFFFFFF",
-			"Name":"Base"
+			"Name":"Base",
+			"Color":"FFFFFFFF"
 		},
 		{
 			"Scale":[
@@ -26,8 +39,8 @@
 				-4.161,
 				0
 			],
-			"Color":"FFFFFFFF",
-			"Name":"RightWall"
+			"Name":"RightWall",
+			"Color":"FFFFFFFF"
 		},
 		{
 			"Scale":[
@@ -40,8 +53,8 @@
 				-4.302,
 				0
 			],
-			"Color":"FFFFFFFF",
-			"Name":"LeftWall"
+			"Name":"LeftWall",
+			"Color":"FFFFFFFF"
 		},
 		{
 			"Scale":[
@@ -54,8 +67,8 @@
 				-4.202,
 				0
 			],
-			"Color":"FFFFFFFF",
-			"Name":"LeftRoof"
+			"Name":"LeftRoof",
+			"Color":"FFFFFFFF"
 		},
 		{
 			"Scale":[
@@ -68,8 +81,8 @@
 				-3.682,
 				0
 			],
-			"Color":"FFFFFFFF",
-			"Name":"Platform"
+			"Name":"Platform",
+			"Color":"FFFFFFFF"
 		},
 		{
 			"Scale":[
@@ -82,8 +95,8 @@
 				-4.325,
 				0
 			],
-			"Color":"FFFFFFFF",
-			"Name":"TallBlock"
+			"Name":"TallBlock",
+			"Color":"FFFFFFFF"
 		},
 		{
 			"Scale":[
@@ -96,8 +109,8 @@
 				-4.401,
 				0
 			],
-			"Color":"FFFFFFFF",
-			"Name":"SmallBlock"
+			"Name":"SmallBlock",
+			"Color":"FFFFFFFF"
 		}
 	],
 	"ShadowTerrain":[
@@ -112,8 +125,8 @@
 				-4.161,
 				-2
 			],
-			"Color":"FFFFFFFF",
-			"Name":"UnderPlatform"
+			"Name":"UnderPlatform",
+			"Color":"FFFFFFFF"
 		},
 		{
 			"Scale":[
@@ -126,10 +139,11 @@
 				-4.3815,
 				-2
 			],
-			"Color":"FFFFFFFF",
-			"Name":"UnderLeftRoof"
+			"Name":"UnderLeftRoof",
+			"Color":"FFFFFFFF"
 		}
 	],
+	"Special":[],
 	"Objectives":{
 		"Blue":{
 			"Scale":[
@@ -142,8 +156,8 @@
 				-3.367954,
 				-2
 			],
-			"Color":"69F0F0B6",
-			"Name":"BigCubeObjective"
+			"Name":"BigCubeObjective",
+			"Color":"69F0F0B6"
 		},
 		"Red":{
 			"Scale":[
@@ -156,8 +170,8 @@
 				-4.400254,
 				-2
 			],
-			"Color":"EA4648A1",
-			"Name":"SmallCubeObjective"
+			"Name":"SmallCubeObjective",
+			"Color":"EA4648A1"
 		}
 	},
 	"Spawnpoints":{

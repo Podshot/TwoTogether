@@ -142,4 +142,8 @@ public class Controller : MonoBehaviour {
     public ControlType GetControlType() {
         return currentControlType;
     }
+
+    public Rigidbody2D GetRigidbody() {
+        return rigidbody;
+    }
 }

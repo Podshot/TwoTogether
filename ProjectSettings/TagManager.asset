@@ -12,6 +12,8 @@ TagManager:
   - SpawnController
   - Bounds
   - Objective
+  - BigSpawn
+  - SmallSpawn
   layers:
   - Default
   - TransparentFX

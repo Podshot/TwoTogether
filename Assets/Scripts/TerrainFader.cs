@@ -9,6 +9,7 @@ public class TerrainFader : MonoBehaviour {
 	private bool fadeOut = false;
 
     // Sets all child SpriteRenders to have a low alpha, then after 2 seconds, fades all of them in
+    /*
 	IEnumerator Start () {
 		spriteRenderers = GetComponentsInChildren<SpriteRenderer>();
 		foreach (SpriteRenderer renderer in spriteRenderers) {
@@ -18,6 +19,13 @@ public class TerrainFader : MonoBehaviour {
 		FadeIn();
 	
 	}
+    */
+    public void Load() {
+        spriteRenderers = GetComponentsInChildren<SpriteRenderer>();
+        foreach (SpriteRenderer renderer in spriteRenderers) {
+            renderer.color = new Color(renderer.color.r, renderer.color.g, renderer.color.b, 0.002f);
+        }
+    }
 	
     // Fades the terrain in and out. Fading happens manually, since CrossFadeAlpha only works for Text components
 	void Update () {

@@ -23,4 +23,8 @@ public class KillerTerrain : MonoBehaviour {
 			}
 		}
 	}
+
+    public string GetTargetTag() {
+        return targetTag;
+    }
 }

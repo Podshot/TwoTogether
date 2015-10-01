@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.IO;
+using UnityEngine.UI;
 using System.Collections;
 
 public class ExportLevel : MonoBehaviour {
@@ -7,11 +8,13 @@ public class ExportLevel : MonoBehaviour {
     public GameObject terrainParent;
     public GameObject objectivesParent;
     public GameObject spawnpointsParent;
+    public GameObject specialParent;
+    public Text helpText;
 
     private TextWriter writer;
 
     void Start() {
-        writer = new StreamWriter(Application.loadedLevelName + ".json");
+        writer = new StreamWriter(Application.dataPath + "/Levels/" + Application.loadedLevelName + ".json");
     }
 
     #if UNITY_EDITOR
@@ -22,6 +25,33 @@ public class ExportLevel : MonoBehaviour {
     }
     #endif
 
+    private JSONObject GetTransformData(Transform trans, Color color) {
+        JSONObject obj = GetTransformData(trans);
+        obj.AddField("Color", color.ToHexStringRGBA());
+        return obj;
+    }
+
+    private JSONObject GetTransformData(Transform trans) {
+        JSONObject obj = new JSONObject(JSONObject.Type.OBJECT);
+        JSONObject scale = new JSONObject(JSONObject.Type.ARRAY);
+        JSONObject pos = new JSONObject(JSONObject.Type.ARRAY);
+
+        obj.AddField("Scale", scale);
+        obj.AddField("Position", pos);
+
+        // Debug field, can be removed when export testing is done
+        obj.AddField("Name", trans.name);
+
+        scale.Add(trans.lossyScale.x);
+        scale.Add(trans.lossyScale.y);
+        scale.Add(trans.lossyScale.z);
+
+        pos.Add(trans.position.x);
+        pos.Add(trans.position.y);
+        pos.Add(trans.position.z);
+        return obj;
+    }
+
     void Export() {
         Debug.Log("Exporting...");
 
@@ -29,13 +59,18 @@ public class ExportLevel : MonoBehaviour {
 
         JSONObject normalTerrain = new JSONObject(JSONObject.Type.ARRAY);
         JSONObject shadowTerrain = new JSONObject(JSONObject.Type.ARRAY);
+        JSONObject special = new JSONObject(JSONObject.Type.ARRAY);
+        JSONObject text = new JSONObject(JSONObject.Type.OBJECT);
 
         JSONObject objectives = new JSONObject(JSONObject.Type.OBJECT);
         JSONObject spawnpoints = new JSONObject(JSONObject.Type.OBJECT);
 
-        level.AddField("ID", Application.loadedLevelName);
+        level.AddField("Current ID", Application.loadedLevelName);
+        level.AddField("Next ID", "<add manually>");
+        level.AddField("Text", text);
         level.AddField("NormalTerrain", normalTerrain);
         level.AddField("ShadowTerrain", shadowTerrain);
+        level.AddField("Special", special);
         level.AddField("Objectives", objectives);
         level.AddField("Spawnpoints", spawnpoints);
 
@@ -53,32 +88,12 @@ public class ExportLevel : MonoBehaviour {
                 default:
                     break;
             }
-            Transform trans = render.transform;
-
-            JSONObject to = new JSONObject(JSONObject.Type.OBJECT);
-            JSONObject scale = new JSONObject(JSONObject.Type.ARRAY);
-            JSONObject pos = new JSONObject(JSONObject.Type.ARRAY);
-
-            to.AddField("Scale", scale);
-            to.AddField("Position", pos);
-            to.AddField("Color", render.color.ToHexStringRGBA());
-
-            // Debug field, can be removed when export testing is done
-            to.AddField("Name", trans.name);
-
-            scale.Add(trans.lossyScale.x);
-            scale.Add(trans.lossyScale.y);
-            scale.Add(trans.lossyScale.z);
-
-            pos.Add(trans.position.x);
-            pos.Add(trans.position.y);
-            pos.Add(trans.position.z);
-
+            JSONObject to = GetTransformData(render.transform, render.color);
             addTo.Add(to);
         }
 
         foreach (SpriteRenderer renderer in objectivesParent.GetComponentsInChildren<SpriteRenderer>()) {
-            JSONObject obj = new JSONObject(JSONObject.Type.OBJECT);
+            JSONObject obj = GetTransformData(renderer.transform, renderer.color);
             switch (renderer.transform.name.ToLower()) {
                 case "bigcubeobjective":
                     objectives.AddField("Blue", obj);
@@ -89,29 +104,10 @@ public class ExportLevel : MonoBehaviour {
                 default:
                     break;
             }
-            Transform trans = renderer.transform;
-
-            JSONObject scale = new JSONObject(JSONObject.Type.ARRAY);
-            JSONObject pos = new JSONObject(JSONObject.Type.ARRAY);
-
-            obj.AddField("Scale", scale);
-            obj.AddField("Position", pos);
-            obj.AddField("Color", renderer.color.ToHexStringRGBA());
-
-            // Debug field, can be removed when export testing is done
-            obj.AddField("Name", trans.name);
-
-            scale.Add(trans.lossyScale.x);
-            scale.Add(trans.lossyScale.y);
-            scale.Add(trans.lossyScale.z);
-
-            pos.Add(trans.position.x);
-            pos.Add(trans.position.y);
-            pos.Add(trans.position.z);
         }
 
         foreach (Transform trans in spawnpointsParent.GetComponentsInChildren<Transform>()) {
-            JSONObject point = new JSONObject(JSONObject.Type.OBJECT);
+            JSONObject point = GetTransformData(trans);
             switch (trans.name.ToLower()) {
                 case "smallcubespawnpoint":
                     spawnpoints.AddField("Red", point);
@@ -122,23 +118,31 @@ public class ExportLevel : MonoBehaviour {
                 default:
                     break;
             }
-            JSONObject scale = new JSONObject(JSONObject.Type.ARRAY);
-            JSONObject pos = new JSONObject(JSONObject.Type.ARRAY);
-
-            point.AddField("Scale", scale);
-            point.AddField("Position", pos);
-
-            // Debug field, can be removed when export testing is done
-            point.AddField("Name", trans.name);
-
-            scale.Add(trans.lossyScale.x);
-            scale.Add(trans.lossyScale.y);
-            scale.Add(trans.lossyScale.z);
-
-            pos.Add(trans.position.x);
-            pos.Add(trans.position.y);
-            pos.Add(trans.position.z);
         }
+        
+        if (specialParent != null) {
+            foreach (Transform trans in specialParent.GetComponentsInChildren<Transform>()) {
+                if (trans.name.Equals("KillerBlocks")) {
+                    foreach (SpriteRenderer renderer in trans.GetComponentsInChildren<SpriteRenderer>()) {
+                        JSONObject obj = GetTransformData(renderer.transform, renderer.color);
+                        obj.AddField("Type", "KillerTerrain");
+                        obj.AddField("Target", renderer.GetComponent<KillerTerrain>().GetTargetTag());
+                        special.Add(obj);
+                    }
+                }
+            }
+        }
+
+        // Start Help Text serialization
+        JSONObject dimensions = new JSONObject(JSONObject.Type.ARRAY);
+
+        dimensions.Add(helpText.rectTransform.rect.width);
+        dimensions.Add(helpText.rectTransform.rect.height);
+
+        text.AddField("Dimensions", dimensions);
+        text.AddField("Text", helpText.text);
+        text.AddField("Color", helpText.color.ToHexStringRGBA());
+
         writer.WriteLine(level.ToString(true));
         writer.Close();
         Debug.Log("Exported");

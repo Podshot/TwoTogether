@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-using System.Collections;
+using System.Collections.Generic;
 
 public class SpawnHandler : MonoBehaviour {
 
@@ -11,13 +11,18 @@ public class SpawnHandler : MonoBehaviour {
 	private GameObject smallCubeActive;
 	private GameObject bigCubeActive;
 
-	void Start () {
+	public void Load() {
 		smallCubeSpawn = transform.Find("SmallCubeSpawnpoint");
 		bigCubeSpawn = transform.Find("BigCubeSpawnpoint");
 
 		smallCubeActive = (GameObject) Instantiate(smallCubePrefab, smallCubeSpawn.position, Quaternion.identity);
 		bigCubeActive = (GameObject) Instantiate(bigCubePrefab, bigCubeSpawn.position, Quaternion.identity);
 	}
+
+    public List<Controller> GetControllers() {
+        List<Controller> list = new List<Controller>() { smallCubeActive.GetComponent<Controller>(), bigCubeActive.GetComponent<Controller>() };
+        return list;
+    }
 
     // Handles quitting and reset
 	void Update() {

@@ -20,20 +20,23 @@ public class ObjectiveHandler : MonoBehaviour {
 	private SpriteRenderer redRenderer;
 	private SpriteRenderer blueRenderer;
 	private bool readyToSwitch = false;
-
-    void Start() { }
-    
+    private bool toSwitch = false;
+    private GameState gameState;    
 
     // Fades in objectives and the help text
 	public void Load() {
+        gameState = Camera.main.GetComponent<GameState>();
+
 		redRenderer = redObjective.GetComponent<SpriteRenderer>();
 		blueRenderer = blueObjective.GetComponent<SpriteRenderer>();
 
         //helpText.color = new Color(helpText.color.r, helpText.color.g, helpText.color.b, 0.002f);
-        helpText = GameState.GetHelpText();
+        helpText = gameState.GetHelpText();
         helpText.color = new Color(helpText.color.r, helpText.color.g, helpText.color.b, 0.002f);
         redRenderer.color = new Color(redRenderer.color.r, redRenderer.color.g, redRenderer.color.b, 0.002f);
 		blueRenderer.color = new Color(blueRenderer.color.r, blueRenderer.color.g, blueRenderer.color.b, 0.002f);
+        redRenderer.enabled = true;
+        blueRenderer.enabled = true;
 		//yield return new WaitForSeconds(2);
 		//FadeIn();
 		fadeables[1] = GameObject.FindGameObjectWithTag("BigCube");
@@ -50,6 +53,7 @@ public class ObjectiveHandler : MonoBehaviour {
 	}
 
 	void Update() {
+        /*
 		if (fadeIn) {
 			if (!(blueRenderer.color.a > 0.70196078431372549019607843137255f)) {
 				Color oldColor = blueRenderer.color;
@@ -86,30 +90,67 @@ public class ObjectiveHandler : MonoBehaviour {
 				readyToSwitch = true;
 			}
 		}
+        */
 
 		if (smallCubeActivated && bigCubeActivated) {
-            GameState.StopControllers();
+            Debug.Log("Both objectives met");
+            Debug.Log("Stopping controllers");
+            gameState.StopControllers();
+            Debug.Log("Stopped controllers");
             if (!started) {
 				started = true;
-                GameState.Switch();
-			}
+                //StartCoroutine(gameState.Switch());
+                Debug.Log("Switching");
+                gameState._Switch();
+                Debug.Log("Switched");
+                //StartCoroutine(WaitAndLoad());
+            }
 		}
 		//if (readyToSwitch) {
 			//if (Input.GetKeyDown(KeyCode.E)) {
 		//	StartCoroutine(WaitAndLoad());
 			//}
 		//}
+        
 	}
 
-	public void FadeIn() {
-		fadeIn = true;
-	}
+    public IEnumerator FadeOut() {
+        for (float i = 1; i > 0f; i -= 0.0005f) {
+            Color b_color = blueRenderer.color;
+            b_color.a -= i;
+            blueRenderer.color = b_color;
+
+            Color r_color = redRenderer.color;
+            r_color.a -= i;
+            redRenderer.color = r_color;
+
+            yield return null;
+        }
+    }
+
+    public IEnumerator FadeIn() {
+        for (float i = 0; i < 1f; i += 0.0005f) {
+            Color b_color = blueRenderer.color;
+            b_color.a += i;
+            blueRenderer.color = b_color;
+
+            Color r_color = redRenderer.color;
+            r_color.a += i;
+            redRenderer.color = r_color;
+
+            yield return null;
+        }
+    }
+
+    //public void FadeIn() {
+    //	fadeIn = true;
+    //}
 
     // Handles fading out of all level components
-	public void FadeOut() {
-		//yield return new WaitForSeconds(0.125f);
-		//helpText.CrossFadeAlpha(0f, 0.5f, false);
-		fadeOut = true;
+    //public void FadeOut() {
+    //yield return new WaitForSeconds(0.125f);
+    //helpText.CrossFadeAlpha(0f, 0.5f, false);
+    //fadeOut = true;
 		//foreach (GameObject obj in fadeables) {
 		//	if (obj.tag == "Terrain") {
 		//		obj.GetComponent<TerrainFader>().FadeOut();
@@ -118,10 +159,13 @@ public class ObjectiveHandler : MonoBehaviour {
 		//		obj.GetComponent<Controller>().FadeOut();
 		//	}
 		//}
-	}
+	//}
 
     // Loads next level after a short delay
     IEnumerator WaitAndLoad() {
+        yield return new WaitForSeconds(3f);
+        toSwitch = true;
+        /*
         if (Application.CanStreamedLevelBeLoaded(nextLevel))
         {
             yield return new WaitForSeconds(0.5f);
@@ -130,5 +174,6 @@ public class ObjectiveHandler : MonoBehaviour {
         {
             yield return new WaitForSeconds(0.0f);
         }
+        */
 	}
 }

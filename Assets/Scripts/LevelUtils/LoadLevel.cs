@@ -15,13 +15,26 @@ public class LoadLevel : MonoBehaviour {
     public GameObject redKillerPrefab;
     public GameObject blueKillerPrefab;
 
+    private GameState gameState;
+
 	// Use this for initialization
 	void Awake() {
         LoadLevelData("level_1");
-        GameState.SetParents(terrainParent, objectivesParent, spawnpointsParent);
-        GameState.GiveLoadLevelInstance(this);
-        GameState.Ready();
 	}
+
+    void Start() {
+        gameState = Camera.main.GetComponent<GameState>();
+        gameState.SetHelpText(helpText);
+        gameState.SetParents(terrainParent, objectivesParent, spawnpointsParent);
+        gameState.GiveLoadLevelInstance(this);
+        gameState.Ready();
+    }
+
+    void Update() {
+        if (Input.GetKeyDown(KeyCode.B)) {
+            RemoveOldLevel();
+        }
+    }
 
     private GameObject AddTerrainPiece(GameObject prefab, GameObject parent, JSONObject data) {
         GameObject gobj = Instantiate(prefab, new Vector3(data["Position"][0].n, data["Position"][1].n, data["Position"][2].n), Quaternion.identity) as GameObject;
@@ -33,7 +46,7 @@ public class LoadLevel : MonoBehaviour {
         return gobj;
     }
 
-    private void LoadLevelData(string v) {
+    public void LoadLevelData(string v) {
         string levelData = System.IO.File.ReadAllText(Application.dataPath + "/Levels/" + v + ".json");
         JSONObject level = new JSONObject(levelData);
 
@@ -66,11 +79,12 @@ public class LoadLevel : MonoBehaviour {
 
         helpText.text = level["Text"]["Text"].str;
         helpText.rectTransform.sizeDelta = new Vector2(level["Text"]["Dimensions"][0].n, level["Text"]["Dimensions"][1].n);
-
-        GameState.SetHelpText(helpText);
     }
 
-    private void RemoveOldLevel() {
-
+    public void RemoveOldLevel() {
+        foreach (SpriteRenderer renderer in terrainParent.GetComponentsInChildren<SpriteRenderer>()) {
+            Destroy(renderer.gameObject);
+        }
+        helpText.text = "";
     }
 }

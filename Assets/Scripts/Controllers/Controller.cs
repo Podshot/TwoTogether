@@ -50,8 +50,11 @@ public class Controller : MonoBehaviour {
     }
 
     public void Load() {
-        renderer = GetComponent<SpriteRenderer>();
-        renderer.color = new Color(renderer.color.r, renderer.color.g, renderer.color.b, 0.0f);
+        if (renderer == null) {
+            renderer = GetComponent<SpriteRenderer>();
+            renderer.color = new Color(renderer.color.r, renderer.color.g, renderer.color.b, 0.0f);
+        }
+        settingUp = true;
     }
 
     /*
@@ -103,10 +106,6 @@ public class Controller : MonoBehaviour {
         }
     }
 
-    public void DestroySelf() {
-        Destroy(gameObject);
-    }
-
     void FixedUpdate() {
         if (rigidbody.velocity.y == 0f && currentJumpDelay > 0) {
             currentJumpDelay -= 1;
@@ -151,7 +150,7 @@ public class Controller : MonoBehaviour {
             }
         }
         settingUp = false;
-        yield break;
+        //yield break;
     }
 
     // Public fuction for fading out the character

@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-using System.Collections.Generic;
+using System.Collections;
 
 public class SpawnHandler : MonoBehaviour {
 
@@ -11,16 +11,38 @@ public class SpawnHandler : MonoBehaviour {
 	private GameObject smallCubeActive;
 	private GameObject bigCubeActive;
 
-	public void Load() {
-		smallCubeSpawn = transform.Find("SmallCubeSpawnpoint");
-		bigCubeSpawn = transform.Find("BigCubeSpawnpoint");
+    public void Load() {
+        smallCubeSpawn = transform.Find("SmallCubeSpawnpoint");
+        bigCubeSpawn = transform.Find("BigCubeSpawnpoint");
 
-		smallCubeActive = (GameObject) Instantiate(smallCubePrefab, smallCubeSpawn.position, Quaternion.identity);
-		bigCubeActive = (GameObject) Instantiate(bigCubePrefab, bigCubeSpawn.position, Quaternion.identity);
-	}
+        if (smallCubeActive == null) {
+            smallCubeActive = (GameObject)Instantiate(smallCubePrefab, smallCubeSpawn.position, Quaternion.identity);
+        } else {
+            smallCubeActive.transform.position = smallCubeSpawn.position;
+        }
+        if (bigCubeActive == null) {
+            bigCubeActive = (GameObject)Instantiate(bigCubePrefab, bigCubeSpawn.position, Quaternion.identity);
+        } else {
+            bigCubeActive.transform.position = bigCubeSpawn.position;
+        }
+        Debug.LogError("Sanity check: " + (bigCubeActive == null) + ", " + (smallCubeActive == null));
+    }
 
-    public List<Controller> GetControllers() {
-        List<Controller> list = new List<Controller>() { smallCubeActive.GetComponent<Controller>(), bigCubeActive.GetComponent<Controller>() };
+    public IEnumerator DestroyCubes() {
+        yield return null;
+        Destroy(smallCubeActive.gameObject);
+        Debug.Log("Destroyed smallCube");
+        yield return null;
+        Destroy(bigCubeActive.gameObject);
+        Debug.Log("Destroyed bigCube");
+        yield return null;
+        Debug.LogError("Sanity check: " + (bigCubeActive == null) + ", " + (smallCubeActive == null));
+        smallCubeActive = null;
+        bigCubeActive = null;
+    }
+
+    public System.Collections.Generic.List<Controller> GetControllers() {
+        System.Collections.Generic.List<Controller> list = new System.Collections.Generic.List<Controller>() { smallCubeActive.GetComponent<Controller>(), bigCubeActive.GetComponent<Controller>() };
         return list;
     }
 

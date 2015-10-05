@@ -23,7 +23,9 @@ public class GameState : MonoBehaviour {
 
     public void Ready() {
         spawnpointsParent.GetComponent<SpawnHandler>().Load();
-        controllers = spawnpointsParent.GetComponent<SpawnHandler>().GetControllers();
+        if (controllers == null) {
+            controllers = spawnpointsParent.GetComponent<SpawnHandler>().GetControllers();
+        }
 
         objectiveHandler.Load();
         terrainFader.Load();
@@ -65,7 +67,7 @@ public class GameState : MonoBehaviour {
     }
 
     public void LoadLevel(string lvl) {
-        //terrainFader.Cleanup();
+        /*
         foreach (Controller controller in controllers) {
             controller.enabled = false;
             controller.gameObject.GetComponent<BoxCollider2D>().enabled = false;
@@ -75,6 +77,7 @@ public class GameState : MonoBehaviour {
             // Possible refactor: rewrite spawning code to just move the already instantiated object to their new spawnpoints
             //Destroy(controller.gameObject);
         }
+        */
         instance.RemoveOldLevel();
         instance.LoadLevelData(lvl);
         Ready();

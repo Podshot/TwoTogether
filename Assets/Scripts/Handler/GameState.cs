@@ -22,15 +22,19 @@ public class GameState : MonoBehaviour {
     }
 
     public void Ready() {
+        spawnpointsParent.GetComponent<SpawnHandler>().Load();
+        controllers = spawnpointsParent.GetComponent<SpawnHandler>().GetControllers();
+
         objectiveHandler.Load();
         terrainFader.Load();
-        spawnpointsParent.GetComponent<SpawnHandler>().Load();
+        foreach (Controller controller in controllers) {
+            controller.Load();
+        }
 
-        controllers = spawnpointsParent.GetComponent<SpawnHandler>().GetControllers();
-        objectiveHandler.FadeIn();
+        StartCoroutine(objectiveHandler.FadeIn());
         StartCoroutine(terrainFader.FadeIn());
         foreach (Controller controller in controllers) {
-            controller.FadeIn();
+            StartCoroutine(controller.FadeIn());
         }
     }
 
@@ -50,17 +54,21 @@ public class GameState : MonoBehaviour {
         StartCoroutine(terrainFader.FadeOut());
         StartCoroutine(objectiveHandler.FadeOut());
         foreach (Controller controller in controllers) {
-            controller.FadeOut();
+            StartCoroutine(controller.FadeOut());
         }
         //while (!terrainFader.GetFadeOut()) { Debug.Log(terrainFader.GetFadeOut()); }
         yield return new WaitForSeconds(2f);
+        Debug.Log("Waited");
         //terrainFader.Cleanup();
         //
-        //LoadLevel("level_2");
+        LoadLevel("level_2");
     }
 
     public void LoadLevel(string lvl) {
         //terrainFader.Cleanup();
+        foreach (Controller controller in controllers) {
+            controller.DestroySelf();
+        }
         instance.RemoveOldLevel();
         instance.LoadLevelData(lvl);
         Ready();

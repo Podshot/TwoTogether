@@ -33,7 +33,7 @@ public class TerrainFader : MonoBehaviour {
         return ready;
     }
 
-    private void Cleanup() {
+    public void Cleanup() {
         Debug.Log("Cleanup() called");
         spriteRenderers = null;
     }
@@ -69,27 +69,34 @@ public class TerrainFader : MonoBehaviour {
     */
 
     public IEnumerator FadeOut() {
-        for (float i = 1; i > 0f; i -= 0.0005f) {
+        for (float i = 1; i > 0f; i -= 0.025f) {
+            //Debug.Log(i);
             foreach (SpriteRenderer renderer in spriteRenderers) {
-                Color color = renderer.color;
-                color.a -= i;
-                renderer.color = color;
+                if (renderer != null) {
+                    Color color = renderer.color;
+                    color.a = i;
+                    renderer.color = color;
+                }
             }
             yield return null;
         }
-        Debug.Log("Stopped fading out");
-        ready = true;
-        Cleanup();
+        //Debug.Log("Stopped fading out");
+        //ready = true;
+        //Cleanup();
     }
 
     public IEnumerator FadeIn() {
-        for (float i = 0; i < 1f; i += 0.0005f) {
+        for (float i = 0; i < 1f; i += 0.025f) {
             foreach (SpriteRenderer renderer in spriteRenderers) {
-                Color color = renderer.color;
-                color.a += i;
-                renderer.color = color;
+                if (renderer != null) {
+                    Color color = renderer.color;
+                    color.a = i;
+                    renderer.color = color;
+                }
             }
             yield return null;
         }
+        Debug.Log("Stopping");
+        yield break;
     }
 }

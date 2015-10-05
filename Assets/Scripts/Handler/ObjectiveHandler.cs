@@ -115,13 +115,13 @@ public class ObjectiveHandler : MonoBehaviour {
 	}
 
     public IEnumerator FadeOut() {
-        for (float i = 1; i > 0f; i -= 0.0005f) {
+        for (float i = 1; i > 0f; i -= 0.025f) {
             Color b_color = blueRenderer.color;
-            b_color.a -= i;
+            b_color.a = i;
             blueRenderer.color = b_color;
 
             Color r_color = redRenderer.color;
-            r_color.a -= i;
+            r_color.a = i;
             redRenderer.color = r_color;
 
             yield return null;
@@ -129,13 +129,13 @@ public class ObjectiveHandler : MonoBehaviour {
     }
 
     public IEnumerator FadeIn() {
-        for (float i = 0; i < 1f; i += 0.0005f) {
+        for (float i = 0; i < 1f; i += 0.05f) {
             Color b_color = blueRenderer.color;
-            b_color.a += i;
+            b_color.a = i;
             blueRenderer.color = b_color;
 
             Color r_color = redRenderer.color;
-            r_color.a += i;
+            r_color.a = i;
             redRenderer.color = r_color;
 
             yield return null;

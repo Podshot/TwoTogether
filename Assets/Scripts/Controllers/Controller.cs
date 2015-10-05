@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System;
 
 [RequireComponent(typeof(Rigidbody2D), typeof(SpriteRenderer))]
 public class Controller : MonoBehaviour {
@@ -48,6 +49,12 @@ public class Controller : MonoBehaviour {
         verticalAxis = "Vertical" + axisID;
     }
 
+    public void Load() {
+        renderer = GetComponent<SpriteRenderer>();
+        renderer.color = new Color(renderer.color.r, renderer.color.g, renderer.color.b, 0.0f);
+    }
+
+    /*
     IEnumerator Start() {
         renderer = GetComponent<SpriteRenderer>();
         renderer.color = new Color(renderer.color.r, renderer.color.g, renderer.color.b, 0.002f);
@@ -55,6 +62,7 @@ public class Controller : MonoBehaviour {
         FadeIn();
         settingUp = false;
     }
+    */
 
     void Update() {
         if (fadeIn) {
@@ -95,6 +103,10 @@ public class Controller : MonoBehaviour {
         }
     }
 
+    public void DestroySelf() {
+        Destroy(gameObject);
+    }
+
     void FixedUpdate() {
         if (rigidbody.velocity.y == 0f && currentJumpDelay > 0) {
             currentJumpDelay -= 1;
@@ -129,13 +141,24 @@ public class Controller : MonoBehaviour {
     }
 
     // Public fuction for fading in the character
-    public void FadeIn() {
-        fadeIn = true;
+    public IEnumerator FadeIn() {
+        for (float i = 0; i < 1f; i += 0.025f) {
+            Color color = renderer.color;
+            color.a = i;
+            renderer.color = color;
+            yield return null;
+        }
+        settingUp = false;
     }
 
     // Public fuction for fading out the character
-    public void FadeOut() {
-        fadeOut = true;
+    public IEnumerator FadeOut() {
+        for (float i = 0; i < 1f; i -= 0.025f) {
+            Color color = renderer.color;
+            color.a = i;
+            renderer.color = color;
+            yield return null;
+        }
     }
 
     // Returns the current ControlType

@@ -84,6 +84,7 @@ public class LoadLevel : MonoBehaviour {
     public void RemoveOldLevel() {
         foreach (SpriteRenderer renderer in terrainParent.GetComponentsInChildren<SpriteRenderer>()) {
             Destroy(renderer.gameObject);
+            Destroy(renderer.transform);
         }
         helpText.text = "";
     }

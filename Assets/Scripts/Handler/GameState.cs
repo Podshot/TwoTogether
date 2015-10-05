@@ -67,7 +67,13 @@ public class GameState : MonoBehaviour {
     public void LoadLevel(string lvl) {
         //terrainFader.Cleanup();
         foreach (Controller controller in controllers) {
-            controller.DestroySelf();
+            controller.enabled = false;
+            controller.gameObject.GetComponent<BoxCollider2D>().enabled = false;
+
+            // NOTE: Unity seems to freeze whenever I try to destroy the entire game object, bug?
+            // Temporary fix: disable the collider and the script to reduce memory usage for now
+            // Possible refactor: rewrite spawning code to just move the already instantiated object to their new spawnpoints
+            //Destroy(controller.gameObject);
         }
         instance.RemoveOldLevel();
         instance.LoadLevelData(lvl);

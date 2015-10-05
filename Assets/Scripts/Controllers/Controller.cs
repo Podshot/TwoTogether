@@ -143,22 +143,28 @@ public class Controller : MonoBehaviour {
     // Public fuction for fading in the character
     public IEnumerator FadeIn() {
         for (float i = 0; i < 1f; i += 0.025f) {
-            Color color = renderer.color;
-            color.a = i;
-            renderer.color = color;
-            yield return null;
+            if (renderer != null) {
+                Color color = renderer.color;
+                color.a = i;
+                renderer.color = color;
+                yield return null;
+            }
         }
         settingUp = false;
+        yield break;
     }
 
     // Public fuction for fading out the character
     public IEnumerator FadeOut() {
         for (float i = 0; i < 1f; i -= 0.025f) {
-            Color color = renderer.color;
-            color.a = i;
-            renderer.color = color;
-            yield return null;
+            if (renderer != null) {
+                Color color = renderer.color;
+                color.a = i;
+                renderer.color = color;
+                yield return null;
+            }
         }
+        yield break;
     }
 
     // Returns the current ControlType

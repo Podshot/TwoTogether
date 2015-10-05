@@ -82,7 +82,8 @@ public class LoadLevel : MonoBehaviour {
     }
 
     public void RemoveOldLevel() {
-        foreach (SpriteRenderer renderer in terrainParent.GetComponentsInChildren<SpriteRenderer>()) {
+        SpriteRenderer[] terrain = terrainParent.GetComponentsInChildren<SpriteRenderer>();
+        foreach (SpriteRenderer renderer in terrain) {
             Destroy(renderer.gameObject);
             Destroy(renderer.transform);
         }

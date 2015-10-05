@@ -93,15 +93,15 @@ public class ObjectiveHandler : MonoBehaviour {
         */
 
 		if (smallCubeActivated && bigCubeActivated) {
-            Debug.Log("Both objectives met");
-            Debug.Log("Stopping controllers");
-            gameState.StopControllers();
-            Debug.Log("Stopped controllers");
+            //Debug.Log("Both objectives met");
+            //Debug.Log("Stopping controllers");
+            //Debug.Log("Stopped controllers");
             if (!started) {
 				started = true;
                 //StartCoroutine(gameState.Switch());
+                gameState.StopControllers();
                 Debug.Log("Switching");
-                gameState._Switch();
+                StartCoroutine(gameState._Switch());
                 Debug.Log("Switched");
                 //StartCoroutine(WaitAndLoad());
             }

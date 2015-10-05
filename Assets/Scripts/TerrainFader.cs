@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using Stopwatch = System.Diagnostics.Stopwatch;
 
 public class TerrainFader : MonoBehaviour {
 
@@ -32,7 +33,8 @@ public class TerrainFader : MonoBehaviour {
         return ready;
     }
 
-    public void Cleanup() {
+    private void Cleanup() {
+        Debug.Log("Cleanup() called");
         spriteRenderers = null;
     }
 	
@@ -75,7 +77,9 @@ public class TerrainFader : MonoBehaviour {
             }
             yield return null;
         }
+        Debug.Log("Stopped fading out");
         ready = true;
+        Cleanup();
     }
 
     public IEnumerator FadeIn() {

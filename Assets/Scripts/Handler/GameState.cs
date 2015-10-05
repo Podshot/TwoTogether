@@ -44,22 +44,23 @@ public class GameState : MonoBehaviour {
         instance = loadLevel;
     }
 
-    public /*IEnumerator*/ void _Switch() {
-        Debug.LogError("Switch() called");
+    public IEnumerator _Switch() {
+        //Debug.LogError("Switch() called");
         helpText.CrossFadeAlpha(0f, 0.5f, false);
         StartCoroutine(terrainFader.FadeOut());
-        objectiveHandler.FadeOut();
+        StartCoroutine(objectiveHandler.FadeOut());
         foreach (Controller controller in controllers) {
             controller.FadeOut();
         }
-        while (!terrainFader.GetFadeOut()) { Debug.Log(terrainFader.GetFadeOut()); }
-        terrainFader.Cleanup();
-        //yield return new WaitForSeconds(2f);
-        LoadLevel("level_2");
+        //while (!terrainFader.GetFadeOut()) { Debug.Log(terrainFader.GetFadeOut()); }
+        yield return new WaitForSeconds(2f);
+        //terrainFader.Cleanup();
+        //
+        //LoadLevel("level_2");
     }
 
     public void LoadLevel(string lvl) {
-        terrainFader.Cleanup();
+        //terrainFader.Cleanup();
         instance.RemoveOldLevel();
         instance.LoadLevelData(lvl);
         Ready();

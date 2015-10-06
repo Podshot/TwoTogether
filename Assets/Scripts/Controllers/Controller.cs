@@ -23,8 +23,7 @@ public class Controller : MonoBehaviour {
     private SpriteRenderer renderer;
 
     // State
-    private bool fadeIn = false;
-    private bool fadeOut = false;
+    [SerializeField]
     private bool settingUp = false;
     private bool jumping = false;
     private int currentJumpDelay = 0;
@@ -47,47 +46,18 @@ public class Controller : MonoBehaviour {
         currentControlType = ControlType.Normal;
         horizontalAxis = "Horizontal" + axisID;
         verticalAxis = "Vertical" + axisID;
+        renderer = GetComponent<SpriteRenderer>();
     }
 
     public void Load() {
         if (renderer == null) {
-            renderer = GetComponent<SpriteRenderer>();
             renderer.color = new Color(renderer.color.r, renderer.color.g, renderer.color.b, 0.0f);
         }
         settingUp = true;
     }
 
-    /*
-    IEnumerator Start() {
-        renderer = GetComponent<SpriteRenderer>();
-        renderer.color = new Color(renderer.color.r, renderer.color.g, renderer.color.b, 0.002f);
-        yield return new WaitForSeconds(2);
-        FadeIn();
-        settingUp = false;
-    }
-    */
-
     void Update() {
-        if (fadeIn) {
-            if (!(renderer.color.a > 1.0f)) {
-                Color color = renderer.color;
-                color.a *= 1.0625f;
-                renderer.color = color;
-            } else {
-                fadeIn = false;
-            }
-        }
-        if (fadeOut) {
-            if (!(renderer.color.a < 0)) {
-                Color color = renderer.color;
-                color.a /= 1.0625f;
-                renderer.color = color;
-            } else {
-                fadeOut = false;
-            }
-        }
-
-        if (!(fadeOut || fadeIn || settingUp)) {
+        if (!settingUp) {
             if (Input.GetAxisRaw(horizontalAxis) < -sensitivity) {
                 moveLeft();
             }
@@ -150,12 +120,12 @@ public class Controller : MonoBehaviour {
             }
         }
         settingUp = false;
-        //yield break;
+        yield break;
     }
 
     // Public fuction for fading out the character
     public IEnumerator FadeOut() {
-        for (float i = 0; i < 1f; i -= 0.025f) {
+        for (float i = 1; i > 0f; i -= 0.025f) {
             if (renderer != null) {
                 Color color = renderer.color;
                 color.a = i;

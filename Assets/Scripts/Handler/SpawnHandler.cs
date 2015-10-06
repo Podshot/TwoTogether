@@ -25,20 +25,6 @@ public class SpawnHandler : MonoBehaviour {
         } else {
             bigCubeActive.transform.position = bigCubeSpawn.position;
         }
-        Debug.LogError("Sanity check: " + (bigCubeActive == null) + ", " + (smallCubeActive == null));
-    }
-
-    public IEnumerator DestroyCubes() {
-        yield return null;
-        Destroy(smallCubeActive.gameObject);
-        Debug.Log("Destroyed smallCube");
-        yield return null;
-        Destroy(bigCubeActive.gameObject);
-        Debug.Log("Destroyed bigCube");
-        yield return null;
-        Debug.LogError("Sanity check: " + (bigCubeActive == null) + ", " + (smallCubeActive == null));
-        smallCubeActive = null;
-        bigCubeActive = null;
     }
 
     public System.Collections.Generic.List<Controller> GetControllers() {

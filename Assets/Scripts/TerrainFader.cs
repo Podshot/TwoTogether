@@ -6,22 +6,7 @@ using Stopwatch = System.Diagnostics.Stopwatch;
 public class TerrainFader : MonoBehaviour {
 
 	private SpriteRenderer[] spriteRenderers;
-	private bool fadeIn = false;
-	private bool fadeOut = false;
-    private bool ready = false;
 
-    // Sets all child SpriteRenders to have a low alpha, then after 2 seconds, fades all of them in
-    /*
-	IEnumerator Start () {
-		spriteRenderers = GetComponentsInChildren<SpriteRenderer>();
-		foreach (SpriteRenderer renderer in spriteRenderers) {
-			renderer.color = new Color(renderer.color.r, renderer.color.g, renderer.color.b, 0.002f);
-		}
-		yield return new WaitForSeconds(2);
-		FadeIn();
-	
-	}
-    */
     public void Load() {
         spriteRenderers = GetComponentsInChildren<SpriteRenderer>();
         foreach (SpriteRenderer renderer in spriteRenderers) {
@@ -29,48 +14,13 @@ public class TerrainFader : MonoBehaviour {
         }
     }
 
-    public bool GetFadeOut() {
-        return ready;
-    }
-
     public void Cleanup() {
-        Debug.Log("Cleanup() called");
         spriteRenderers = null;
     }
 	
-    // Fades the terrain in and out. Fading happens manually, since CrossFadeAlpha only works for Text components
-    /*
-	void Update () {
-		if (fadeIn) {
-			foreach (SpriteRenderer renderer in spriteRenderers) {
-				if (renderer.color.a != 0) {
-					Color color = renderer.color;
-					color.a *= 1.0625f;
-					renderer.color = color;
-				}
-			}
-			if (spriteRenderers[spriteRenderers.Length - 1].color.a > 1.0f) {
-				fadeIn = false;
-			}
-		}
-		if (fadeOut) {
-			foreach(SpriteRenderer renderer in spriteRenderers) {
-				if (renderer.color.a != 0) {
-					Color color = renderer.color;
-					color.a /= 1.0625f;
-					renderer.color = color;
-				}
-			}
-			if (spriteRenderers[spriteRenderers.Length - 1].color.a < 0.002f) {
-				fadeOut = false;
-			}
-		}
-	}
-    */
-
+    // Fades the terrain in and out. Fading happens manually, since CrossFadeAlpha only works for Text component
     public IEnumerator FadeOut() {
         for (float i = 1; i > 0f; i -= 0.025f) {
-            //Debug.Log(i);
             foreach (SpriteRenderer renderer in spriteRenderers) {
                 if (renderer != null) {
                     Color color = renderer.color;
@@ -80,9 +30,7 @@ public class TerrainFader : MonoBehaviour {
             }
             yield return null;
         }
-        //Debug.Log("Stopped fading out");
-        //ready = true;
-        //Cleanup();
+        yield break;
     }
 
     public IEnumerator FadeIn() {
@@ -96,7 +44,6 @@ public class TerrainFader : MonoBehaviour {
             }
             yield return null;
         }
-        Debug.Log("Stopping");
         yield break;
     }
 }

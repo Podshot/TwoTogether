@@ -85,7 +85,6 @@ public class LoadLevel : MonoBehaviour {
         SpriteRenderer[] terrain = terrainParent.GetComponentsInChildren<SpriteRenderer>();
         foreach (SpriteRenderer renderer in terrain) {
             Destroy(renderer.gameObject);
-            //Destroy(renderer.transform);
         }
         helpText.text = "";
     }

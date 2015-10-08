@@ -104,4 +104,8 @@ public class MainMenuHandler : MonoBehaviour {
             yield return new WaitForSeconds(0.0f);
         }
 	}
+
+    public void OnClickTestDownloads() {
+        StartCoroutine(GetComponent<DownloadLevels>().Download());
+    }
 }

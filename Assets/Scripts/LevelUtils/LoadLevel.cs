@@ -5,6 +5,8 @@ using System;
 
 public class LoadLevel : MonoBehaviour {
 
+    public const float mapFormat = 1f;
+
     public Text helpText;
     public GameObject terrainParent;
     public GameObject objectivesParent;
@@ -15,6 +17,7 @@ public class LoadLevel : MonoBehaviour {
     public GameObject redKillerPrefab;
     public GameObject blueKillerPrefab;
 
+    private string nextLevel;
     private GameState gameState;
 
 	// Use this for initialization
@@ -49,6 +52,12 @@ public class LoadLevel : MonoBehaviour {
     public void LoadLevelData(string v) {
         string levelData = System.IO.File.ReadAllText(Application.dataPath + "/Levels/" + v + ".json");
         JSONObject level = new JSONObject(levelData);
+
+        if (level["Map Format"].n > mapFormat) {
+            Debug.LogError("Map Format not supported!");
+        }
+
+        nextLevel = level["Next ID"].str;
 
         foreach (Transform trans in spawnpointsParent.GetComponentsInChildren<Transform>()) {
             if (trans.name.Equals("SmallCubeSpawnpoint")) {
@@ -87,5 +96,9 @@ public class LoadLevel : MonoBehaviour {
             Destroy(renderer.gameObject);
         }
         helpText.text = "";
+    }
+
+    public string GetNextID() {
+        return nextLevel;
     }
 }

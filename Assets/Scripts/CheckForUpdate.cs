@@ -16,6 +16,8 @@ public class CheckForUpdate : MonoBehaviour {
 		texts = GetComponentsInChildren<Text>();
 		updateButton = GetComponentInChildren<Button>();
 		versionText.text += version;
+        Debug.Log("Persistent: " + Application.persistentDataPath);
+        Debug.Log("Normal: " + Application.dataPath);
 	}
 	
 	IEnumerator Start () {

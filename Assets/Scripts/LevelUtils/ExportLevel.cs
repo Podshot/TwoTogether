@@ -13,10 +13,6 @@ public class ExportLevel : MonoBehaviour {
 
     private TextWriter writer;
 
-    void Start() {
-        writer = new StreamWriter(Application.dataPath + "/Levels/" + Application.loadedLevelName + ".json");
-    }
-
     #if UNITY_EDITOR
     void Update() {
         if (/*(Input.GetKey(KeyCode.RightControl) || Input.GetKey(KeyCode.LeftCommand)) &&*/ Input.GetKeyDown(KeyCode.E)) {
@@ -54,6 +50,7 @@ public class ExportLevel : MonoBehaviour {
 
     void Export() {
         Debug.Log("Exporting...");
+        writer = new StreamWriter(Application.dataPath + "/Levels_Exported/" + Application.loadedLevelName + ".json");
 
         JSONObject level = new JSONObject(JSONObject.Type.OBJECT);
 

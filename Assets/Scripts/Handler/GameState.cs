@@ -61,7 +61,7 @@ public class GameState : MonoBehaviour {
             StartCoroutine(controller.FadeOut());
         }
         yield return new WaitForSeconds(2f);
-        LoadLevel("level_2");
+        LoadLevel(instance.GetNextID());
     }
 
     public void LoadLevel(string lvl) {

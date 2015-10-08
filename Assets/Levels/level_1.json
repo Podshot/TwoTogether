@@ -1,17 +1,14 @@
 {
 	"Current ID":"Level_1",
-	"Next ID":"<add manually>",
+	"Next ID":"level_2",
+    "Map Format": 1,
 	"Text":{
-		"Position":[
-			-3.051758E-05,
-			214.1
-		],
 		"Dimensions":[
 			664,
 			38.5
 		],
 		"Text":"There's nothing wrong in asking for help.",
-		"Color":"808080B6"
+		"Color":"808080FF"
 	},
 	"NormalTerrain":[
 		{
@@ -157,7 +154,7 @@
 				-2
 			],
 			"Name":"BigCubeObjective",
-			"Color":"69F0F0B6"
+			"Color":"69F0F0B3"
 		},
 		"Red":{
 			"Scale":[
@@ -171,7 +168,7 @@
 				-2
 			],
 			"Name":"SmallCubeObjective",
-			"Color":"EA4648A1"
+			"Color":"EA46489D"
 		}
 	},
 	"Spawnpoints":{

@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using LevelExceptions;
 using System.Collections;
 using System;
 
@@ -55,6 +56,7 @@ public class LoadLevel : MonoBehaviour {
 
         if (level["Map Format"].n > mapFormat) {
             Debug.LogError("Map Format not supported!");
+            throw new UnsupportedLevelVersion("Map Format not supported yet!");
         }
 
         nextLevel = level["Next ID"].str;

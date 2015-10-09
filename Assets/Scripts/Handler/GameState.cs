@@ -2,8 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine.UI;
 using System.Collections;
+using LevelExceptions;
 
 public class GameState : MonoBehaviour {
+
+    public Text levelErrorText;
 
     private Text helpText;
     private TextFader textFader;
@@ -66,7 +69,12 @@ public class GameState : MonoBehaviour {
 
     public void LoadLevel(string lvl) {
         instance.RemoveOldLevel();
-        instance.LoadLevelData(lvl);
+        try {
+            instance.LoadLevelData(lvl);
+        } catch (UnsupportedLevelVersion e) {
+            levelErrorText.text = "The rest of the levels are not supported by this version of TwoTogether.\nPlease click this text to go to the downloads page and update the game.";
+            levelErrorText.gameObject.SetActive(true);
+        }
         Ready();
     }
 

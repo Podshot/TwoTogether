@@ -13,6 +13,7 @@ public class LoadLevel : MonoBehaviour {
     public GameObject objectivesParent;
     public GameObject shadowParent;
     public GameObject spawnpointsParent;
+    public GameObject specialParent;
     public GameObject normalTerrainPrefab;
     public GameObject shadowTerrainPrefab;
     public GameObject redKillerPrefab;
@@ -23,21 +24,15 @@ public class LoadLevel : MonoBehaviour {
 
 	// Use this for initialization
 	void Awake() {
-        LoadLevelData("level_1");
+        LoadLevelData("level_3");
 	}
 
     void Start() {
         gameState = Camera.main.GetComponent<GameState>();
         gameState.SetHelpText(helpText);
-        gameState.SetParents(terrainParent, objectivesParent, spawnpointsParent);
+        gameState.SetParents(terrainParent, objectivesParent, spawnpointsParent, specialParent);
         gameState.GiveLoadLevelInstance(this);
         gameState.Ready();
-    }
-
-    void Update() {
-        if (Input.GetKeyDown(KeyCode.B)) {
-            RemoveOldLevel();
-        }
     }
 
     private GameObject AddTerrainPiece(GameObject prefab, GameObject parent, JSONObject data) {
@@ -51,11 +46,10 @@ public class LoadLevel : MonoBehaviour {
     }
 
     public void LoadLevelData(string v) {
-        string levelData = System.IO.File.ReadAllText(Application.dataPath + "/Levels/" + v + ".json");
+        string levelData = System.IO.File.ReadAllText(Application.dataPath + "/Levels_Exported/" + v + ".json");
         JSONObject level = new JSONObject(levelData);
 
         if (level["Map Format"].n > mapFormat) {
-            Debug.LogError("Map Format not supported!");
             throw new UnsupportedLevelVersion("Map Format not supported yet!");
         }
 
@@ -86,6 +80,21 @@ public class LoadLevel : MonoBehaviour {
 
         foreach (JSONObject obj in level["ShadowTerrain"].list) {
             AddTerrainPiece(shadowTerrainPrefab, shadowParent, obj);
+        }
+
+        // Special Terrain creation
+        foreach (JSONObject obj in level["Special"].list) {
+            switch (obj["Type"].str) {
+                case "KillerTerrain":
+                    if (obj["Target"].str.Equals("BigCube")) {
+                        AddTerrainPiece(blueKillerPrefab, specialParent, obj);
+                    } else if (obj["Target"].str.Equals("SmallCube")) {
+                        AddTerrainPiece(null, null, obj);
+                    }
+                    break;
+                default:
+                    break;
+            }
         }
 
         helpText.text = level["Text"]["Text"].str;

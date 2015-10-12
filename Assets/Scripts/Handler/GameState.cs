@@ -15,6 +15,7 @@ public class GameState : MonoBehaviour {
     private ObjectiveHandler objectiveHandler;
     private TerrainFader terrainFader;
     private List<Controller> controllers;
+    private GameObject specialParent;
 
     public void SetHelpText(Text txt) {
         helpText = txt;
@@ -31,6 +32,10 @@ public class GameState : MonoBehaviour {
             controllers = spawnpointsParent.GetComponent<SpawnHandler>().GetControllers();
         }
 
+        foreach (KillerTerrain kt in specialParent.GetComponentsInChildren<KillerTerrain>()) {
+            kt.Load();
+        }
+
         textFader.Load();
         objectiveHandler.Load();
         terrainFader.Load();
@@ -44,12 +49,16 @@ public class GameState : MonoBehaviour {
         foreach (Controller controller in controllers) {
             StartCoroutine(controller.FadeIn());
         }
+        foreach (KillerTerrain kt in specialParent.GetComponentsInChildren<KillerTerrain>()) {
+            StartCoroutine(kt.FadeIn());
+        }
     }
 
-    public void SetParents(GameObject terrain, GameObject objectives, GameObject spawnpoints) {
+    public void SetParents(GameObject terrain, GameObject objectives, GameObject spawnpoints, GameObject special) {
         terrainFader = terrain.GetComponent<TerrainFader>();
         objectiveHandler = objectives.GetComponent<ObjectiveHandler>();
         spawnpointsParent = spawnpoints;
+        specialParent = special;
     }
 
     public void GiveLoadLevelInstance(LoadLevel loadLevel) {
@@ -62,6 +71,9 @@ public class GameState : MonoBehaviour {
         StartCoroutine(objectiveHandler.FadeOut());
         foreach (Controller controller in controllers) {
             StartCoroutine(controller.FadeOut());
+        }
+        foreach (KillerTerrain kt in specialParent.GetComponents<KillerTerrain>()) {
+            StartCoroutine(kt.FadeOut());
         }
         yield return new WaitForSeconds(2f);
         LoadLevel(instance.GetNextID());

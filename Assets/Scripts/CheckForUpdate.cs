@@ -16,16 +16,20 @@ public class CheckForUpdate : MonoBehaviour {
 		texts = GetComponentsInChildren<Text>();
 		updateButton = GetComponentInChildren<Button>();
 		versionText.text += version;
+        Debug.Log("Persistent: " + Application.persistentDataPath);
+        Debug.Log("Normal: " + Application.dataPath);
 	}
 	
 	IEnumerator Start () {
 		WWW www = new WWW(url);
 		yield return www;
-		foreach (Text text in texts) {
-			text.enabled = !(www.text.Equals(version));
+		if (www.text.Length>0 && !www.text.Equals(version)) {
+			foreach (Text text in texts) {
+				text.enabled = true;
+			}
+			updateButton.enabled = true;
+			updateButton.image.enabled = true;
 		}
-		updateButton.enabled = !(www.text.Equals(version));
-		updateButton.image.enabled = !(www.text.Equals(version));
 	}
 
 	void OnMouseDown() {

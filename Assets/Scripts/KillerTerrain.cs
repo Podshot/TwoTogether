@@ -44,7 +44,6 @@ public class KillerTerrain : MonoBehaviour {
     }
 
     public IEnumerator FadeIn() {
-        Debug.Log("FadeIn() called");
         for (float i = 0; i < 1f; i += 0.025f) {
             if (renderer != null) {
                 Color color = renderer.color;

@@ -21,9 +21,13 @@ public class LoadLevel : MonoBehaviour {
 
     private string nextLevel;
     private GameState gameState;
+    private delegate void PlaceSpecials(JSONObject specialsObj);
+    private PlaceSpecials ParseSpecials;
 
 	// Use this for initialization
 	void Awake() {
+        ParseSpecials += ParseKillerBlocks;
+
         LoadLevelData("level_3");
 	}
 
@@ -35,7 +39,7 @@ public class LoadLevel : MonoBehaviour {
         gameState.Ready();
     }
 
-    private GameObject AddTerrainPiece(GameObject prefab, GameObject parent, JSONObject data) {
+    public GameObject AddTerrainPiece(GameObject prefab, GameObject parent, JSONObject data) {
         GameObject gobj = Instantiate(prefab, new Vector3(data["Position"][0].n, data["Position"][1].n, data["Position"][2].n), Quaternion.identity) as GameObject;
         gobj.transform.localScale = new Vector3(data["Scale"][0].n, data["Scale"][1].n, data["Scale"][2].n);
         gobj.transform.parent = parent.transform;
@@ -83,19 +87,7 @@ public class LoadLevel : MonoBehaviour {
         }
 
         // Special Terrain creation
-        foreach (JSONObject obj in level["Special"].list) {
-            switch (obj["Type"].str) {
-                case "KillerTerrain":
-                    if (obj["Target"].str.Equals("BigCube")) {
-                        AddTerrainPiece(blueKillerPrefab, specialParent, obj);
-                    } else if (obj["Target"].str.Equals("SmallCube")) {
-                        AddTerrainPiece(null, null, obj);
-                    }
-                    break;
-                default:
-                    break;
-            }
-        }
+        ParseSpecials(level["Special"]);
 
         helpText.text = level["Text"]["Text"].str;
         helpText.rectTransform.sizeDelta = new Vector2(level["Text"]["Dimensions"][0].n, level["Text"]["Dimensions"][1].n);
@@ -111,5 +103,22 @@ public class LoadLevel : MonoBehaviour {
 
     public string GetNextID() {
         return nextLevel;
+    }
+
+    private void ParseKillerBlocks(JSONObject specials) {
+        foreach (JSONObject obj in specials.list) {
+            switch (obj["Type"].str) {
+                case "KillerTerrain":
+                    if (obj["Target"].str.Equals("BigCube")) {
+                        AddTerrainPiece(blueKillerPrefab, specialParent, obj);
+                    } else if (obj["Target"].str.Equals("SmallCube")) {
+                        // Not actually used in a level yet, so supply nulls so an error will show
+                        AddTerrainPiece(null, null, obj);
+                    }
+                    break;
+                default:
+                    break;
+            }
+        }
     }
 }

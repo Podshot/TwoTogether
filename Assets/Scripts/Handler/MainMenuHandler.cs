@@ -97,15 +97,13 @@ public class MainMenuHandler : MonoBehaviour {
 
     // Waits 0.75 seconds before loading the first level
 	IEnumerator WaitAndLoad() {
-        if (Application.CanStreamedLevelBeLoaded("Level_1")) {
-            yield return new WaitForSeconds(0.75f);
-            Application.LoadLevel("Level_1");
-        } else {
-            yield return new WaitForSeconds(0.0f);
-        }
+        yield return new WaitForSeconds(0.75f);
+        Application.LoadLevel("TestScene");
 	}
 
+    /*
     public void OnClickTestDownloads() {
         StartCoroutine(GetComponent<DownloadLevels>().Download());
     }
+    */
 }

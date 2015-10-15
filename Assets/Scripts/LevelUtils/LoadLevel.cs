@@ -21,14 +21,21 @@ public class LoadLevel : MonoBehaviour {
 
     private string nextLevel;
     private GameState gameState;
+    private string levelPath;
     private delegate void PlaceSpecials(JSONObject specialsObj);
     private PlaceSpecials ParseSpecials;
+    
 
-	// Use this for initialization
-	void Awake() {
+    // Use this for initialization
+    void Awake() {
+        if (Application.isEditor) {
+            levelPath = Application.dataPath + "/Levels_Exported/";
+        } else {
+            levelPath = Application.dataPath + "/Levels/";
+        }
         ParseSpecials += ParseKillerBlocks;
 
-        LoadLevelData("level_3");
+        LoadLevelData("level_1");
 	}
 
     void Start() {
@@ -50,7 +57,18 @@ public class LoadLevel : MonoBehaviour {
     }
 
     public void LoadLevelData(string v) {
-        string levelData = System.IO.File.ReadAllText(Application.dataPath + "/Levels_Exported/" + v + ".json");
+        string levelData = null;
+        if (System.IO.File.Exists(levelPath + v + ".json")) {
+            levelData = System.IO.File.ReadAllText(levelPath + v + ".json");
+        } else {
+            if (Application.CanStreamedLevelBeLoaded(v)) {
+                Application.LoadLevel(v);
+                return;
+            } else {
+                Debug.LogError("Couldn't load level \"" + v + "\" because it couldn't be found");
+                Application.Quit();
+            }
+        }
         JSONObject level = new JSONObject(levelData);
 
         if (level["Map Format"].n > mapFormat) {

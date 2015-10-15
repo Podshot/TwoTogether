@@ -1,6 +1,7 @@
 {
-	"Current ID":"Level_2",
-	"Next ID":"<add manually>",
+	"Current ID":"level_2",
+	"Next ID":"level_3",
+    "Map Format": 1,
 	"Text":{
 		"Dimensions":[
 			664,

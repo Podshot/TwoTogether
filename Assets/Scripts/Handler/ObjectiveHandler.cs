@@ -51,9 +51,7 @@ public class ObjectiveHandler : MonoBehaviour {
             if (!started) {
 				started = true;
                 gameState.StopControllers();
-                Debug.Log("Switching");
                 StartCoroutine(gameState.Switch());
-                Debug.Log("Switched");
             }
 		}   
 	}

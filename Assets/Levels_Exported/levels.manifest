@@ -1,12 +1,17 @@
 [
 	{
-		"Hash":"8667C818FAB818895487D676213DACAFF9CAF5B4",
-		"URL":"http://127.0.0.1:8000/level_1.json",
+		"Hash":"34DE5972D8CE2BBC88C104033B769FDBE82F7596",
+		"URL":"http://podshot.github.io/TwoTogether/Levels/level_1.json",
 		"Name":"level_1.json"
 	},
 	{
-		"Hash":"454E55ECA1A3C2744EFDE9827FB2C834B4598B67",
-		"URL":"http://127.0.0.1:8000/level_2.json",
+		"Hash":"EE7013994DAFED4E12A53ECA4D0439E2571A3D9B",
+		"URL":"http://podshot.github.io/TwoTogether/Levels/level_2.json",
 		"Name":"level_2.json"
+	},
+	{
+		"Hash":"C2B6225FD6EAC391CC3CEC17621837D9EB94E3E6",
+		"URL":"http://podshot.github.io/TwoTogether/Levels/level_3.json",
+		"Name":"level_3.json"
 	}
 ]

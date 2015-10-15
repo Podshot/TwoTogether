@@ -4,8 +4,12 @@ using System.IO;
 
 public class DownloadLevels : MonoBehaviour {
 
-    //public const string BASEURL = "http://podshot.github.io/TwoTogether/";
-    public const string BASEURL = "http://127.0.0.1:8000/";
+    public const string BASEURL = "http://podshot.github.io/TwoTogether/Levels/";
+    //public const string BASEURL = "http://127.0.0.1:8000/";
+
+    void Start() {
+        StartCoroutine(Download());
+    }
 
     public IEnumerator Download() {
         WWW manifest = new WWW(BASEURL + "levels.manifest");
@@ -16,7 +20,8 @@ public class DownloadLevels : MonoBehaviour {
             bool shouldDownload = false;
             if (File.Exists(Application.dataPath + "/Levels/" + levels[i]["Name"].str)) {
                 if (!json[i]["Hash"].str.Equals(LevelManagementUtils.Hash(File.ReadAllText(Application.dataPath + "/Levels/" + levels[i]["Name"].str)))) {
-                    Debug.LogError("File hashes do not match for level \"" + levels[i]["Name"].str + "\"");
+                    Debug.Log("File hashes do not match for level \"" + levels[i]["Name"].str + "\"");
+                    File.Delete(Application.dataPath + "/Levels/" + levels[i]["Name"].str);
                     shouldDownload = true;
                 } else {
                     Debug.Log("Level \"" + levels[i]["Name"].str + "\" already exists and matches Hash");
@@ -31,13 +36,13 @@ public class DownloadLevels : MonoBehaviour {
                     yield return null;
                 }
                 if (!Directory.Exists(Application.dataPath + "/Levels/")) {
-                    Directory.CreateDirectory(Application.dataPath + "/Levels_/");
+                    Directory.CreateDirectory(Application.dataPath + "/Levels/");
                 }
 
                 File.WriteAllBytes(Application.dataPath + "/Levels/" + levels[i]["Name"].str, level.bytes);
 
                 if (!json[i]["Hash"].str.Equals(LevelManagementUtils.Hash(File.ReadAllText(Application.dataPath + "/Levels/" + levels[i]["Name"].str)))) {
-                    Debug.LogError("File hashes do not match for level \"" + levels[i]["Name"].str + "\"");
+                    Debug.Log("File hashes do not match for level \"" + levels[i]["Name"].str + "\"");
                 }
             }
         }

@@ -15,6 +15,7 @@ public class BuildLevelManifest {
             string hash = LevelManagementUtils.Hash(fileContents);
             data.AddField("Hash", hash);
             string url = levels[i].Replace(Application.dataPath, "http://podshot.github.io/TwoTogether" /*"http://127.0.0.1:8000/"*/);
+            url = url.Replace("_Exported", "");
             data.AddField("URL", url);
             data.AddField("Name", levels[i].Replace(Application.dataPath + "/Levels_Exported/", ""));
 

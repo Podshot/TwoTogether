@@ -9,9 +9,9 @@ GameObject:
   m_Component:
   - 4: {fileID: 494392}
   - 212: {fileID: 21262370}
-  - 61: {fileID: 6136866}
+  - 68: {fileID: 6855916}
   m_Layer: 0
-  m_Name: NormalTerrain
+  m_Name: NormalTerrain_EdgeCollider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -24,13 +24,13 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 154484}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -6.44141197, y: -4.05796099, z: 0}
+  m_LocalPosition: {x: -2.68643594, y: -3.41057754, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
---- !u!61 &6136866
-BoxCollider2D:
+--- !u!68 &6855916
+EdgeCollider2D:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
@@ -40,8 +40,12 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_Offset: {x: 0, y: 0}
-  serializedVersion: 2
-  m_Size: {x: .524999976, y: .524999976}
+  m_Points:
+  - {x: .262499809, y: .262499809}
+  - {x: -.262500048, y: .262499809}
+  - {x: -.262500048, y: -.262500048}
+  - {x: .262499809, y: -.262500048}
+  - {x: .262499809, y: .237499803}
 --- !u!212 &21262370
 SpriteRenderer:
   m_ObjectHideFlags: 1

@@ -265,7 +265,7 @@ MonoBehaviour:
   shadowParent: {fileID: 937292503}
   spawnpointsParent: {fileID: 1942813447}
   specialParent: {fileID: 1558285785}
-  normalTerrainPrefab: {fileID: 154484, guid: 8676b1c9365029842a29f52b8f46d293, type: 2}
+  normalTerrainPrefab: {fileID: 154484, guid: 4009d882a32a17a43ab2b55aea972c22, type: 2}
   shadowTerrainPrefab: {fileID: 137462, guid: 66f336163e09b9d4ea96fa2a5a74d97d, type: 2}
   redKillerPrefab: {fileID: 0}
   blueKillerPrefab: {fileID: 126934, guid: 62c7218113b8b7c47a923441203cdab3, type: 2}

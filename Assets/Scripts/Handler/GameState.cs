@@ -52,6 +52,7 @@ public class GameState : MonoBehaviour {
         foreach (KillerTerrain kt in specialParent.GetComponentsInChildren<KillerTerrain>()) {
             StartCoroutine(kt.FadeIn());
         }
+
     }
 
     public void SetParents(GameObject terrain, GameObject objectives, GameObject spawnpoints, GameObject special) {

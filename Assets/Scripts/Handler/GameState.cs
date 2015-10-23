@@ -96,4 +96,11 @@ public class GameState : MonoBehaviour {
             controller.GetRigidbody().velocity = new Vector2(0.125f, controller.GetRigidbody().velocity.y);
         }
     }
+
+    public void PauseControllers(bool pause) {
+        foreach (Controller controller in controllers) {
+            controller.enabled = !pause;
+            controller.GetRigidbody().isKinematic = pause;
+        }
+    }
 }

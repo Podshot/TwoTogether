@@ -463,6 +463,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 54782d3fe79b0fe4894c72d19c953ab8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  parent: {fileID: 1341495910}
   buttons: []
   txt: {fileID: 0}
 --- !u!1 &653720894
@@ -998,7 +999,7 @@ RectTransform:
   m_RootOrder: 2
   m_AnchorMin: {x: .5, y: .5}
   m_AnchorMax: {x: .5, y: .5}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: -66}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: .5, y: .5}
 --- !u!1 &1352038306

@@ -4,8 +4,7 @@ using UnityEngine.UI;
 
 public class PauseMenuHandler : MonoBehaviour {
 
-    public Button[] buttons;
-    public Text txt;
+    public GameObject parent;
 
     // State
     private bool inMenu =  false;
@@ -27,17 +26,21 @@ public class PauseMenuHandler : MonoBehaviour {
     }
 
     void ShowMenu() {
+        Camera.main.GetComponent<GameState>().PauseControllers(true);
         foreach (SpriteRenderer renderer in terrain.GetComponentsInChildren<SpriteRenderer>()) {
             renderer.color = new Color(renderer.color.r, renderer.color.g, renderer.color.b, 0.5f);
         }
         helpText.color = new Color(helpText.color.r, helpText.color.g, helpText.color.b, 0.5f);
+        parent.SetActive(true);
     }
 
     void CloseMenu() {
+        Camera.main.GetComponent<GameState>().PauseControllers(false);
         foreach (SpriteRenderer renderer in terrain.GetComponentsInChildren<SpriteRenderer>()) {
             renderer.color = new Color(renderer.color.r, renderer.color.g, renderer.color.b, 1f);
         }
         helpText.color = new Color(helpText.color.r, helpText.color.g, helpText.color.b, 1f);
+        parent.SetActive(false);
     }
 	
 	// Update is called once per frame

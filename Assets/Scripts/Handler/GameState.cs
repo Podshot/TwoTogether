@@ -52,6 +52,7 @@ public class GameState : MonoBehaviour {
         foreach (KillerTerrain kt in specialParent.GetComponentsInChildren<KillerTerrain>()) {
             StartCoroutine(kt.FadeIn());
         }
+
     }
 
     public void SetParents(GameObject terrain, GameObject objectives, GameObject spawnpoints, GameObject special) {
@@ -93,6 +94,13 @@ public class GameState : MonoBehaviour {
     public void StopControllers() {
         foreach (Controller controller in controllers) {
             controller.GetRigidbody().velocity = new Vector2(0.125f, controller.GetRigidbody().velocity.y);
+        }
+    }
+
+    public void PauseControllers(bool pause) {
+        foreach (Controller controller in controllers) {
+            controller.enabled = !pause;
+            controller.GetRigidbody().isKinematic = pause;
         }
     }
 }

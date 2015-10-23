@@ -83,7 +83,7 @@ public class MainMenuHandler : MonoBehaviour {
 
     // Opens a webbrowser to the alpha downloads page
 	public void OnClickUpdateGame() {
-		Application.OpenURL("http://podshot.github.io/TwoTogether/downloads.html");
+		Application.OpenURL("https://github.com/Podshot/TwoTogether/releases/tag/v0.1.0-alpha");
 	}
 
     // Allows the basic, in-game leveleditor to be used. Commented out due to focus more on the actual game

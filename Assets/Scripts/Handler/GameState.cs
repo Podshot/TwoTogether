@@ -16,6 +16,7 @@ public class GameState : MonoBehaviour {
     private TerrainFader terrainFader;
     private List<Controller> controllers;
     private GameObject specialParent;
+    private float[] alphas;
 
     public void SetHelpText(Text txt) {
         helpText = txt;
@@ -27,6 +28,7 @@ public class GameState : MonoBehaviour {
     }
 
     public void Ready() {
+        alphas = new float[2];
         spawnpointsParent.GetComponent<SpawnHandler>().Load();
         if (controllers == null) {
             controllers = spawnpointsParent.GetComponent<SpawnHandler>().GetControllers();
@@ -101,6 +103,29 @@ public class GameState : MonoBehaviour {
         foreach (Controller controller in controllers) {
             controller.enabled = !pause;
             controller.GetRigidbody().isKinematic = pause;
+        }
+    }
+
+    public void PartiallyFadeCharactersAndObjectives(bool fade) {
+        if (fade) {
+            foreach (Controller controller in controllers) {
+                SpriteRenderer renderer = controller.gameObject.GetComponent<SpriteRenderer>();
+                renderer.color = new Color(renderer.color.r, renderer.color.g, renderer.color.b, 0.5f);
+            }
+            SpriteRenderer[] renderers = { objectiveHandler.blueObjective.GetComponent<SpriteRenderer>(), objectiveHandler.redObjective.GetComponent<SpriteRenderer>() };
+            for (int i = 0; i < renderers.Length; i++) {
+                alphas[i] = renderers[i].color.a;
+                renderers[i].color = new Color(renderers[i].color.r, renderers[i].color.g, renderers[i].color.b, 0.5f);
+            }
+        } else {
+            foreach (Controller controller in controllers) {
+                SpriteRenderer renderer = controller.gameObject.GetComponent<SpriteRenderer>();
+                renderer.color = new Color(renderer.color.r, renderer.color.g, renderer.color.b, 1f);
+            }
+            SpriteRenderer[] renderers = { objectiveHandler.blueObjective.GetComponent<SpriteRenderer>(), objectiveHandler.redObjective.GetComponent<SpriteRenderer>() };
+            for (int i = 0; i < renderers.Length; i++) {
+                renderers[i].color = new Color(renderers[i].color.r, renderers[i].color.g, renderers[i].color.b, alphas[i]);
+            }
         }
     }
 }

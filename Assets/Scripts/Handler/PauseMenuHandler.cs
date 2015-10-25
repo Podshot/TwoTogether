@@ -69,11 +69,15 @@ public class PauseMenuHandler : MonoBehaviour {
                 Application.Quit();
             }
             if (Input.GetKeyDown(KeyCode.M)) {
-                Application.LoadLevel("MainMenu");
+                LoadMainMenu();
             }
         }
         if (cooldown > 0) {
             cooldown--;
         }
+    }
+
+    public void LoadMainMenu() {
+        Application.LoadLevel("MainMenu");
     }
 }

@@ -37,7 +37,7 @@ public class PauseMenuHandler : MonoBehaviour {
 
     }
 
-    void CloseMenu() {
+    public void CloseMenu() {
         GameState state = Camera.main.GetComponent<GameState>();
         state.PauseControllers(false);
         state.PartiallyFadeCharactersAndObjectives(false);
@@ -46,6 +46,8 @@ public class PauseMenuHandler : MonoBehaviour {
         }
         helpText.color = new Color(helpText.color.r, helpText.color.g, helpText.color.b, 1f);
         parent.SetActive(false);
+        cooldown = 20;
+        inMenu = false;
     }
 
     // Update is called once per frame
@@ -55,8 +57,6 @@ public class PauseMenuHandler : MonoBehaviour {
         }
         if (Input.GetKeyDown(KeyCode.P) && inMenu && cooldown == 0) {
             CloseMenu();
-            cooldown = 20;
-            inMenu = false;
         }
         if (Input.GetKeyDown(KeyCode.P) && !inMenu && cooldown == 0) {
             ShowMenu();
@@ -79,5 +79,9 @@ public class PauseMenuHandler : MonoBehaviour {
 
     public void LoadMainMenu() {
         Application.LoadLevel("MainMenu");
+    }
+
+    public void Quit() {
+        Application.Quit();
     }
 }

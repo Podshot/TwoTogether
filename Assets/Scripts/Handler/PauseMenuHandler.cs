@@ -17,14 +17,6 @@ public class PauseMenuHandler : MonoBehaviour {
         terrain = GameObject.FindGameObjectWithTag("Terrain");
     }
 
-    IEnumerator FadeInMenu() {
-        yield break;
-    }
-
-    IEnumerator FadeOutMenu() {
-        yield break;
-    }
-
     void ShowMenu() {
         GameState state = Camera.main.GetComponent<GameState>();
         state.PauseControllers(true);
@@ -34,7 +26,8 @@ public class PauseMenuHandler : MonoBehaviour {
         }
         helpText.color = new Color(helpText.color.r, helpText.color.g, helpText.color.b, 0.5f);
         parent.SetActive(true);
-
+        cooldown = 20;
+        inMenu = true;
     }
 
     public void CloseMenu() {
@@ -60,8 +53,6 @@ public class PauseMenuHandler : MonoBehaviour {
         }
         if (Input.GetKeyDown(KeyCode.P) && !inMenu && cooldown == 0) {
             ShowMenu();
-            cooldown = 20;
-            inMenu = true;
         }
 
         if (inMenu) {

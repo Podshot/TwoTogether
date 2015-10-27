@@ -86,24 +86,10 @@ public class MainMenuHandler : MonoBehaviour {
 		Application.OpenURL("https://github.com/Podshot/TwoTogether/releases/tag/v0.1.0-alpha");
 	}
 
-    // Allows the basic, in-game leveleditor to be used. Commented out due to focus more on the actual game
-	void Update() {
-        /*
-		if ((Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.RightControl)) && Input.GetKey(KeyCode.L)) {
-			Application.LoadLevel("LevelEditor");
-		}
-        */
-	}
 
     // Waits 0.75 seconds before loading the first level
 	IEnumerator WaitAndLoad() {
         yield return new WaitForSeconds(0.75f);
         Application.LoadLevel("TestScene");
 	}
-
-    /*
-    public void OnClickTestDownloads() {
-        StartCoroutine(GetComponent<DownloadLevels>().Download());
-    }
-    */
 }

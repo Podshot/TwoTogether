@@ -90,6 +90,7 @@ public class GameState : MonoBehaviour {
             levelErrorText.text = "The rest of the levels are not supported by this version of TwoTogether.\nPlease click this text to go to the downloads page and update the game.";
             levelErrorText.gameObject.SetActive(true);
         }
+        objectiveHandler.Reset();
         Ready();
     }
 

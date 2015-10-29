@@ -51,10 +51,9 @@ public class GameState : MonoBehaviour {
         foreach (Controller controller in controllers) {
             StartCoroutine(controller.FadeIn());
         }
-        foreach (KillerTerrain kt in specialParent.GetComponentsInChildren<KillerTerrain>()) {
-            StartCoroutine(kt.FadeIn());
+        foreach (IFadeable fadeable in specialParent.GetComponentsInChildren(typeof(IFadeable))) {
+            StartCoroutine(fadeable.FadeIn());
         }
-
     }
 
     public void SetParents(GameObject terrain, GameObject objectives, GameObject spawnpoints, GameObject special) {

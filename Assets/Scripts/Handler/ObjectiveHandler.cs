@@ -8,7 +8,7 @@ public class ObjectiveHandler : MonoBehaviour {
 
 	private Text helpText;
 	public GameObject[] fadeables;
-	public GameObject redObjective;
+    public GameObject redObjective;
 	public GameObject blueObjective;
 	public string nextLevel;
 

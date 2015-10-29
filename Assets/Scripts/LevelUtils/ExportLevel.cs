@@ -57,14 +57,15 @@ public class ExportLevel : MonoBehaviour {
         JSONObject normalTerrain = new JSONObject(JSONObject.Type.ARRAY);
         JSONObject shadowTerrain = new JSONObject(JSONObject.Type.ARRAY);
         JSONObject special = new JSONObject(JSONObject.Type.ARRAY);
-        JSONObject text = new JSONObject(JSONObject.Type.OBJECT);
+        JSONObject props = new JSONObject(JSONObject.Type.OBJECT);
 
         JSONObject objectives = new JSONObject(JSONObject.Type.OBJECT);
         JSONObject spawnpoints = new JSONObject(JSONObject.Type.OBJECT);
 
         level.AddField("Current ID", Application.loadedLevelName);
         level.AddField("Next ID", "<add manually>");
-        level.AddField("Text", text);
+        level.AddField("Map Format", 1);
+        level.AddField("Properties", props);
         level.AddField("NormalTerrain", normalTerrain);
         level.AddField("ShadowTerrain", shadowTerrain);
         level.AddField("Special", special);
@@ -136,9 +137,23 @@ public class ExportLevel : MonoBehaviour {
         dimensions.Add(helpText.rectTransform.rect.width);
         dimensions.Add(helpText.rectTransform.rect.height);
 
+        JSONObject text = new JSONObject(JSONObject.Type.OBJECT);
         text.AddField("Dimensions", dimensions);
         text.AddField("Text", helpText.text);
         text.AddField("Color", helpText.color.ToHexStringRGBA());
+        props.AddField("Text", text);
+
+        JSONObject camera = new JSONObject(JSONObject.Type.OBJECT);
+
+        JSONObject pos = new JSONObject(JSONObject.Type.ARRAY);
+        pos.Add(Camera.main.transform.position.x);
+        pos.Add(Camera.main.transform.position.y);
+        pos.Add(Camera.main.transform.position.z);
+
+        camera.AddField("Color", Camera.main.backgroundColor.ToHexStringRGBA());
+        camera.AddField("Position", pos);
+
+        props.AddField("Camera", camera);
 
         writer.WriteLine(level.ToString(true));
         writer.Close();

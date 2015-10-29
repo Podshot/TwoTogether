@@ -75,6 +75,8 @@ public class LoadLevel : MonoBehaviour {
             throw new UnsupportedLevelVersion("Map Format not supported yet!");
         }
 
+
+
         nextLevel = level["Next ID"].str;
 
         foreach (Transform trans in spawnpointsParent.GetComponentsInChildren<Transform>()) {
@@ -107,8 +109,13 @@ public class LoadLevel : MonoBehaviour {
         // Special Terrain creation
         ParseSpecials(level["Special"]);
 
-        helpText.text = level["Text"]["Text"].str;
-        helpText.rectTransform.sizeDelta = new Vector2(level["Text"]["Dimensions"][0].n, level["Text"]["Dimensions"][1].n);
+        helpText.text = level["Properties"]["Text"]["Text"].str;
+        helpText.rectTransform.sizeDelta = new Vector2(level["Properties"]["Text"]["Dimensions"][0].n, level["Properties"]["Text"]["Dimensions"][1].n);
+
+        Camera.main.transform.position = new Vector3(level["Properties"]["Camera"]["Position"][0].n, level["Properties"]["Camera"]["Position"][1].n, level["Properties"]["Camera"]["Position"][2].n);
+        Color outC;
+        Color.TryParseHexString(level["Properties"]["Camera"]["Color"].str, out outC);
+        Camera.main.backgroundColor = outC;
     }
 
     public void RemoveOldLevel() {

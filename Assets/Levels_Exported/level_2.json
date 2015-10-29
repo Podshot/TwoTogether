@@ -1,14 +1,24 @@
 {
-	"Current ID":"level_2",
+	"Current ID":"Level_2",
 	"Next ID":"level_3",
-    "Map Format": 1,
-	"Text":{
-		"Dimensions":[
-			664,
-			38.5
-		],
-		"Text":"Without obstacles life is pointless.",
-		"Color":"808080FF"
+	"Map Format":1,
+	"Properties":{
+		"Text":{
+			"Dimensions":[
+				664,
+				38.5
+			],
+			"Text":"Without obstacles life is pointless.",
+			"Color":"808080FF"
+		},
+		"Camera":{
+			"Color":"CCCCCC05",
+			"Position":[
+				-2.06,
+				-1.51,
+				-10
+			]
+		}
 	},
 	"NormalTerrain":[
 		{

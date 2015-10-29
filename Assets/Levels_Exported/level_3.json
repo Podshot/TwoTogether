@@ -1,14 +1,24 @@
 {
-	"Current ID":"level_3",
+	"Current ID":"Level_3",
 	"Next ID":"MainMenu",
-    "Map Format": 1,
-	"Text":{
-		"Dimensions":[
-			701,
-			38
-		],
-		"Text":"People who say yes more lead happier lives.",
-		"Color":"808080FF"
+	"Map Format":1,
+	"Properties":{
+		"Text":{
+			"Dimensions":[
+				701,
+				38
+			],
+			"Text":"People who say yes more lead happier lives.",
+			"Color":"808080FF"
+		},
+		"Camera":{
+			"Color":"CCCCCC05",
+			"Position":[
+				-2.06,
+				-1.51,
+				-10
+			]
+		}
 	},
 	"NormalTerrain":[
 		{
@@ -246,7 +256,7 @@
 				1
 			],
 			"Position":[
-				-4.016205,
+				-4.007205,
 				-3.434923,
 				0
 			],
@@ -310,7 +320,7 @@
 				1
 			],
 			"Position":[
-				-4.346205,
+				-4.338206,
 				-2.485923,
 				0
 			],

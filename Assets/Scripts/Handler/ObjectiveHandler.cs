@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine.UI;
 using Stopwatch = System.Diagnostics.Stopwatch;
 
-public class ObjectiveHandler : MonoBehaviour {
+public class ObjectiveHandler : MonoBehaviour, IFadeable {
 
     private Text helpText;
     public GameObject[] fadeables;

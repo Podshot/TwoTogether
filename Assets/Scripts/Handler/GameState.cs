@@ -75,8 +75,8 @@ public class GameState : MonoBehaviour {
         foreach (Controller controller in controllers) {
             StartCoroutine(controller.FadeOut());
         }
-        foreach (KillerTerrain kt in specialParent.GetComponents<KillerTerrain>()) {
-            StartCoroutine(kt.FadeOut());
+        foreach (IFadeable fadeable in specialParent.GetComponentsInChildren(typeof(IFadeable))) {
+            StartCoroutine(fadeable.FadeOut());
         }
         yield return new WaitForSeconds(2f);
         LoadLevel(instance.GetNextID());

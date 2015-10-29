@@ -3,7 +3,7 @@ using UnityEngine.UI;
 using System.Collections;
 using Stopwatch = System.Diagnostics.Stopwatch;
 
-public class TerrainFader : MonoBehaviour {
+public class TerrainFader : MonoBehaviour, IFadeable {
 
 	private SpriteRenderer[] spriteRenderers;
 

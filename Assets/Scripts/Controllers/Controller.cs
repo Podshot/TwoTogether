@@ -3,7 +3,7 @@ using System.Collections;
 using System;
 
 [RequireComponent(typeof(Rigidbody2D), typeof(SpriteRenderer))]
-public class Controller : MonoBehaviour {
+public class Controller : MonoBehaviour, IFadeable {
 
     // Editor Fields
     [SerializeField]

@@ -2,7 +2,7 @@
 using System.Collections;
 
 [RequireComponent(typeof(Collider2D))]
-public class KillerTerrain : MonoBehaviour {
+public class KillerTerrain : MonoBehaviour, IFadeable {
 
 	[SerializeField] private string targetTag = "none";
 

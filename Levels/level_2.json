@@ -1,14 +1,24 @@
 {
-	"Current ID":"level_2",
+	"Current ID":"Level_2",
 	"Next ID":"level_3",
 	"Map Format":1,
-	"Text":{
-		"Dimensions":[
-			664,
-			38.5
-		],
-		"Text":"Without obstacles life is pointless.",
-		"Color":"808080FE"
+	"Properties":{
+		"Text":{
+			"Dimensions":[
+				664,
+				38.5
+			],
+			"Text":"Without obstacles life is pointless.",
+			"Color":"808080FF"
+		},
+		"Camera":{
+			"Color":"CCCCCC05",
+			"Position":[
+				-2.06,
+				-1.51,
+				-10
+			]
+		}
 	},
 	"NormalTerrain":[
 		{
@@ -22,8 +32,8 @@
 				-4.75,
 				0
 			],
-			"Name":"NormalTerrain(Clone)",
-			"Color":"FFFFFFFE"
+			"Name":"Base",
+			"Color":"FFFFFFFF"
 		},
 		{
 			"Scale":[
@@ -36,8 +46,8 @@
 				-4.160418,
 				0.0004882813
 			],
-			"Name":"NormalTerrain(Clone)",
-			"Color":"FFFFFFFE"
+			"Name":"LeftWall",
+			"Color":"FFFFFFFF"
 		},
 		{
 			"Scale":[
@@ -50,8 +60,8 @@
 				-3.718018,
 				0.0004882813
 			],
-			"Name":"NormalTerrain(Clone)",
-			"Color":"FFFFFFFE"
+			"Name":"BlueSpawnPlatform",
+			"Color":"FFFFFFFF"
 		},
 		{
 			"Scale":[
@@ -64,22 +74,22 @@
 				-4.040418,
 				0.0004882813
 			],
-			"Name":"NormalTerrain(Clone)",
-			"Color":"FFFFFFFE"
+			"Name":"ThickBlock",
+			"Color":"FFFFFFFF"
 		},
 		{
 			"Scale":[
 				0.5925926,
-				1.412848,
+				1.545773,
 				1
 			],
 			"Position":[
 				-1.32,
-				-3.374,
+				-3.409418,
 				0.0004882813
 			],
-			"Name":"NormalTerrain(Clone)",
-			"Color":"FFFFFFFE"
+			"Name":"FloatingPlatformBig",
+			"Color":"FFFFFFFF"
 		},
 		{
 			"Scale":[
@@ -92,8 +102,8 @@
 				-3.249418,
 				0.0004882813
 			],
-			"Name":"NormalTerrain(Clone)",
-			"Color":"FFFFFFFE"
+			"Name":"FloatingPlatformRight",
+			"Color":"FFFFFFFF"
 		},
 		{
 			"Scale":[
@@ -106,8 +116,8 @@
 				-4.325718,
 				0.0004882813
 			],
-			"Name":"NormalTerrain(Clone)",
-			"Color":"FFFFFFFE"
+			"Name":"Obstacle_1",
+			"Color":"FFFFFFFF"
 		},
 		{
 			"Scale":[
@@ -120,8 +130,8 @@
 				-4.029418,
 				0.0004882813
 			],
-			"Name":"NormalTerrain(Clone)",
-			"Color":"FFFFFFFE"
+			"Name":"FloatingCube",
+			"Color":"FFFFFFFF"
 		},
 		{
 			"Scale":[
@@ -134,8 +144,8 @@
 				-4.302418,
 				0.0004882813
 			],
-			"Name":"NormalTerrain(Clone)",
-			"Color":"FFFFFFFE"
+			"Name":"RightWall",
+			"Color":"FFFFFFFF"
 		},
 		{
 			"Scale":[
@@ -148,8 +158,8 @@
 				-4.202518,
 				0.0004882813
 			],
-			"Name":"NormalTerrain(Clone)",
-			"Color":"FFFFFFFE"
+			"Name":"RightRoof",
+			"Color":"FFFFFFFF"
 		},
 		{
 			"Scale":[
@@ -162,22 +172,22 @@
 				-4.400418,
 				0.0004882813
 			],
-			"Name":"NormalTerrain(Clone)",
-			"Color":"FFFFFFFE"
+			"Name":"SmallBumb_1",
+			"Color":"FFFFFFFF"
 		},
 		{
 			"Scale":[
 				0.2962963,
-				0.5828563,
+				0.5925926,
 				1
 			],
 			"Position":[
 				0.6110001,
-				-4.327,
+				-4.324418,
 				0.0004882813
 			],
-			"Name":"NormalTerrain(Clone)",
-			"Color":"FFFFFFFE"
+			"Name":"Obstacle_2",
+			"Color":"FFFFFFFF"
 		},
 		{
 			"Scale":[
@@ -190,8 +200,8 @@
 				-4.402418,
 				0.0004882813
 			],
-			"Name":"NormalTerrain(Clone)",
-			"Color":"FFFFFFFE"
+			"Name":"Obstacle_3",
+			"Color":"FFFFFFFF"
 		}
 	],
 	"ShadowTerrain":[
@@ -206,8 +216,8 @@
 				-4.160418,
 				0.0004882813
 			],
-			"Name":"ShadowTerrain(Clone)",
-			"Color":"FFFFFFFE"
+			"Name":"UnderBlueSpawn",
+			"Color":"FFFFFFFF"
 		},
 		{
 			"Scale":[
@@ -220,8 +230,8 @@
 				-3.916418,
 				0.0004882813
 			],
-			"Name":"ShadowTerrain(Clone)",
-			"Color":"FFFFFFFE"
+			"Name":"UnderFloatingPlatform",
+			"Color":"FFFFFFFF"
 		},
 		{
 			"Scale":[
@@ -234,8 +244,8 @@
 				-4.380418,
 				0.0004882813
 			],
-			"Name":"ShadowTerrain(Clone)",
-			"Color":"FFFFFFFE"
+			"Name":"UnderRightRoof",
+			"Color":"FFFFFFFF"
 		}
 	],
 	"Special":[],
@@ -252,7 +262,7 @@
 				-2
 			],
 			"Name":"BigCubeObjective",
-			"Color":"69F0F0F2"
+			"Color":"69F0F0B3"
 		},
 		"Red":{
 			"Scale":[
@@ -266,7 +276,7 @@
 				-2
 			],
 			"Name":"SmallCubeObjective",
-			"Color":"EA46489E"
+			"Color":"EA46489D"
 		}
 	},
 	"Spawnpoints":{

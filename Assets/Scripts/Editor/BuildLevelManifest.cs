@@ -5,8 +5,21 @@ using System.IO;
 
 public class BuildLevelManifest {
 
+    [MenuItem("Tools/Format JSON")]
+    public static void FormatJSON() {
+        string[] files = Directory.GetFiles(Application.dataPath + "/Levels_Exported/", "*.json");
+        for (int i = 0; i < files.Length; i++) {
+            string content = File.ReadAllText(files[i]);
+            JSONObject data = new JSONObject(content);
+            File.Move(files[i], files[i].Replace(".json", ".raw_json"));
+            TextWriter writer = new StreamWriter(files[i]);
+            writer.Write(data.ToString());
+            writer.Close();
+        }
+    }
+
     [MenuItem("Tools/Build Level Manifest")]
-	public static void Build() {
+	public static void BuildManifest() {
         JSONObject json = new JSONObject(JSONObject.Type.ARRAY);
         string[] levels = Directory.GetFiles(Application.dataPath + "/Levels_Exported/", "*.json");
         for (int i = 0; i < levels.Length; i++) {

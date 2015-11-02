@@ -19,6 +19,7 @@ public class LoadLevel : MonoBehaviour {
     public GameObject redKillerPrefab;
     public GameObject blueKillerPrefab;
 
+    private string levelName;
     private string nextLevel;
     private GameState gameState;
     private string levelPath;
@@ -75,9 +76,9 @@ public class LoadLevel : MonoBehaviour {
             throw new UnsupportedLevelVersion("Map Format not supported yet!");
         }
 
-
-
+        levelName = v;
         nextLevel = level["Next ID"].str;
+
 
         foreach (Transform trans in spawnpointsParent.GetComponentsInChildren<Transform>()) {
             if (trans.name.Equals("SmallCubeSpawnpoint")) {
@@ -128,6 +129,10 @@ public class LoadLevel : MonoBehaviour {
 
     public string GetNextID() {
         return nextLevel;
+    }
+
+    public string GetLevelName() {
+        return levelName;
     }
 
     private void ParseKillerBlocks(JSONObject specials) {

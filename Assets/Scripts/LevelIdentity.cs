@@ -7,6 +7,7 @@ public class LevelIdentity : MonoBehaviour, IPointerDownHandler, IPointerEnterHa
 
     private bool set;
     private string id;
+    private bool canClick;
 
     public void SetID(string i) {
         if (!set) {
@@ -19,11 +20,17 @@ public class LevelIdentity : MonoBehaviour, IPointerDownHandler, IPointerEnterHa
         return id;
     }
 
+    public void SetCanClick(bool cc) {
+        canClick = cc;
+    }
+
     public void OnPointerDown(PointerEventData data) {
-        GameObject ls = GameObject.Find("LevelSelector");
-        DontDestroyOnLoad(ls);
-        ls.GetComponent<LevelIdentity>().SetID(id);
-        Application.LoadLevel("TestScene");
+        if (canClick) {
+            GameObject ls = GameObject.Find("LevelSelector");
+            DontDestroyOnLoad(ls);
+            ls.GetComponent<LevelIdentity>().SetID(id);
+            Application.LoadLevel("TestScene");
+        }
     }
 
     public void OnPointerEnter(PointerEventData data) {

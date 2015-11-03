@@ -36,7 +36,13 @@ public class LoadLevel : MonoBehaviour {
         }
         ParseSpecials += ParseKillerBlocks;
 
-        LoadLevelData("level_1");
+        GameObject ls = GameObject.Find("LevelSelector");
+        if (ls == null) {
+            LoadLevelData("level_1");
+        } else {
+            LoadLevelData(ls.GetComponent<LevelIdentity>().GetID());
+            Destroy(ls);
+        }
 	}
 
     void Start() {

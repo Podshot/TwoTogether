@@ -66,6 +66,11 @@ public class PauseMenuHandler : MonoBehaviour {
         if (cooldown > 0) {
             cooldown--;
         }
+#if UNITY_EDITOR
+        if (Input.GetKeyDown(KeyCode.C)) {
+            Application.CaptureScreenshot(Camera.main.GetComponent<LoadLevel>().GetLevelName() + ".png");
+        }
+#endif
     }
 
     public void LoadMainMenu() {

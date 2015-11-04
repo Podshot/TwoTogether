@@ -5,16 +5,34 @@ using System.IO;
 
 public class GenerateThumbnails : MonoBehaviour {
 
+    public Text pageCounter;
     public GameObject prefab;
-    public GameObject paren;
     public Image unknown;
+    public Transform paren;
 
-    private float[][] points = new float[][] { new float[] { -200f, 125f }, new float[] { 200f, 125f }, new float[] { -200f, -145f}, new float[] { 200f, -145f } }; 
+    private int pages;
+    public int currentPage = 0;
 
-	// Use this for initialization
 	void Start () {
-        JSONObject progress = new JSONObject(File.ReadAllText(Application.dataPath + "/data.json"));
         Image[] images = GetComponentsInChildren<Image>();
+        float offset = 600f;
+        // TODO: Change to the amount of levels in the "Levels" directory, do something for a number that isn't a multiple of 4
+        pages = 2;
+        pageCounter.text = (currentPage + 1) + "/" + (pages + 1);
+        for (int t = 0; t < 2; t++) {
+            for (int i = 0; i < images.Length; i++) {
+                if (images[i].name == "ToMainMenu") {
+                    continue;
+                }
+                GameObject go = Instantiate(prefab) as GameObject;
+                go.transform.SetParent(paren.transform);
+                go.GetComponent<Image>().enabled = true;
+                go.transform.position = new Vector3(images[i].transform.position.x, images[i].transform.position.y - (offset * (t + 1)));
+                go.transform.localScale = new Vector3(1f, 1f, 1f);
+            }
+        }
+        images = GetComponentsInChildren<Image>();
+        JSONObject progress = new JSONObject(File.ReadAllText(Application.dataPath + "/data.json"));
         for (int i = 0; i < images.Length; i++) {
             if (images[i].name == "ToMainMenu") {
                 continue;
@@ -47,10 +65,18 @@ public class GenerateThumbnails : MonoBehaviour {
                 id.SetCanClick(false);
             }
         }
-	}
+    }
 	
-	// Update is called once per frame
 	void Update () {
-
-	}
+        if (Input.GetKeyDown(KeyCode.DownArrow) && currentPage < pages) {
+            paren.position = new Vector3(paren.position.x, paren.position.y + 600);
+            currentPage++;
+            pageCounter.text = (currentPage + 1) + "/" + (pages + 1);
+        }
+        if (Input.GetKeyDown(KeyCode.UpArrow) && currentPage > 0) {
+            paren.position = new Vector3(paren.position.x, paren.position.y - 600);
+            currentPage--;
+            pageCounter.text = (currentPage + 1) + "/" + (pages + 1);
+        }
+    }
 }

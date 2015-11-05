@@ -18,14 +18,19 @@ public class GenerateThumbnails : MonoBehaviour {
 
     void Start () {
         Image[] images = GetComponentsInChildren<Image>();
-        // TODO: Change to the amount of levels in the "Levels" directory, do something for a number that isn't a multiple of 4
+        int numberOfLevels = Directory.GetFiles(Application.dataPath + "/Levels/", "*.json").Length;
         int remainder;
-        System.Math.DivRem(Directory.GetFiles(Application.dataPath + "/Levels/", "*.json").Length + 2, 4, out remainder);
-        Debug.Log(remainder);
-        Debug.Log(Directory.GetFiles(Application.dataPath + "/Levels/", "*.json").Length);
-        totalPages = 2;
+        int result = System.Math.DivRem(numberOfLevels, 4, out remainder);
+        if (numberOfLevels < 4) {
+            totalPages = 0;
+        } else if (result > 0 && remainder == 0) {
+            totalPages = result - 1;
+        } else if (remainder != 0) {
+            totalPages = result;
+        }
+
         pageCounter.text = (currentPage + 1) + "/" + (totalPages + 1);
-        for (int t = 0; t < 2; t++) {
+        for (int t = 0; t < totalPages; t++) {
             for (int i = 0; i < images.Length; i++) {
                 if (images[i].name == "ToMainMenu") {
                     continue;

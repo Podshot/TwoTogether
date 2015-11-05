@@ -17,7 +17,6 @@ public class DownloadLevels : MonoBehaviour {
         yield return manifest;
         JSONObject json = new JSONObject(manifest.text);
         System.Collections.Generic.List<JSONObject> levels = json.list;
-        bool[] thumbs = new bool[levels.Count];
         for (int i = 0; i < levels.Count; i++) {
             bool shouldDownload = false;
             if (File.Exists(Application.dataPath + "/Levels/" + levels[i]["Name"].str)) {

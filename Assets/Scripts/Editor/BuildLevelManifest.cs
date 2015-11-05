@@ -42,7 +42,6 @@ public class BuildLevelManifest {
 
             JSONObject thumb = new JSONObject(JSONObject.Type.OBJECT);
             byte[] thumbnail = File.ReadAllBytes(Application.dataPath + "/Level_Thumbnails/" + levels[i].Replace(Application.dataPath + "/Levels_Exported/", "").Replace(".json", ".png"));
-            string h = LevelManagementUtils.HashFromBytes(thumbnail);
             thumb.AddField("URL", "http://podshot.github.io/TwoTogether/Thumbnails/" + levels[i].Replace(Application.dataPath + "/Levels_Exported/", "").Replace(".json", ".png"));
             thumb.AddField("Name", levels[i].Replace(Application.dataPath + "/Levels_Exported/", "").Replace(".json", ".png"));
 

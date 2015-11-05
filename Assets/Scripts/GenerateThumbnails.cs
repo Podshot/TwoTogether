@@ -10,15 +10,21 @@ public class GenerateThumbnails : MonoBehaviour {
     public Image unknown;
     public Transform paren;
 
-    private int pages;
-    public int currentPage = 0;
+    private int totalPages;
+    private int currentPage = 0;
+    private bool move;
+    private Vector3 target;
+    private const float OFFSET = 350f;
 
-	void Start () {
+    void Start () {
         Image[] images = GetComponentsInChildren<Image>();
-        float offset = 600f;
         // TODO: Change to the amount of levels in the "Levels" directory, do something for a number that isn't a multiple of 4
-        pages = 2;
-        pageCounter.text = (currentPage + 1) + "/" + (pages + 1);
+        int remainder;
+        System.Math.DivRem(Directory.GetFiles(Application.dataPath + "/Levels/", "*.json").Length + 2, 4, out remainder);
+        Debug.Log(remainder);
+        Debug.Log(Directory.GetFiles(Application.dataPath + "/Levels/", "*.json").Length);
+        totalPages = 2;
+        pageCounter.text = (currentPage + 1) + "/" + (totalPages + 1);
         for (int t = 0; t < 2; t++) {
             for (int i = 0; i < images.Length; i++) {
                 if (images[i].name == "ToMainMenu") {
@@ -27,7 +33,7 @@ public class GenerateThumbnails : MonoBehaviour {
                 GameObject go = Instantiate(prefab) as GameObject;
                 go.transform.SetParent(paren.transform);
                 go.GetComponent<Image>().enabled = true;
-                go.transform.position = new Vector3(images[i].transform.position.x, images[i].transform.position.y - (offset * (t + 1)));
+                go.transform.position = new Vector3(images[i].transform.position.x, images[i].transform.position.y - (OFFSET * (t + 1)));
                 go.transform.localScale = new Vector3(1f, 1f, 1f);
             }
         }
@@ -68,15 +74,23 @@ public class GenerateThumbnails : MonoBehaviour {
     }
 	
 	void Update () {
-        if (Input.GetKeyDown(KeyCode.DownArrow) && currentPage < pages) {
-            paren.position = new Vector3(paren.position.x, paren.position.y + 600);
+        if (Input.GetKeyDown(KeyCode.DownArrow) && currentPage < totalPages && !move) {
+            target = new Vector3(paren.position.x, paren.position.y + OFFSET);
+            move = true;
             currentPage++;
-            pageCounter.text = (currentPage + 1) + "/" + (pages + 1);
+            pageCounter.text = (currentPage + 1) + "/" + (totalPages + 1);
         }
-        if (Input.GetKeyDown(KeyCode.UpArrow) && currentPage > 0) {
-            paren.position = new Vector3(paren.position.x, paren.position.y - 600);
+        if (Input.GetKeyDown(KeyCode.UpArrow) && currentPage > 0 && !move) {
+            target = new Vector3(paren.position.x, paren.position.y - OFFSET);
+            move = true;
             currentPage--;
-            pageCounter.text = (currentPage + 1) + "/" + (pages + 1);
+            pageCounter.text = (currentPage + 1) + "/" + (totalPages + 1);
+        }
+        if (move) {
+            paren.position = Vector3.MoveTowards(paren.position, target, 450 * Time.deltaTime);
+            if (paren.position == target) {
+                move = false;
+            }
         }
     }
 }

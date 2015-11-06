@@ -8,6 +8,15 @@ public class DownloadLevels : MonoBehaviour {
     public const string BASEURL = "http://podshot.github.io/TwoTogether/Levels/";
     //public const string BASEURL = "http://127.0.0.1:8000/";
 
+    void Awake() {
+        if (!File.Exists(Application.dataPath + "/data.json")) {
+            JSONObject data = new JSONObject(JSONObject.Type.OBJECT);
+            data.AddField("Progress", 0);
+            TextWriter writer = new StreamWriter(Application.dataPath + "/data.json");
+            writer.WriteLine(data.ToString());
+        }
+    }
+
     void Start() {
         StartCoroutine(DownloadLevelFiles());
     }

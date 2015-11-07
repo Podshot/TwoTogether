@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine.UI;
 using System.Collections;
 using LevelExceptions;
+using System.IO;
 
 public class GameState : MonoBehaviour {
 
@@ -76,6 +77,14 @@ public class GameState : MonoBehaviour {
         }
         foreach (IFadeable fadeable in specialParent.GetComponentsInChildren(typeof(IFadeable))) {
             StartCoroutine(fadeable.FadeOut());
+        }
+        if (instance.GetNextID().Contains("level_")) {
+            Debug.Log(System.Convert.ToSingle(instance.GetNextID().Replace("level_", "")));
+            JSONObject progress = new JSONObject(File.ReadAllText(Application.dataPath + "/data.json"));
+            progress["Progress"].n = System.Convert.ToSingle(instance.GetNextID().Replace("level_", ""));
+            TextWriter writer = new StreamWriter(Application.dataPath + "/data.json");
+            writer.WriteLine(progress.ToString());
+            writer.Close();
         }
         yield return new WaitForSeconds(2f);
         LoadLevel(instance.GetNextID());

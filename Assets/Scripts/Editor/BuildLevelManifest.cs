@@ -5,6 +5,13 @@ using System.IO;
 
 public class BuildLevelManifest {
 
+    [MenuItem("Tools/Test")]
+    public static void Test() {
+        string[] levels = Directory.GetFiles(Application.dataPath + "/Levels_Exported/", "*.json");
+        int i = 0;
+        Debug.Log(Application.dataPath + "/Level_Thumbnails/" + levels[i].Replace(Application.dataPath + "/Levels_Exported/", "").Replace(".json", ".png"));
+    }
+
     [MenuItem("Tools/Format JSON")]
     public static void FormatJSON() {
         string[] files = Directory.GetFiles(Application.dataPath + "/Levels_Exported/", "*.json");
@@ -22,6 +29,7 @@ public class BuildLevelManifest {
 	public static void BuildManifest() {
         JSONObject json = new JSONObject(JSONObject.Type.ARRAY);
         string[] levels = Directory.GetFiles(Application.dataPath + "/Levels_Exported/", "*.json");
+
         for (int i = 0; i < levels.Length; i++) {
             JSONObject data = new JSONObject(JSONObject.Type.OBJECT);
             string fileContents = File.ReadAllText(levels[i]);
@@ -32,9 +40,16 @@ public class BuildLevelManifest {
             data.AddField("URL", url);
             data.AddField("Name", levels[i].Replace(Application.dataPath + "/Levels_Exported/", ""));
 
+            JSONObject thumb = new JSONObject(JSONObject.Type.OBJECT);
+            byte[] thumbnail = File.ReadAllBytes(Application.dataPath + "/Level_Thumbnails/" + levels[i].Replace(Application.dataPath + "/Levels_Exported/", "").Replace(".json", ".png"));
+            thumb.AddField("URL", "http://podshot.github.io/TwoTogether/Thumbnails/" + levels[i].Replace(Application.dataPath + "/Levels_Exported/", "").Replace(".json", ".png"));
+            thumb.AddField("Name", levels[i].Replace(Application.dataPath + "/Levels_Exported/", "").Replace(".json", ".png"));
+
+            data.AddField("Thumbnail", thumb);
             json.Add(data);
         }
-        TextWriter writer = new StreamWriter(Application.dataPath + "/Levels_Exported/levels.manifest");
+
+        TextWriter writer = new StreamWriter(Application.dataPath + "/Levels_Exported/levels_.manifest");
         writer.WriteLine(json.ToString(true));
         writer.Close();
         Debug.Log("Wrote manifest file");

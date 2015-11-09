@@ -8,8 +8,8 @@ can be found here<redacted>.
 ## Roadmap
 - Before first release
   - [ ] Have a total of at least 10 levels
-  - [ ] Have the ability to either download new levels, or update the game
-  - [ ] Possibly add an ingame level editor
+  - [x] Have the ability to either download new levels, or update the game
+  - ~~Possibly add an ingame level editor~~
 
 ## Getting Started
 1. Clone this repository into a folder of your choice

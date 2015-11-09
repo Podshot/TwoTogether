@@ -2,17 +2,17 @@
 using System.Collections;
 
 [RequireComponent(typeof(Collider2D))]
-public class KillerTerrain : MonoBehaviour, IFadeable {
+public class KillerTerrain : MonoBehaviour, IFadeable, ILoadable {
 
 	[SerializeField] private string targetTag = "none";
 
 	private SpawnHandler handler;
-    private SpriteRenderer renderer;
+    private SpriteRenderer spriteRenderer;
 
-	public void Load() {
+    public void Load() {
 		handler = GameObject.FindGameObjectWithTag("SpawnController").GetComponent<SpawnHandler>();
-        renderer = GetComponent<SpriteRenderer>();
-        renderer.color = new Color(renderer.color.r, renderer.color.g, renderer.color.b, 0.0f);
+        spriteRenderer = GetComponent<SpriteRenderer>();
+        spriteRenderer.color = new Color(spriteRenderer.color.r, spriteRenderer.color.g, spriteRenderer.color.b, 0.0f);
 	}
 
 	void OnCollisionEnter2D(Collision2D collision) {
@@ -33,10 +33,10 @@ public class KillerTerrain : MonoBehaviour, IFadeable {
 
     public IEnumerator FadeOut() {
         for (float i = 1; i > 0f; i -= 0.025f) {
-            if (renderer != null) {
-                Color color = renderer.color;
+            if (spriteRenderer != null) {
+                Color color = spriteRenderer.color;
                 color.a = i;
-                renderer.color = color;
+                spriteRenderer.color = color;
             }
             yield return null;
         }
@@ -45,10 +45,10 @@ public class KillerTerrain : MonoBehaviour, IFadeable {
 
     public IEnumerator FadeIn() {
         for (float i = 0; i < 1f; i += 0.025f) {
-            if (renderer != null) {
-                Color color = renderer.color;
+            if (spriteRenderer != null) {
+                Color color = spriteRenderer.color;
                 color.a = i;
-                renderer.color = color;
+                spriteRenderer.color = color;
             }
             yield return null;
         }

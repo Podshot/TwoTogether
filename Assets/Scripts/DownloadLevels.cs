@@ -24,6 +24,9 @@ public class DownloadLevels : MonoBehaviour {
     public IEnumerator DownloadLevelFiles() {
         WWW manifest = new WWW(BASEURL + "levels.manifest");
         yield return manifest;
+        if (manifest.text.Length < 0 || manifest.text.Equals("")) {
+            yield break;
+        }
         JSONObject json = new JSONObject(manifest.text);
         System.Collections.Generic.List<JSONObject> levels = json.list;
         for (int i = 0; i < levels.Count; i++) {

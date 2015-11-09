@@ -28,6 +28,9 @@ public class GameState : MonoBehaviour {
         return helpText;
     }
 
+    /// <summary>
+    /// Loads all elements of the level and fades them in.
+    /// </summary>
     public void Ready() {
         alphas = new float[2];
         spawnpointsParent.GetComponent<SpawnHandler>().Load();
@@ -35,8 +38,12 @@ public class GameState : MonoBehaviour {
             controllers = spawnpointsParent.GetComponent<SpawnHandler>().GetControllers();
         }
 
-        foreach (KillerTerrain kt in specialParent.GetComponentsInChildren<KillerTerrain>()) {
-            kt.Load();
+        // Should probably be refactored similarly to how specials are faded in
+        //foreach (KillerTerrain kt in specialParent.GetComponentsInChildren<KillerTerrain>()) {
+        //    kt.Load();
+        //}
+        foreach (ILoadable loadable in specialParent.GetComponentsInChildren(typeof(IFadeable))) {
+            loadable.Load();
         }
 
         textFader.Load();
@@ -46,6 +53,7 @@ public class GameState : MonoBehaviour {
             controller.Load();
         }
 
+        // FadeIn() methods should be IEnumerators and be called through StartCoroutine()
         StartCoroutine(textFader.FadeIn());
         StartCoroutine(objectiveHandler.FadeIn());
         StartCoroutine(terrainFader.FadeIn());
@@ -68,6 +76,10 @@ public class GameState : MonoBehaviour {
         instance = loadLevel;
     }
 
+    /// <summary>
+    /// Fades out all level elements, updates the progress in "data.json" and goes onto the next level
+    /// </summary>
+    /// <returns></returns>
     public IEnumerator Switch() {
         StartCoroutine(textFader.FadeOut());
         StartCoroutine(terrainFader.FadeOut());
@@ -108,6 +120,10 @@ public class GameState : MonoBehaviour {
         }
     }
 
+    /// <summary>
+    /// Pauses the movement of the Controllers and temporarily disables their RigidBodies
+    /// </summary>
+    /// <param name="pause">True if the Controllers should be pause, False to resume</param>
     public void PauseControllers(bool pause) {
         foreach (Controller controller in controllers) {
             controller.enabled = !pause;
@@ -115,6 +131,10 @@ public class GameState : MonoBehaviour {
         }
     }
 
+    /// <summary>
+    /// Sets all level elements to partially faded state
+    /// </summary>
+    /// <param name="fade">True to partially fade, False to unfade</param>
     public void PartiallyFadeCharactersAndObjectives(bool fade) {
         if (fade) {
             foreach (Controller controller in controllers) {

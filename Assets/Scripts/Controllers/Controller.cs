@@ -20,7 +20,7 @@ public class Controller : MonoBehaviour, IFadeable {
 
     // Components
     private Rigidbody2D rigidbody;
-    private SpriteRenderer renderer;
+    private SpriteRenderer spriteRenderer;
 
     // State
     [SerializeField]
@@ -46,12 +46,12 @@ public class Controller : MonoBehaviour, IFadeable {
         currentControlType = ControlType.Normal;
         horizontalAxis = "Horizontal" + axisID;
         verticalAxis = "Vertical" + axisID;
-        renderer = GetComponent<SpriteRenderer>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
     public void Load() {
-        if (renderer == null) {
-            renderer.color = new Color(renderer.color.r, renderer.color.g, renderer.color.b, 0.0f);
+        if (spriteRenderer == null) {
+            spriteRenderer.color = new Color(spriteRenderer.color.r, spriteRenderer.color.g, spriteRenderer.color.b, 0.0f);
         }
         settingUp = true;
     }
@@ -112,10 +112,10 @@ public class Controller : MonoBehaviour, IFadeable {
     // Public fuction for fading in the character
     public IEnumerator FadeIn() {
         for (float i = 0; i < 1f; i += 0.025f) {
-            if (renderer != null) {
-                Color color = renderer.color;
+            if (spriteRenderer != null) {
+                Color color = spriteRenderer.color;
                 color.a = i;
-                renderer.color = color;
+                spriteRenderer.color = color;
                 yield return null;
             }
         }
@@ -126,10 +126,10 @@ public class Controller : MonoBehaviour, IFadeable {
     // Public fuction for fading out the character
     public IEnumerator FadeOut() {
         for (float i = 1; i > 0f; i -= 0.025f) {
-            if (renderer != null) {
-                Color color = renderer.color;
+            if (spriteRenderer != null) {
+                Color color = spriteRenderer.color;
                 color.a = i;
-                renderer.color = color;
+                spriteRenderer.color = color;
                 yield return null;
             }
         }

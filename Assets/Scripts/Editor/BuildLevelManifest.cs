@@ -5,13 +5,6 @@ using System.IO;
 
 public class BuildLevelManifest {
 
-    [MenuItem("Tools/Test")]
-    public static void Test() {
-        string[] levels = Directory.GetFiles(Application.dataPath + "/Levels_Exported/", "*.json");
-        int i = 0;
-        Debug.Log(Application.dataPath + "/Level_Thumbnails/" + levels[i].Replace(Application.dataPath + "/Levels_Exported/", "").Replace(".json", ".png"));
-    }
-
     [MenuItem("Tools/Format JSON")]
     public static void FormatJSON() {
         string[] files = Directory.GetFiles(Application.dataPath + "/Levels_Exported/", "*.json");
@@ -41,7 +34,6 @@ public class BuildLevelManifest {
             data.AddField("Name", levels[i].Replace(Application.dataPath + "/Levels_Exported/", ""));
 
             JSONObject thumb = new JSONObject(JSONObject.Type.OBJECT);
-            byte[] thumbnail = File.ReadAllBytes(Application.dataPath + "/Level_Thumbnails/" + levels[i].Replace(Application.dataPath + "/Levels_Exported/", "").Replace(".json", ".png"));
             thumb.AddField("URL", "http://podshot.github.io/TwoTogether/Thumbnails/" + levels[i].Replace(Application.dataPath + "/Levels_Exported/", "").Replace(".json", ".png"));
             thumb.AddField("Name", levels[i].Replace(Application.dataPath + "/Levels_Exported/", "").Replace(".json", ".png"));
 

@@ -22,8 +22,9 @@ public class ObjectiveHandler : MonoBehaviour, IFadeable {
     private SpriteRenderer blueRenderer;
     private GameState gameState;
 
-    public delegate void ObjectiveActivated(string objectiveTarget);
-    public static event ObjectiveActivated OnObjectiveActivated;
+    public delegate void ObjectiveEvent(string objectiveTarget);
+    public static event ObjectiveEvent OnObjectiveActivated;
+    public static event ObjectiveEvent OnObjectiveDeactivated;
 
     // Fades in objectives and the help text
     public void Load() {
@@ -45,6 +46,12 @@ public class ObjectiveHandler : MonoBehaviour, IFadeable {
 
     // Public callback to register completion of an objective
     public void SetObjectiveActivated(string cubeType, bool activated) {
+        if (activated && OnObjectiveActivated != null) {
+            OnObjectiveActivated(cubeType);
+        }
+        if (!activated && OnObjectiveDeactivated != null) {
+            OnObjectiveDeactivated(cubeType);
+        }
         if (cubeType == "SmallCube") {
             smallCubeActivated = activated;
         } else {
@@ -53,14 +60,6 @@ public class ObjectiveHandler : MonoBehaviour, IFadeable {
     }
 
     void Update() {
-        if (OnObjectiveActivated != null) {
-            if (smallCubeActivated) {
-                OnObjectiveActivated("SmallCube");
-            }
-            if (bigCubeActivated) {
-                OnObjectiveActivated("BigCube");
-            }
-        }
         if (smallCubeActivated && bigCubeActivated) {
             if (!started) {
                 started = true;

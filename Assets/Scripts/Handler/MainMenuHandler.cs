@@ -121,7 +121,7 @@ public class MainMenuHandler : MonoBehaviour {
 
     // Opens a webbrowser to the alpha downloads page
 	public void OnClickUpdateGame() {
-		Application.OpenURL("https://github.com/Podshot/TwoTogether/releases/tag/v0.1.0-alpha");
+		Application.OpenURL("http://podshot.github.io/TwoTogether/download");
 	}
 
 

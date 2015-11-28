@@ -22,6 +22,9 @@ public class ObjectiveHandler : MonoBehaviour, IFadeable {
     private SpriteRenderer blueRenderer;
     private GameState gameState;
 
+    public delegate void ObjectiveActivated(string objectiveTarget);
+    public static event ObjectiveActivated OnObjectiveActivated;
+
     // Fades in objectives and the help text
     public void Load() {
         gameState = Camera.main.GetComponent<GameState>();
@@ -50,6 +53,14 @@ public class ObjectiveHandler : MonoBehaviour, IFadeable {
     }
 
     void Update() {
+        if (OnObjectiveActivated != null) {
+            if (smallCubeActivated) {
+                OnObjectiveActivated("SmallCube");
+            }
+            if (bigCubeActivated) {
+                OnObjectiveActivated("BigCube");
+            }
+        }
         if (smallCubeActivated && bigCubeActivated) {
             if (!started) {
                 started = true;

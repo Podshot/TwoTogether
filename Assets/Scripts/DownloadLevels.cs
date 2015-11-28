@@ -14,6 +14,7 @@ public class DownloadLevels : MonoBehaviour {
             data.AddField("Progress", 0);
             TextWriter writer = new StreamWriter(Application.dataPath + "/data.json");
             writer.WriteLine(data.ToString());
+            writer.Close();
         }
     }
 

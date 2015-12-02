@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
-using LevelExceptions;
+using TwoTogether.LevelExceptions;
 using System.Collections;
 using System;
 

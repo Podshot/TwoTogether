@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-using System.Collections;
+using TwoTogether.Character;
 
 public class SpawnHandler : MonoBehaviour {
 
@@ -10,6 +10,9 @@ public class SpawnHandler : MonoBehaviour {
 	private Transform bigCubeSpawn;
 	private GameObject smallCubeActive;
 	private GameObject bigCubeActive;
+
+    public delegate void RespawnEvent(CharacterType type, Transform spawnpoint);
+    public static event RespawnEvent OnCharacterRespawn;
 
     public void Load() {
         smallCubeSpawn = transform.Find("SmallCubeSpawnpoint");
@@ -34,9 +37,9 @@ public class SpawnHandler : MonoBehaviour {
 
     // Handles quitting and reset
 	void Update() {
-		if (Input.GetKeyDown(KeyCode.Escape)) {
-			Application.Quit();
-		}
+		//if (Input.GetKeyDown(KeyCode.Escape)) {
+		//	Application.Quit();
+		//}
 		if (Input.GetKeyDown(KeyCode.R)) {
 			ResetBlueCube();
 			ResetRedCube();
@@ -44,10 +47,12 @@ public class SpawnHandler : MonoBehaviour {
 	}
 
 	public void ResetRedCube() {
+        OnCharacterRespawn(CharacterType.SmallCube, smallCubeSpawn);
 		smallCubeActive.transform.position = smallCubeSpawn.position;
 	}
 
 	public void ResetBlueCube() {
+        OnCharacterRespawn(CharacterType.BigCube, bigCubeSpawn);
 		bigCubeActive.transform.position = bigCubeSpawn.position;
 	}
 }

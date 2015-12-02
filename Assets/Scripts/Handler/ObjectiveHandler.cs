@@ -1,8 +1,7 @@
 using UnityEngine;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine.UI;
-using Stopwatch = System.Diagnostics.Stopwatch;
+using TwoTogether.Character;
 
 public class ObjectiveHandler : MonoBehaviour, IFadeable {
 
@@ -22,14 +21,14 @@ public class ObjectiveHandler : MonoBehaviour, IFadeable {
     private SpriteRenderer blueRenderer;
     private GameState gameState;
 
-    public delegate void ObjectiveEvent(string objectiveTarget);
+    public delegate void ObjectiveEvent(CharacterType characterType);
     public static event ObjectiveEvent OnObjectiveActivated;
     public static event ObjectiveEvent OnObjectiveDeactivated;
 
     // Fades in objectives and the help text
     public void Load() {
         gameState = Camera.main.GetComponent<GameState>();
-
+        
         redRenderer = redObjective.GetComponent<SpriteRenderer>();
         blueRenderer = blueObjective.GetComponent<SpriteRenderer>();
 
@@ -45,14 +44,14 @@ public class ObjectiveHandler : MonoBehaviour, IFadeable {
     }
 
     // Public callback to register completion of an objective
-    public void SetObjectiveActivated(string cubeType, bool activated) {
+    public void SetObjectiveActivated(CharacterType type, bool activated) {
         if (activated && OnObjectiveActivated != null) {
-            OnObjectiveActivated(cubeType);
+            OnObjectiveActivated(type);
         }
         if (!activated && OnObjectiveDeactivated != null) {
-            OnObjectiveDeactivated(cubeType);
+            OnObjectiveDeactivated(type);
         }
-        if (cubeType == "SmallCube") {
+        if (type == CharacterType.SmallCube) {
             smallCubeActivated = activated;
         } else {
             bigCubeActivated = activated;
@@ -73,6 +72,8 @@ public class ObjectiveHandler : MonoBehaviour, IFadeable {
         smallCubeActivated = false;
         bigCubeActivated = false;
         started = false;
+        OnObjectiveActivated = null;
+        OnObjectiveDeactivated = null;
     }
 
     public IEnumerator FadeOut() {

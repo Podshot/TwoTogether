@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine.UI;
 using System.Collections;
-using LevelExceptions;
+using TwoTogether.LevelExceptions;
 using System.IO;
+using TwoTogether.Character;
 
 public class GameState : MonoBehaviour {
 
@@ -42,7 +43,7 @@ public class GameState : MonoBehaviour {
         //foreach (KillerTerrain kt in specialParent.GetComponentsInChildren<KillerTerrain>()) {
         //    kt.Load();
         //}
-        foreach (ILoadable loadable in specialParent.GetComponentsInChildren(typeof(IFadeable))) {
+        foreach (ILoadable loadable in specialParent.GetComponentsInChildren(typeof(ILoadable))) {
             loadable.Load();
         }
 
@@ -90,6 +91,7 @@ public class GameState : MonoBehaviour {
         foreach (IFadeable fadeable in specialParent.GetComponentsInChildren(typeof(IFadeable))) {
             StartCoroutine(fadeable.FadeOut());
         }
+
         if (instance.GetNextID().Contains("level_")) {
             Debug.Log(System.Convert.ToSingle(instance.GetNextID().Replace("level_", "")));
             JSONObject progress = new JSONObject(File.ReadAllText(Application.dataPath + "/data.json"));

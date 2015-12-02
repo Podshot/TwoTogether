@@ -15,6 +15,8 @@ public class KillerTerrain : MonoBehaviour, IFadeable, ILoadable {
         spriteRenderer.color = new Color(spriteRenderer.color.r, spriteRenderer.color.g, spriteRenderer.color.b, 0.0f);
 	}
 
+    public void Unload() { }
+
 	void OnCollisionEnter2D(Collision2D collision) {
 		if (collision.gameObject.tag.Equals(targetTag)) {
 			if (targetTag.Equals("BigCube")) {

@@ -2,7 +2,7 @@
 using System.Collections;
 
 
-namespace LevelExceptions {
+namespace TwoTogether.LevelExceptions {
 
     public class UnsupportedLevelVersion : System.Exception {
 

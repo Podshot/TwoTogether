@@ -1,9 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public enum ControlType {
+namespace TwoTogether.Character {
+    public enum ControlType {
 
-    Normal,
-    Inverted
-	
-};
+        Normal,
+        Inverted
+
+    }
+}

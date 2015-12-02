@@ -1,12 +1,16 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.IO;
-using System;
+//using System;
+using UnityEngine.UI;
 
 public class DownloadLevels : MonoBehaviour {
 
     public const string BASEURL = "http://podshot.github.io/TwoTogether/Levels/";
     //public const string BASEURL = "http://127.0.0.1:8000/";
+
+    private GameObject startGameButton;
+    private GameObject selectLevelButton;
 
     void Awake() {
         if (!File.Exists(Application.dataPath + "/data.json")) {
@@ -19,6 +23,11 @@ public class DownloadLevels : MonoBehaviour {
     }
 
     void Start() {
+        DontDestroyOnLoad(gameObject);
+        startGameButton = GameObject.Find("StartGameButton");
+        selectLevelButton = GameObject.Find("SelectLevel");
+        startGameButton.GetComponent<Button>().interactable = false;
+        selectLevelButton.GetComponent<Button>().interactable = false;
         StartCoroutine(DownloadLevelFiles());
     }
 
@@ -31,6 +40,10 @@ public class DownloadLevels : MonoBehaviour {
         JSONObject json = new JSONObject(manifest.text);
         System.Collections.Generic.List<JSONObject> levels = json.list;
         for (int i = 0; i < levels.Count; i++) {
+            if (i > 1) {
+                startGameButton.GetComponent<Button>().interactable = true;
+                selectLevelButton.GetComponent<Button>().interactable = true;
+            }
             bool shouldDownload = false;
             if (File.Exists(Application.dataPath + "/Levels/" + levels[i]["Name"].str)) {
                 if (!json[i]["Hash"].str.Equals(LevelManagementUtils.Hash(File.ReadAllText(Application.dataPath + "/Levels/" + levels[i]["Name"].str)))) {
@@ -73,6 +86,7 @@ public class DownloadLevels : MonoBehaviour {
                 Debug.Log("Downloaded thumnail for " + json[i]["Name"].str);
             }
         }
-        yield break;
+        Destroy(gameObject);
+        //yield break;
     }
 }

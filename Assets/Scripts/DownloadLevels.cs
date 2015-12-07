@@ -13,13 +13,7 @@ public class DownloadLevels : MonoBehaviour {
     private GameObject selectLevelButton;
 
     void Awake() {
-        if (!File.Exists(Application.dataPath + "/data.json")) {
-            JSONObject data = new JSONObject(JSONObject.Type.OBJECT);
-            data.AddField("Progress", 0);
-            TextWriter writer = new StreamWriter(Application.dataPath + "/data.json");
-            writer.WriteLine(data.ToString());
-            writer.Close();
-        }
+        ConfigHandler.LoadConfig();
     }
 
     void Start() {

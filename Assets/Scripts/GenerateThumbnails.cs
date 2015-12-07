@@ -43,7 +43,7 @@ public class GenerateThumbnails : MonoBehaviour {
             }
         }
         images = GetComponentsInChildren<Image>();
-        JSONObject progress = new JSONObject(File.ReadAllText(Application.dataPath + "/data.json"));
+        JSONObject progress = ConfigHandler.IsLoaded ? ConfigHandler.Config : ConfigHandler.LoadConfig();
         for (int i = 0; i < images.Length; i++) {
             if (images[i].name == "ToMainMenu") {
                 continue;

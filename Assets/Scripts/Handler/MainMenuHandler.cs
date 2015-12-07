@@ -4,37 +4,48 @@ using System.Collections;
 
 public class MainMenuHandler : MonoBehaviour {
 
+    [Header("GameObjects")]
 	public GameObject startGameButton;
 	public GameObject controlsButton;
 	public GameObject backButton;
     public GameObject selectLevelsButton;
-	public Text titleText;
+    public GameObject quitButton;
+    public GameObject staticSprites;
+    [Header("Text Components")]
+    public Text titleText;
 	public Text authorText;
 	public Text controlText;
 	public Text versionText;
 	public Text howToPlayText;
-	public GameObject staticSprites;
 
 	private string state = "mainmenu";
 
-    // Called when the "Start Game" button is pressed
-    public void OnClickStartGameButton() {
-		startGameButton.GetComponent<Button>().enabled = false;
-		startGameButton.GetComponent<Image>().CrossFadeAlpha(0f, 0.5f, false);
-		startGameButton.GetComponentInChildren<Text>().CrossFadeAlpha(0f, 0.5f, false);
+    private void FadeThings() {
+        startGameButton.GetComponent<Button>().enabled = false;
+        startGameButton.GetComponent<Image>().CrossFadeAlpha(0f, 0.5f, false);
+        startGameButton.GetComponentInChildren<Text>().CrossFadeAlpha(0f, 0.5f, false);
 
         selectLevelsButton.GetComponent<Button>().enabled = false;
         selectLevelsButton.GetComponent<Image>().CrossFadeAlpha(0f, 0.5f, false);
         selectLevelsButton.GetComponentInChildren<Text>().CrossFadeAlpha(0f, 0.5f, false);
 
         controlsButton.GetComponent<Button>().enabled = false;
-		controlsButton.GetComponent<Image>().CrossFadeAlpha(0f, 0.5f, false);
-		controlsButton.GetComponentInChildren<Text>().CrossFadeAlpha(0f, 0.5f, false);
+        controlsButton.GetComponent<Image>().CrossFadeAlpha(0f, 0.5f, false);
+        controlsButton.GetComponentInChildren<Text>().CrossFadeAlpha(0f, 0.5f, false);
 
-		titleText.CrossFadeAlpha(0f, 0.5f, false);
-		authorText.CrossFadeAlpha(0f, 0.5f, false);
-		controlText.CrossFadeAlpha(0f, 0.5f, false);
-		versionText.CrossFadeAlpha(0f, 0.5f, false);
+        quitButton.GetComponent<Button>().enabled = false;
+        quitButton.GetComponent<Image>().CrossFadeAlpha(0f, 0.5f, false);
+        quitButton.GetComponentInChildren<Text>().CrossFadeAlpha(0f, 0.5f, false);
+
+        titleText.CrossFadeAlpha(0f, 0.5f, false);
+        authorText.CrossFadeAlpha(0f, 0.5f, false);
+        controlText.CrossFadeAlpha(0f, 0.5f, false);
+        versionText.CrossFadeAlpha(0f, 0.5f, false);
+    }
+
+    // Called when the "Start Game" button is pressed
+    public void OnClickStartGameButton() {
+        FadeThings();
 		StartCoroutine(WaitAndLoad("TestScene"));
 	}
 
@@ -48,6 +59,10 @@ public class MainMenuHandler : MonoBehaviour {
         selectLevelsButton.GetComponent<Button>().enabled = false;
         selectLevelsButton.GetComponent<Image>().enabled = false;
         selectLevelsButton.GetComponentInChildren<Text>().enabled = false;
+
+        quitButton.GetComponent<Button>().enabled = false;
+        quitButton.GetComponent<Image>().enabled = false;
+        quitButton.GetComponentInChildren<Text>().enabled = false;
 
         titleText.enabled = false;
 		authorText.enabled = false;
@@ -94,28 +109,21 @@ public class MainMenuHandler : MonoBehaviour {
             selectLevelsButton.GetComponent<Button>().enabled = true;
             selectLevelsButton.GetComponent<Image>().enabled = true;
             selectLevelsButton.GetComponentInChildren<Text>().enabled = true;
+
+            quitButton.GetComponent<Button>().enabled = true;
+            quitButton.GetComponent<Image>().enabled = true;
+            quitButton.GetComponentInChildren<Text>().enabled = true;
         }
 	}
 
     public void OnClickSelectLevel() {
-        startGameButton.GetComponent<Button>().enabled = false;
-        startGameButton.GetComponent<Image>().CrossFadeAlpha(0f, 0.5f, false);
-        startGameButton.GetComponentInChildren<Text>().CrossFadeAlpha(0f, 0.5f, false);
-
-        selectLevelsButton.GetComponent<Button>().enabled = false;
-        selectLevelsButton.GetComponent<Image>().CrossFadeAlpha(0f, 0.5f, false);
-        selectLevelsButton.GetComponentInChildren<Text>().CrossFadeAlpha(0f, 0.5f, false);
-
-        controlsButton.GetComponent<Button>().enabled = false;
-        controlsButton.GetComponent<Image>().CrossFadeAlpha(0f, 0.5f, false);
-        controlsButton.GetComponentInChildren<Text>().CrossFadeAlpha(0f, 0.5f, false);
-
-        titleText.CrossFadeAlpha(0f, 0.5f, false);
-        authorText.CrossFadeAlpha(0f, 0.5f, false);
-        controlText.CrossFadeAlpha(0f, 0.5f, false);
-        versionText.CrossFadeAlpha(0f, 0.5f, false);
-
+        FadeThings();
         StartCoroutine(WaitAndLoad("LevelSelect"));
+    }
+
+    public void OnClickQuitGame() {
+        FadeThings();
+        Application.Quit();
     }
 
     // Opens a webbrowser to the alpha downloads page

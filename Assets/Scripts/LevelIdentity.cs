@@ -5,19 +5,15 @@ using UnityEngine.UI;
 
 public class LevelIdentity : MonoBehaviour, IPointerDownHandler, IPointerEnterHandler, IPointerExitHandler {
 
-    private bool set;
-    private string id;
+    [SerializeField] private int index;
     private bool canClick;
 
-    public void SetID(string i) {
-        if (!set) {
-            id = i;
-            set = true;
-        }
+    public void SetID(int num) {
+        index = num;
     }
 
-    public string GetID() {
-        return id;
+    public int GetIndex() {
+        return index;
     }
 
     public void SetCanClick(bool cc) {
@@ -28,8 +24,8 @@ public class LevelIdentity : MonoBehaviour, IPointerDownHandler, IPointerEnterHa
         if (canClick) {
             GameObject ls = GameObject.Find("LevelSelector");
             DontDestroyOnLoad(ls);
-            ls.GetComponent<LevelIdentity>().SetID(id);
-            Application.LoadLevel("TestScene");
+            ls.GetComponent<LevelIdentity>().SetID(index);
+            Application.LoadLevel("PrefabScene");
         }
     }
 

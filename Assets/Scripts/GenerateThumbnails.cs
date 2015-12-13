@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
-using System.IO;
+using System;
 
 public class GenerateThumbnails : MonoBehaviour {
 
@@ -15,12 +15,14 @@ public class GenerateThumbnails : MonoBehaviour {
     private bool move;
     private Vector3 target;
     private const float OFFSET = 350f;
+    private DownloadLevels levelDownloader;
 
     void Start () {
+        levelDownloader = GameObject.Find("LevelDownloader").GetComponent<DownloadLevels>();
         Image[] images = GetComponentsInChildren<Image>();
-        int numberOfLevels = Directory.GetFiles(Application.dataPath + "/Levels/", "*.json").Length;
+        int numberOfLevels = levelDownloader.Levels.Length;
         int remainder;
-        int result = System.Math.DivRem(numberOfLevels, 4, out remainder);
+        int result = Math.DivRem(numberOfLevels, 4, out remainder);
         if (numberOfLevels < 4) {
             totalPages = 0;
         } else if (result > 0 && remainder == 0) {
@@ -52,9 +54,8 @@ public class GenerateThumbnails : MonoBehaviour {
                 Image image = images[i];
                 Texture2D tex2d = new Texture2D(800, 600);
                 try {
-                    tex2d.LoadImage(File.ReadAllBytes(Application.dataPath + "/Level_Thumbnails/level_" + (i + 1) + ".png"));
-                    image.sprite = Sprite.Create(tex2d, new Rect(0, 0, tex2d.width, tex2d.height), image.sprite.pivot);
-                } catch (FileNotFoundException e) {
+                    image.sprite = Sprite.Create(levelDownloader.Thumbnails[i], new Rect(0, 0, tex2d.width, tex2d.height), image.sprite.pivot);
+                } catch (Exception) {
                     image.sprite = unknown.sprite;
                     image.color = unknown.color;
                 }
@@ -65,7 +66,7 @@ public class GenerateThumbnails : MonoBehaviour {
                 txt.enabled = false;
 
                 LevelIdentity id = image.gameObject.AddComponent<LevelIdentity>();
-                id.SetID("level_" + (i + 1));
+                id.SetID(i);
                 id.SetCanClick(true);
             } else {
                 Image image = images[i];

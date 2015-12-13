@@ -2,6 +2,7 @@ using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
 using TwoTogether.Character;
+using System;
 
 public class ObjectiveHandler : MonoBehaviour, IFadeable {
 
@@ -19,22 +20,24 @@ public class ObjectiveHandler : MonoBehaviour, IFadeable {
     private bool started = false;
     private SpriteRenderer redRenderer;
     private SpriteRenderer blueRenderer;
-    private GameState gameState;
 
     public delegate void ObjectiveEvent(CharacterType characterType);
     public static event ObjectiveEvent OnObjectiveActivated;
     public static event ObjectiveEvent OnObjectiveDeactivated;
 
+    void Start() {
+        Load();
+        StartCoroutine(FadeIn());
+    }
     // Fades in objectives and the help text
     public void Load() {
-        gameState = Camera.main.GetComponent<GameState>();
         
         redRenderer = redObjective.GetComponent<SpriteRenderer>();
         blueRenderer = blueObjective.GetComponent<SpriteRenderer>();
 
         //helpText.color = new Color(helpText.color.r, helpText.color.g, helpText.color.b, 0.002f);
-        helpText = gameState.GetHelpText();
-        helpText.color = new Color(helpText.color.r, helpText.color.g, helpText.color.b, 0.0f);
+        //helpText = gameState.GetHelpText();
+        //helpText.color = new Color(helpText.color.r, helpText.color.g, helpText.color.b, 0.0f);
         redRenderer.color = new Color(redRenderer.color.r, redRenderer.color.g, redRenderer.color.b, 0.002f);
         blueRenderer.color = new Color(blueRenderer.color.r, blueRenderer.color.g, blueRenderer.color.b, 0.002f);
         redRenderer.enabled = true;
@@ -59,13 +62,13 @@ public class ObjectiveHandler : MonoBehaviour, IFadeable {
     }
 
     void Update() {
-        if (smallCubeActivated && bigCubeActivated) {
-            if (!started) {
-                started = true;
-                gameState.StopControllers();
-                StartCoroutine(gameState.Switch());
-            }
-        }
+        //if (smallCubeActivated && bigCubeActivated) {
+        //    if (!started) {
+        //        started = true;
+                //gameState.StopControllers();
+                //StartCoroutine(gameState.Switch());
+       //     }
+       // }
     }
 
     public void Reset() {
@@ -102,5 +105,10 @@ public class ObjectiveHandler : MonoBehaviour, IFadeable {
 
             yield return null;
         }
+    }
+
+    public void PartiallyFade(float alpha) {
+        blueRenderer.color = new Color(blueRenderer.color.r, blueRenderer.color.g, blueRenderer.color.b, alpha);
+        redRenderer.color = new Color(redRenderer.color.r, redRenderer.color.g, redRenderer.color.b, alpha);
     }
 }

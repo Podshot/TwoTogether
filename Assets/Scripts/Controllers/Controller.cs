@@ -83,11 +83,12 @@ namespace TwoTogether.Character {
             type = CharacterTypeExtension.GetEnumFromID(axisID);
         }
 
-        public void Load() {
+        public void Start() {
             if (spriteRenderer == null) {
                 spriteRenderer.color = new Color(spriteRenderer.color.r, spriteRenderer.color.g, spriteRenderer.color.b, 0.0f);
             }
             settingUp = true;
+            StartCoroutine(FadeIn());
         }
 
         void Update() {
@@ -177,6 +178,15 @@ namespace TwoTogether.Character {
 
         public Rigidbody2D GetRigidbody() {
             return rigidbody;
+        }
+
+        public void PauseController(bool pause) {
+            this.enabled = !pause;
+            rigidbody.isKinematic = pause;
+
+        }
+        public void PartiallyFade(float alpha) {
+            spriteRenderer.color = new Color(spriteRenderer.color.r, spriteRenderer.color.g, spriteRenderer.color.b, alpha);
         }
     }
 }

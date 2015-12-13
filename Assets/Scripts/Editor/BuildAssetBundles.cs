@@ -1,15 +1,10 @@
-﻿using UnityEngine;
-using System.Collections;
+﻿using UnityEditor;
 
-public class BuildAssetBundles : MonoBehaviour {
+public class BuildAssetBundles {
 
-	// Use this for initialization
-	void Start () {
-	
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
+    [MenuItem("Asset Bundles/Build AssetBundles")]
+    public static void BundleAssets() {
+        BuildPipeline.BuildAssetBundles("AssetBundles");
+        AssetDatabase.RemoveUnusedAssetBundleNames();
+    }
 }

@@ -1,7 +1,11 @@
-﻿using UnityEngine;
+﻿//#define BUILDING
+
+#if !BUILDING
+using UnityEngine;
 using System.Collections;
-using System.IO;
+//using System.IO;
 using System.Collections.Generic;
+using System.IO;
 
 public class ConfigHandler : MonoBehaviour {
 
@@ -32,3 +36,4 @@ public class ConfigHandler : MonoBehaviour {
         writer.Close();
     }
 }
+#endif

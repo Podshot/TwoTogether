@@ -2,10 +2,16 @@
 using UnityEngine.UI;
 using System.Collections;
 using Stopwatch = System.Diagnostics.Stopwatch;
+using System;
 
 public class TerrainFader : MonoBehaviour, IFadeable {
 
 	private SpriteRenderer[] spriteRenderers;
+
+    void Start() {
+        Load();
+        StartCoroutine(FadeIn());
+    }
 
     public void Load() {
         spriteRenderers = GetComponentsInChildren<SpriteRenderer>();
@@ -45,5 +51,13 @@ public class TerrainFader : MonoBehaviour, IFadeable {
             yield return null;
         }
         yield break;
+    }
+
+    public void PartiallyFade(float alpha) {
+        foreach (SpriteRenderer renderer in spriteRenderers) {
+            if (renderer != null) {
+                renderer.color = new Color(renderer.color.r, renderer.color.g, renderer.color.b, alpha);
+            }
+        }
     }
 }

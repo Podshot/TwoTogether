@@ -1,0 +1,12 @@
+ManifestFileVersion: 0
+AssetBundleManifest:
+  AssetBundleInfos:
+    Info_0:
+      Name: level_1
+      Dependencies: {}
+    Info_1:
+      Name: level_2
+      Dependencies: {}
+    Info_2:
+      Name: level_3
+      Dependencies: {}

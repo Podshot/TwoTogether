@@ -2,14 +2,12 @@
 using System.Collections;
 using UnityEngine.UI;
 
-public class TextFader : MonoBehaviour {
+public class TextFader : MonoBehaviour, IFadeable {
 
     private Text text;
 
-    public void Load() {
-        if (text == null) {
-            text = GetComponent<Text>();
-        }
+    public void Start() {
+        text = GetComponent<Text>();
     }
 
     // Public fuction for fading in the character
@@ -32,5 +30,9 @@ public class TextFader : MonoBehaviour {
             yield return null;
         }
         yield break;
+    }
+
+    public void PartiallyFade(float alpha) {
+        text.color = new Color(text.color.r, text.color.g, text.color.b, alpha);
     }
 }

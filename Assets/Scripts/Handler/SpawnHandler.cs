@@ -10,21 +10,24 @@ public class SpawnHandler : MonoBehaviour {
 	private Transform bigCubeSpawn;
 	private GameObject smallCubeActive;
 	private GameObject bigCubeActive;
+    private static Controller[] controllers = new Controller[2];
 
     public delegate void RespawnEvent(CharacterType type, Transform spawnpoint);
     public static event RespawnEvent OnCharacterRespawn;
 
-    public void Load() {
+    public void Start() {
         smallCubeSpawn = transform.Find("SmallCubeSpawnpoint");
         bigCubeSpawn = transform.Find("BigCubeSpawnpoint");
 
         if (smallCubeActive == null) {
             smallCubeActive = (GameObject)Instantiate(smallCubePrefab, smallCubeSpawn.position, Quaternion.identity);
+            controllers[0] = smallCubeActive.GetComponent<Controller>();
         } else {
             smallCubeActive.transform.position = smallCubeSpawn.position;
         }
         if (bigCubeActive == null) {
             bigCubeActive = (GameObject)Instantiate(bigCubePrefab, bigCubeSpawn.position, Quaternion.identity);
+            controllers[1] = bigCubeActive.GetComponent<Controller>();
         } else {
             bigCubeActive.transform.position = bigCubeSpawn.position;
         }
@@ -35,11 +38,12 @@ public class SpawnHandler : MonoBehaviour {
         return list;
     }
 
+    public static Controller[] GetAllControllers() {
+        return controllers;
+    }
+
     // Handles quitting and reset
 	void Update() {
-		//if (Input.GetKeyDown(KeyCode.Escape)) {
-		//	Application.Quit();
-		//}
 		if (Input.GetKeyDown(KeyCode.R)) {
 			ResetBlueCube();
 			ResetRedCube();
@@ -47,12 +51,16 @@ public class SpawnHandler : MonoBehaviour {
 	}
 
 	public void ResetRedCube() {
-        OnCharacterRespawn(CharacterType.SmallCube, smallCubeSpawn);
+        if (OnCharacterRespawn != null) {
+            OnCharacterRespawn(CharacterType.SmallCube, smallCubeSpawn);
+        }
 		smallCubeActive.transform.position = smallCubeSpawn.position;
 	}
 
 	public void ResetBlueCube() {
-        OnCharacterRespawn(CharacterType.BigCube, bigCubeSpawn);
+        if (OnCharacterRespawn != null) {
+            OnCharacterRespawn(CharacterType.BigCube, bigCubeSpawn);
+        }
 		bigCubeActive.transform.position = bigCubeSpawn.position;
 	}
 }

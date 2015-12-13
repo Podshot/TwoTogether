@@ -46,7 +46,7 @@ public class MainMenuHandler : MonoBehaviour {
     // Called when the "Start Game" button is pressed
     public void OnClickStartGameButton() {
         FadeThings();
-		StartCoroutine(WaitAndLoad("TestScene"));
+		StartCoroutine(WaitAndLoad("PrefabScene"));
 	}
 
     // Handles enabling and disabling UI components when the "Controls & Tutorial" button is pressed
@@ -123,6 +123,7 @@ public class MainMenuHandler : MonoBehaviour {
 
     public void OnClickQuitGame() {
         FadeThings();
+        ConfigHandler.SaveConfig();
         Application.Quit();
     }
 

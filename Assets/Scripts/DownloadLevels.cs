@@ -3,17 +3,30 @@ using System.Collections;
 using System.IO;
 //using System;
 using UnityEngine.UI;
+using System;
 
 public class DownloadLevels : MonoBehaviour {
 
     public const string BASEURL = "http://podshot.github.io/TwoTogether/Levels/";
+    public GameObject[] Levels { get { return levels; } }
+    public Texture2D[] Thumbnails { get { return thumbnails; } }
     //public const string BASEURL = "http://127.0.0.1:8000/";
+    public bool IsInitialized { get { return initialized; } }
 
+    private static DownloadLevels instance;
     private GameObject startGameButton;
     private GameObject selectLevelButton;
+    private GameObject[] levels;
+    private Texture2D[] thumbnails;
+    private bool initialized = false;
 
     void Awake() {
         ConfigHandler.LoadConfig();
+        if (instance == null) {
+            instance = this;
+        } else {
+            Destroy(gameObject);
+        }
     }
 
     void Start() {
@@ -22,65 +35,74 @@ public class DownloadLevels : MonoBehaviour {
         selectLevelButton = GameObject.Find("SelectLevel");
         startGameButton.GetComponent<Button>().interactable = false;
         selectLevelButton.GetComponent<Button>().interactable = false;
-        StartCoroutine(DownloadLevelFiles());
+        if (!Directory.Exists(Path.Combine(Application.dataPath, "Level_Cache"))) {
+            Directory.CreateDirectory(Path.Combine(Application.dataPath, "Level_Cache"));
+        }
+        if (!initialized) {
+            StartCoroutine(DownloadLevelFiles());
+        }
+    }
+
+    public bool HasInternetConnection() {
+        NetworkReachability reachability = Application.internetReachability;
+        if (reachability == NetworkReachability.NotReachable) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    public void CacheOldManifest(JSONObject manifest) {
+        StreamWriter writer = new StreamWriter(Path.Combine(Application.dataPath, "level.manifest.cache"));
+        writer.WriteLine(manifest.ToString());
+        writer.Close();
+    }
+
+    public string GetOldManifest() {
+        return File.ReadAllText(Path.Combine(Application.dataPath, "level.manifest.cache"));
     }
 
     public IEnumerator DownloadLevelFiles() {
         WWW manifest = new WWW(BASEURL + "levels.manifest");
         yield return manifest;
-        if (manifest.text.Length < 0 || manifest.text.Equals("")) {
-            yield break;
+        string data;
+        if (manifest.text.Length < 0 || manifest.text.Equals("") || !HasInternetConnection()) {
+            startGameButton.GetComponent<Button>().interactable = true;
+            selectLevelButton.GetComponent<Button>().interactable = true;
+            data = GetOldManifest();
+        } else {
+            data = manifest.text;
         }
-        JSONObject json = new JSONObject(manifest.text);
-        System.Collections.Generic.List<JSONObject> levels = json.list;
-        for (int i = 0; i < levels.Count; i++) {
-            if (i > 1) {
+        JSONObject json = new JSONObject(data);
+        CacheOldManifest(json);
+        levels = new GameObject[json["Levels"].list.Count];
+        thumbnails = new Texture2D[json["Levels"].list.Count];
+        for (int i = 0; i < json["Levels"].list.Count; i++) {
+            if (i >= 1) {
                 startGameButton.GetComponent<Button>().interactable = true;
                 selectLevelButton.GetComponent<Button>().interactable = true;
             }
-            bool shouldDownload = false;
-            if (File.Exists(Application.dataPath + "/Levels/" + levels[i]["Name"].str)) {
-                if (!json[i]["Hash"].str.Equals(LevelManagementUtils.Hash(File.ReadAllText(Application.dataPath + "/Levels/" + levels[i]["Name"].str)))) {
-                    Debug.Log("File hashes do not match for level \"" + levels[i]["Name"].str + "\"");
-                    File.Delete(Application.dataPath + "/Levels/" + levels[i]["Name"].str);
-                    shouldDownload = true;
-                } else {
-                    Debug.Log("Level \"" + levels[i]["Name"].str + "\" already exists and matches Hash");
-                }
+            AssetBundle bundle;
+            WWW www;
+            JSONObject level = json["Levels"][i];
+            if (HasInternetConnection()) {
+                www = new WWW(level["URL"].str);
+                yield return www;
+                File.WriteAllBytes(Path.Combine(Path.Combine(Application.dataPath, "Level_Cache"), level["Name"].str), www.bytes);
+                bundle = www.assetBundle;
+                www.Dispose();
             } else {
-                shouldDownload = true;
+                bundle = AssetBundle.CreateFromFile(Path.Combine(Path.Combine(Application.dataPath, "Level_Cache"), level["Name"].str));
             }
+            GameObject go = bundle.LoadAsset<GameObject>("Level_" + (i + 1));
+            int result = 0;
+            int.TryParse(go.name.Replace("Level_", ""), out result);
+            levels[result - 1] = go;
 
-            if (shouldDownload) {
-                WWW level = new WWW(levels[i]["URL"].str);
-                while (!level.isDone) {
-                    yield return null;
-                }
-                if (!Directory.Exists(Application.dataPath + "/Levels/")) {
-                    Directory.CreateDirectory(Application.dataPath + "/Levels/");
-                }
-
-                File.WriteAllBytes(Application.dataPath + "/Levels/" + levels[i]["Name"].str, level.bytes);
-
-                if (!json[i]["Hash"].str.Equals(LevelManagementUtils.Hash(File.ReadAllText(Application.dataPath + "/Levels/" + levels[i]["Name"].str)))) {
-                    Debug.Log("File hashes do not match for level \"" + levels[i]["Name"].str + "\"");
-                }
-            }
-
-            if (shouldDownload || !File.Exists(Application.dataPath + "/Level_Thumbnails/" + json[i]["Thumbnail"]["Name"].str)) {
-                WWW thumb = new WWW(json[i]["Thumbnail"]["URL"].str);
-                while (!thumb.isDone) {
-                    yield return null;
-                }
-                if (!Directory.Exists(Application.dataPath + "/Level_Thumbnails/")) {
-                    Directory.CreateDirectory(Application.dataPath + "/Level_Thumbnails/");
-                }
-
-                File.WriteAllBytes(Application.dataPath + "/Level_Thumbnails/" + json[i]["Thumbnail"]["Name"].str, thumb.bytes);
-                Debug.Log("Downloaded thumnail for " + json[i]["Name"].str);
-            }
+            Texture2D tex = bundle.LoadAsset<Texture2D>("Level_" + (i + 1) + "_Thumbnail");
+            thumbnails[result - 1] = tex;
+            bundle.Unload(false);
         }
-        Destroy(gameObject);
-        //yield break;
+        initialized = true;
     }
 }

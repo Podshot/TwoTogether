@@ -11,14 +11,22 @@ public class DownloadLevels : MonoBehaviour {
     public GameObject[] Levels { get { return levels; } }
     public Texture2D[] Thumbnails { get { return thumbnails; } }
     //public const string BASEURL = "http://127.0.0.1:8000/";
+    public bool IsInitialized { get { return initialized; } }
 
+    private static DownloadLevels instance;
     private GameObject startGameButton;
     private GameObject selectLevelButton;
     private GameObject[] levels;
     private Texture2D[] thumbnails;
+    private bool initialized = false;
 
     void Awake() {
         ConfigHandler.LoadConfig();
+        if (instance == null) {
+            instance = this;
+        } else {
+            Destroy(gameObject);
+        }
     }
 
     void Start() {
@@ -30,7 +38,9 @@ public class DownloadLevels : MonoBehaviour {
         if (!Directory.Exists(Path.Combine(Application.dataPath, "Level_Cache"))) {
             Directory.CreateDirectory(Path.Combine(Application.dataPath, "Level_Cache"));
         }
-        StartCoroutine(DownloadLevelFiles());
+        if (!initialized) {
+            StartCoroutine(DownloadLevelFiles());
+        }
     }
 
     public bool HasInternetConnection() {
@@ -93,5 +103,6 @@ public class DownloadLevels : MonoBehaviour {
             thumbnails[result - 1] = tex;
             bundle.Unload(false);
         }
+        initialized = true;
     }
 }

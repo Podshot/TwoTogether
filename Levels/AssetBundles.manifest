@@ -7,3 +7,6 @@ AssetBundleManifest:
     Info_1:
       Name: level_2
       Dependencies: {}
+    Info_2:
+      Name: level_3
+      Dependencies: {}

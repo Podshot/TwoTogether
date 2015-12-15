@@ -63,6 +63,7 @@ namespace TwoTogether.Character {
         // Misc
         private string horizontalAxis;
         private string verticalAxis;
+        [SerializeField]
         private CharacterType type;
         public CharacterType Type { get { return type; } }
 
@@ -80,7 +81,7 @@ namespace TwoTogether.Character {
             horizontalAxis = "Horizontal" + axisID;
             verticalAxis = "Vertical" + axisID;
             spriteRenderer = GetComponent<SpriteRenderer>();
-            type = CharacterTypeExtension.GetEnumFromID(axisID);
+            type = CharacterTypeExtension.GetEnumFromID(tag);
         }
 
         public void Start() {

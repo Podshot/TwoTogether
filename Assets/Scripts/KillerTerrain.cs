@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using TwoTogether.Character;
 using System;
 
 namespace TwoTogether.SpecialTerrain {
@@ -7,8 +8,7 @@ namespace TwoTogether.SpecialTerrain {
     [RequireComponent(typeof(Collider2D))]
     public class KillerTerrain : MonoBehaviour, IFadeable {
 
-        [SerializeField]
-        private string targetTag = "none";
+        public CharacterType targetType;
 
         private SpawnHandler handler;
         private SpriteRenderer spriteRenderer;
@@ -20,19 +20,20 @@ namespace TwoTogether.SpecialTerrain {
         }
 
         void OnCollisionEnter2D(Collision2D collision) {
-            if (collision.gameObject.tag.Equals(targetTag)) {
-                if (targetTag.Equals("BigCube")) {
+            CharacterType type = collision.gameObject.GetComponent<Controller>().Type;
+            if (type == targetType) {
+                if (targetType == CharacterType.BigCube) {
                     handler.ResetBlueCube();
-                } else if (targetTag.Equals("SmallCube")) {
+                } else if (targetType == CharacterType.SmallCube) {
                     handler.ResetRedCube();
                 } else {
-                    print(string.Format("This shouldn't ever display. TargetTag={0}", targetTag));
+                    print(string.Format("This shouldn't ever display. TargetTag={0}", targetType.GetID()));
                 }
             }
         }
 
-        public string GetTargetTag() {
-            return targetTag;
+        public CharacterType GetTargetTag() {
+            return targetType;
         }
 
         public IEnumerator FadeOut() {

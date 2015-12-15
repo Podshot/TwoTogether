@@ -10,6 +10,7 @@ public class GameManager : MonoBehaviour {
     [SerializeField] private bool bigCubeObjectiveMet = false;
     private GameObject levelGameObject;
     private LevelIdentity levelSelection;
+
     // Use this for initialization
     void Awake() {
         GameObject go = GameObject.Find("LevelSelector");
@@ -26,6 +27,8 @@ public class GameManager : MonoBehaviour {
             prefab = levelDownloader.Levels[levelSelection.GetIndex()];
         }
         levelGameObject = Instantiate(prefab);
+        ConfigHandler.Config.SetField("Progress", levelSelection.GetIndex());
+        ConfigHandler.SaveConfig();
         ObjectiveHandler.OnObjectiveActivated += ObjectiveActivated;
         ObjectiveHandler.OnObjectiveDeactivated += ObjectiveDeactivated;
 	}

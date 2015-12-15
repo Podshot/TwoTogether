@@ -14,7 +14,7 @@ public class ConfigHandler : MonoBehaviour {
     public static JSONObject Config { get { return data; } }
     private static bool loaded = false;
     public static bool IsLoaded { get { return loaded; } }
-    private static string defaults = "{\"Progress\": 0}";
+    private static string defaults = "{\"Progress\": -1}";
 
     public static JSONObject LoadConfig() {
         if (!File.Exists(CONFIG_PATH)) {

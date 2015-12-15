@@ -50,7 +50,7 @@ public class GenerateThumbnails : MonoBehaviour {
             if (images[i].name == "ToMainMenu") {
                 continue;
             }
-            if ((i + 1) <= progress["Progress"].n) {
+            if (i <= progress["Progress"].n) {
                 Image image = images[i];
                 Texture2D tex2d = new Texture2D(800, 600);
                 try {

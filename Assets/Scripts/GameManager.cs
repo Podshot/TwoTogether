@@ -14,7 +14,11 @@ public class GameManager : MonoBehaviour {
     // Use this for initialization
     void Awake() {
         GameObject go = GameObject.Find("LevelSelector");
-        DownloadLevels levelDownloader = GameObject.Find("LevelDownloader").GetComponent<DownloadLevels>();
+        GameObject levelDLObj = GameObject.Find("LevelDownloader");
+        DownloadLevels levelDownloader = null;
+        if (levelDLObj != null) {
+            levelDownloader = levelDLObj.GetComponent<DownloadLevels>();
+        }
         if (go != null) {
             levelSelection = GameObject.Find("LevelSelector").GetComponent<LevelIdentity>();
             prefab = levelDownloader.Levels[levelSelection.GetIndex()];
@@ -24,9 +28,13 @@ public class GameManager : MonoBehaviour {
             levelSelection = selector.GetComponent<LevelIdentity>();
             levelSelection.SetID(0);
             DontDestroyOnLoad(selector);
-            prefab = levelDownloader.Levels[levelSelection.GetIndex()];
+            if (levelDLObj != null) {
+                prefab = levelDownloader.Levels[levelSelection.GetIndex()];
+            }
         }
+
         levelGameObject = Instantiate(prefab);
+        ConfigHandler.LoadConfig();
         ConfigHandler.Config.SetField("Progress", levelSelection.GetIndex());
         ConfigHandler.SaveConfig();
         ObjectiveHandler.OnObjectiveActivated += ObjectiveActivated;

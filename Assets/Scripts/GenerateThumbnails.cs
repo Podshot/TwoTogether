@@ -17,8 +17,14 @@ public class GenerateThumbnails : MonoBehaviour {
     private const float OFFSET = 350f;
     private DownloadLevels levelDownloader;
 
+    void Awake() {
+        GameObject loader = GameObject.Find("LevelDownloader");
+        if (loader == null) {
+            Application.LoadLevel("MainMenu");
+        }
+    }
+
     void Start () {
-        levelDownloader = GameObject.Find("LevelDownloader").GetComponent<DownloadLevels>();
         Image[] images = GetComponentsInChildren<Image>();
         int numberOfLevels = levelDownloader.Levels.Length;
         int remainder;

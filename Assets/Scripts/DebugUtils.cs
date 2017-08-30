@@ -28,7 +28,7 @@ public class DebugUtils : MonoBehaviour {
     void Update() {
         if (cooldown == 0) {
             if (Input.GetKeyDown(KeyCode.BackQuote)) {
-                Application.CaptureScreenshot("test.png");
+                ScreenCapture.CaptureScreenshot("test.png");
                 cooldown = 10;
             }
         }

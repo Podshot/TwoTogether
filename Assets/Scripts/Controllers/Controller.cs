@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System;
+using TwoTogether.Fading;
 
 namespace TwoTogether.Character {
 
@@ -34,7 +35,7 @@ namespace TwoTogether.Character {
     }
 
     [RequireComponent(typeof(Rigidbody2D), typeof(SpriteRenderer))]
-    public class Controller : MonoBehaviour, IFadeable {
+    public class Controller : IFader {
 
         // Editor Fields
         [SerializeField]
@@ -72,9 +73,9 @@ namespace TwoTogether.Character {
         MoveDelegate moveLeft;
         MoveDelegate moveRight;
 
-        void Awake() {
+        public new void Awake() {
+            base.Awake();
             rigidbody = GetComponent<Rigidbody2D>();
-            settingUp = true;
             moveLeft = MoveLeftNormal;
             moveRight = MoveRightNormal;
             currentControlType = ControlType.Normal;
@@ -88,8 +89,8 @@ namespace TwoTogether.Character {
             if (spriteRenderer == null) {
                 spriteRenderer.color = new Color(spriteRenderer.color.r, spriteRenderer.color.g, spriteRenderer.color.b, 0.0f);
             }
-            settingUp = true;
-            StartCoroutine(FadeIn());
+            //settingUp = true;
+            //StartCoroutine(FadeIn());
         }
 
         void Update() {
@@ -146,7 +147,8 @@ namespace TwoTogether.Character {
         }
 
         // Public fuction for fading in the character
-        public IEnumerator FadeIn() {
+        public override IEnumerator FadeIn() {
+            Debug.LogWarning("Test");
             for (float i = 0; i < 1f; i += 0.025f) {
                 if (spriteRenderer != null) {
                     Color color = spriteRenderer.color;
@@ -155,12 +157,12 @@ namespace TwoTogether.Character {
                     yield return null;
                 }
             }
-            settingUp = false;
+            //settingUp = false;
             yield break;
         }
 
         // Public fuction for fading out the character
-        public IEnumerator FadeOut() {
+        public override IEnumerator FadeOut() {
             for (float i = 1; i > 0f; i -= 0.025f) {
                 if (spriteRenderer != null) {
                     Color color = spriteRenderer.color;
@@ -186,7 +188,7 @@ namespace TwoTogether.Character {
             rigidbody.isKinematic = pause;
 
         }
-        public void PartiallyFade(float alpha) {
+        public override void PartialFade(float alpha) {
             spriteRenderer.color = new Color(spriteRenderer.color.r, spriteRenderer.color.g, spriteRenderer.color.b, alpha);
         }
     }

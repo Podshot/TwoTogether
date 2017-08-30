@@ -1,46 +1,29 @@
 ﻿using UnityEngine;
 using TwoTogether.Character;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour {
 
-    public GameObject prefab;
+    public delegate void FadeEvent(TwoTogether.Fading.FadeType type, float value);
+    public static event FadeEvent FadeActivated;
 
     [SerializeField] private bool smallCubeObjectiveMet = false;
     [SerializeField] private bool bigCubeObjectiveMet = false;
-    private GameObject levelGameObject;
-    private LevelIdentity levelSelection;
 
     // Use this for initialization
     void Awake() {
-        GameObject go = GameObject.Find("LevelSelector");
-        GameObject levelDLObj = GameObject.Find("LevelDownloader");
-        DownloadLevels levelDownloader = null;
-        if (levelDLObj != null) {
-            levelDownloader = levelDLObj.GetComponent<DownloadLevels>();
-        }
-        if (go != null) {
-            levelSelection = GameObject.Find("LevelSelector").GetComponent<LevelIdentity>();
-            prefab = levelDownloader.Levels[levelSelection.GetIndex()];
-        } else {
-            GameObject selector = new GameObject("LevelSelector");
-            selector.AddComponent<LevelIdentity>();
-            levelSelection = selector.GetComponent<LevelIdentity>();
-            levelSelection.SetID(0);
-            DontDestroyOnLoad(selector);
-            if (levelDLObj != null) {
-                prefab = levelDownloader.Levels[levelSelection.GetIndex()];
-            }
-        }
-
-        levelGameObject = Instantiate(prefab);
         ConfigHandler.LoadConfig();
-        ConfigHandler.Config.SetField("Progress", levelSelection.GetIndex());
+        ConfigHandler.Config.SetField("Progress", int.Parse(SceneManager.GetActiveScene().name.Replace("Level_", "")));
         ConfigHandler.SaveConfig();
         ObjectiveHandler.OnObjectiveActivated += ObjectiveActivated;
         ObjectiveHandler.OnObjectiveDeactivated += ObjectiveDeactivated;
 	}
-	
+
+    private void Start() {
+        FadeActivated(TwoTogether.Fading.FadeType.FADE_IN, 0.0f);
+    }
+
     public void ObjectiveActivated(CharacterType type) {
         if (type == CharacterType.SmallCube) {
             smallCubeObjectiveMet = true;
@@ -60,21 +43,26 @@ public class GameManager : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         if (smallCubeObjectiveMet && bigCubeObjectiveMet) {
-            foreach (IFadeable fader in levelGameObject.GetComponentsInChildren(typeof(IFadeable))) {
+            FadeActivated(TwoTogether.Fading.FadeType.FADE_OUT, 0.0f);
+            /*
+            //foreach (IFadeable fader in levelGameObject.GetComponentsInChildren(typeof(IFadeable))) {
+            foreach (GameObject _fader in fadeables) {
+                IFadeable fader = (IFadeable) _fader.GetComponent(typeof(IFadeable));
                 StartCoroutine(fader.FadeOut());
             }
             foreach (Controller controller in SpawnHandler.GetAllControllers()) {
                 StartCoroutine(controller.FadeOut());
             }
-            StartCoroutine(LoadNextLevel());
+            */
+            //StartCoroutine(LoadNextLevel());
         }
 	}
 
     IEnumerator LoadNextLevel() {
         yield return new WaitForSeconds(2f);
-        levelSelection.SetID(levelSelection.GetIndex() + 1);
+        int nextLevel = (int)ConfigHandler.Config["Progress"].n;
         //yield return null;
-        Application.LoadLevel("PrefabScene");
+        SceneManager.LoadScene("Level_" + nextLevel);
         // Instantiate a new prefab
     }
 }

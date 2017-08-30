@@ -3,21 +3,19 @@ using UnityEngine.UI;
 using System.Collections;
 using Stopwatch = System.Diagnostics.Stopwatch;
 using System;
+using TwoTogether.Fading;
 
-public class TerrainFader : MonoBehaviour, IFadeable {
+public class TerrainFader : IFader {
 
 	private SpriteRenderer[] spriteRenderers;
 
-    void Start() {
-        Load();
-        StartCoroutine(FadeIn());
-    }
-
-    public void Load() {
+    void Awake() {
+        base.Awake();
         spriteRenderers = GetComponentsInChildren<SpriteRenderer>();
         foreach (SpriteRenderer renderer in spriteRenderers) {
             renderer.color = new Color(renderer.color.r, renderer.color.g, renderer.color.b, 0.0f);
         }
+        //StartCoroutine(FadeIn());
     }
 
     public void Cleanup() {
@@ -25,7 +23,7 @@ public class TerrainFader : MonoBehaviour, IFadeable {
     }
 	
     // Fades the terrain in and out. Fading happens manually, since CrossFadeAlpha only works for Text component
-    public IEnumerator FadeOut() {
+    public override IEnumerator FadeOut() {
         for (float i = 1; i > 0f; i -= 0.025f) {
             foreach (SpriteRenderer renderer in spriteRenderers) {
                 if (renderer != null) {
@@ -39,7 +37,7 @@ public class TerrainFader : MonoBehaviour, IFadeable {
         yield break;
     }
 
-    public IEnumerator FadeIn() {
+    public override IEnumerator FadeIn() {
         for (float i = 0; i < 1f; i += 0.025f) {
             foreach (SpriteRenderer renderer in spriteRenderers) {
                 if (renderer != null) {
@@ -53,7 +51,7 @@ public class TerrainFader : MonoBehaviour, IFadeable {
         yield break;
     }
 
-    public void PartiallyFade(float alpha) {
+    public override void PartialFade(float alpha) {
         foreach (SpriteRenderer renderer in spriteRenderers) {
             if (renderer != null) {
                 renderer.color = new Color(renderer.color.r, renderer.color.g, renderer.color.b, alpha);

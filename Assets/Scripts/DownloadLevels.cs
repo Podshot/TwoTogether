@@ -92,7 +92,7 @@ public class DownloadLevels : MonoBehaviour {
                 bundle = www.assetBundle;
                 www.Dispose();
             } else {
-                bundle = AssetBundle.CreateFromFile(Path.Combine(Path.Combine(Application.dataPath, "Level_Cache"), level["Name"].str));
+                bundle = AssetBundle.LoadFromFile(Path.Combine(Path.Combine(Application.dataPath, "Level_Cache"), level["Name"].str));
             }
             GameObject go = bundle.LoadAsset<GameObject>("Level_" + (i + 1));
             int result = 0;

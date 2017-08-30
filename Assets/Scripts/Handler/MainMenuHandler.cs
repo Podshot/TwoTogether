@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class MainMenuHandler : MonoBehaviour {
 
@@ -136,6 +137,6 @@ public class MainMenuHandler : MonoBehaviour {
     // Waits 0.75 seconds before loading the first level
 	IEnumerator WaitAndLoad(string scene) {
         yield return new WaitForSeconds(0.75f);
-        Application.LoadLevel(scene);
+        SceneManager.LoadScene(scene);
 	}
 }

@@ -2,6 +2,7 @@
 using System.Collections;
 using UnityEngine.UI;
 using System;
+using UnityEngine.SceneManagement;
 
 public class GenerateThumbnails : MonoBehaviour {
 
@@ -9,6 +10,7 @@ public class GenerateThumbnails : MonoBehaviour {
     public GameObject prefab;
     public Image unknown;
     public Transform paren;
+    public Sprite[] thumbnails;
 
     private int totalPages;
     private int currentPage = 0;
@@ -18,15 +20,16 @@ public class GenerateThumbnails : MonoBehaviour {
     private DownloadLevels levelDownloader;
 
     void Awake() {
-        GameObject loader = GameObject.Find("LevelDownloader");
-        if (loader == null) {
-            Application.LoadLevel("MainMenu");
-        }
+        //GameObject loader = GameObject.Find("LevelDownloader");
+        //if (loader == null) {
+        //    Application.LoadLevel("MainMenu");
+        //}
     }
 
     void Start () {
         Image[] images = GetComponentsInChildren<Image>();
-        int numberOfLevels = levelDownloader.Levels.Length;
+        //int numberOfLevels = levelDownloader.Levels.Length;
+        int numberOfLevels = SceneManager.sceneCount;
         int remainder;
         int result = Math.DivRem(numberOfLevels, 4, out remainder);
         if (numberOfLevels < 4) {
@@ -60,7 +63,9 @@ public class GenerateThumbnails : MonoBehaviour {
                 Image image = images[i];
                 Texture2D tex2d = new Texture2D(800, 600);
                 try {
-                    image.sprite = Sprite.Create(levelDownloader.Thumbnails[i], new Rect(0, 0, tex2d.width, tex2d.height), image.sprite.pivot);
+                    //image.sprite = Sprite.Create(levelDownloader.Thumbnails[i], new Rect(0, 0, tex2d.width, tex2d.height), image.sprite.pivot);
+                    image.sprite = thumbnails[i];
+                    Debug.Log(image.sprite.name);
                 } catch (Exception) {
                     image.sprite = unknown.sprite;
                     image.color = unknown.color;
@@ -71,8 +76,8 @@ public class GenerateThumbnails : MonoBehaviour {
                 txt.text = "Level " + (i + 1);
                 txt.enabled = false;
 
-                LevelIdentity id = image.gameObject.AddComponent<LevelIdentity>();
-                id.SetID(i);
+                SelectableLevel id = image.gameObject.AddComponent<SelectableLevel>();
+                id.SetScene(image.sprite.name.Replace("_Thumbnail", ""));
                 id.SetCanClick(true);
             } else {
                 Image image = images[i];
@@ -84,7 +89,7 @@ public class GenerateThumbnails : MonoBehaviour {
                 txt.text = "?";
                 txt.enabled = false;
 
-                LevelIdentity id = image.gameObject.AddComponent<LevelIdentity>();
+                SelectableLevel id = image.gameObject.AddComponent<SelectableLevel>();
                 id.SetCanClick(false);
             }
         }

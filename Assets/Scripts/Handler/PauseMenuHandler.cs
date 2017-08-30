@@ -54,8 +54,8 @@ public class PauseMenuHandler : MonoBehaviour {
         foreach (Controller controller in SpawnHandler.GetAllControllers()) {
             controller.PauseController(true);
         }
-        terrain.GetComponent<TerrainFader>().PartiallyFade(0.5f);
-        objectives.GetComponent<ObjectiveHandler>().PartiallyFade(0.5f);
+        terrain.GetComponent<TerrainFader>().PartialFade(0.5f);
+        //objectives.GetComponent<ObjectiveHandler>().PartialFade(0.5f);
         helpText.color = new Color(helpText.color.r, helpText.color.g, helpText.color.b, 0.5f);
         active.SetActive(true);
         cooldown = 20;
@@ -66,8 +66,8 @@ public class PauseMenuHandler : MonoBehaviour {
         foreach (Controller controller in SpawnHandler.GetAllControllers()) {
             controller.PauseController(false);
         }
-        terrain.GetComponent<TerrainFader>().PartiallyFade(1f);
-        objectives.GetComponent<ObjectiveHandler>().PartiallyFade(1f);
+        terrain.GetComponent<TerrainFader>().PartialFade(1f);
+        //objectives.GetComponent<ObjectiveHandler>().PartialFade(1f);
         helpText.color = new Color(helpText.color.r, helpText.color.g, helpText.color.b, 1f);
         active.SetActive(false);
         cooldown = 20;

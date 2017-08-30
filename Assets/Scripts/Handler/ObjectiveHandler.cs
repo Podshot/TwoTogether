@@ -3,8 +3,9 @@ using System.Collections;
 using UnityEngine.UI;
 using TwoTogether.Character;
 using System;
+using TwoTogether.Fading;
 
-public class ObjectiveHandler : MonoBehaviour, IFadeable {
+public class ObjectiveHandler : IFader {
 
     private Text helpText;
     public GameObject[] fadeables;
@@ -26,12 +27,6 @@ public class ObjectiveHandler : MonoBehaviour, IFadeable {
     public static event ObjectiveEvent OnObjectiveDeactivated;
 
     void Start() {
-        Load();
-        StartCoroutine(FadeIn());
-    }
-    // Fades in objectives and the help text
-    public void Load() {
-        
         redRenderer = redObjective.GetComponent<SpriteRenderer>();
         blueRenderer = blueObjective.GetComponent<SpriteRenderer>();
 
@@ -44,6 +39,8 @@ public class ObjectiveHandler : MonoBehaviour, IFadeable {
         blueRenderer.enabled = true;
         fadeables[1] = GameObject.FindGameObjectWithTag("BigCube");
         fadeables[2] = GameObject.FindGameObjectWithTag("SmallCube");
+
+        //StartCoroutine(FadeIn());
     }
 
     // Public callback to register completion of an objective
@@ -79,7 +76,7 @@ public class ObjectiveHandler : MonoBehaviour, IFadeable {
         OnObjectiveDeactivated = null;
     }
 
-    public IEnumerator FadeOut() {
+    public override IEnumerator FadeOut() {
         for (float i = 1; i > 0f; i -= 0.025f) {
             Color b_color = blueRenderer.color;
             b_color.a = i;
@@ -93,7 +90,8 @@ public class ObjectiveHandler : MonoBehaviour, IFadeable {
         }
     }
 
-    public IEnumerator FadeIn() {
+    
+    public override IEnumerator FadeIn() {
         for (float i = 0; i < 1f; i += 0.05f) {
             Color b_color = blueRenderer.color;
             b_color.a = i;
@@ -107,7 +105,7 @@ public class ObjectiveHandler : MonoBehaviour, IFadeable {
         }
     }
 
-    public void PartiallyFade(float alpha) {
+    public override void PartialFade(float alpha) {
         blueRenderer.color = new Color(blueRenderer.color.r, blueRenderer.color.g, blueRenderer.color.b, alpha);
         redRenderer.color = new Color(redRenderer.color.r, redRenderer.color.g, redRenderer.color.b, alpha);
     }

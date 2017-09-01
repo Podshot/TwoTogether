@@ -89,12 +89,11 @@ namespace TwoTogether.Character {
             if (spriteRenderer == null) {
                 spriteRenderer.color = new Color(spriteRenderer.color.r, spriteRenderer.color.g, spriteRenderer.color.b, 0.0f);
             }
-            //settingUp = true;
-            //StartCoroutine(FadeIn());
         }
 
         void Update() {
             if (!settingUp) {
+                //Debug.Log(Input.GetAxisRaw(verticalAxis));
                 if (Input.GetAxisRaw(horizontalAxis) < -sensitivity) {
                     moveLeft();
                 }
@@ -148,7 +147,6 @@ namespace TwoTogether.Character {
 
         // Public fuction for fading in the character
         public override IEnumerator FadeIn() {
-            Debug.LogWarning("Test");
             for (float i = 0; i < 1f; i += 0.025f) {
                 if (spriteRenderer != null) {
                     Color color = spriteRenderer.color;
@@ -157,7 +155,6 @@ namespace TwoTogether.Character {
                     yield return null;
                 }
             }
-            //settingUp = false;
             yield break;
         }
 

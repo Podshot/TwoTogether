@@ -5,7 +5,7 @@ using Stopwatch = System.Diagnostics.Stopwatch;
 using System;
 using TwoTogether.Fading;
 
-public class TerrainFader : IFader {
+public class TerrainFader : Fadeable {
 
 	private SpriteRenderer[] spriteRenderers;
 

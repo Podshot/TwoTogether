@@ -2,11 +2,12 @@
 using System.Collections;
 using TwoTogether.Character;
 using System;
+using TwoTogether.Fading;
 
 namespace TwoTogether.SpecialTerrain {
 
     [RequireComponent(typeof(Collider2D))]
-    public class KillerTerrain : MonoBehaviour, IFadeable {
+    public class KillerTerrain : Fadeable {
 
         public CharacterType targetType;
 
@@ -36,7 +37,7 @@ namespace TwoTogether.SpecialTerrain {
             return targetType;
         }
 
-        public IEnumerator FadeOut() {
+        public override IEnumerator FadeOut() {
             for (float i = 1; i > 0f; i -= 0.025f) {
                 if (spriteRenderer != null) {
                     Color color = spriteRenderer.color;
@@ -48,7 +49,7 @@ namespace TwoTogether.SpecialTerrain {
             yield break;
         }
 
-        public IEnumerator FadeIn() {
+        public override IEnumerator FadeIn() {
             for (float i = 0; i < 1f; i += 0.025f) {
                 if (spriteRenderer != null) {
                     Color color = spriteRenderer.color;
@@ -60,7 +61,7 @@ namespace TwoTogether.SpecialTerrain {
             yield break;
         }
 
-        public void PartiallyFade(float alpha) {
+        public override void PartialFade(float alpha) {
             spriteRenderer.color = new Color(spriteRenderer.color.r, spriteRenderer.color.g, spriteRenderer.color.b, alpha);
         }
     }

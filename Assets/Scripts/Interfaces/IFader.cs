@@ -10,7 +10,7 @@ namespace TwoTogether.Fading {
         PARTIAL_FADE,
     }
 
-    public abstract class IFader : MonoBehaviour {
+    public abstract class Fadeable : MonoBehaviour {
 
         public void Awake() {
             GameManager.FadeActivated += FadeListener;

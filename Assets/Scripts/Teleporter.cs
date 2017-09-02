@@ -1,8 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 using TwoTogether.Character;
+using TwoTogether.Fading;
 
-public class Teleporter : MonoBehaviour, IFadeable {
+public class Teleporter : Fadeable {
 
     public Transform targetDestination;
     public CharacterType targetCharacter;
@@ -16,7 +17,6 @@ public class Teleporter : MonoBehaviour, IFadeable {
     // Use this for initialization
     void Start () {
         spriteRenderer = GetComponent<SpriteRenderer>();
-        StartCoroutine(FadeIn());
 	}
 	
 	// Update is called once per frame
@@ -73,7 +73,7 @@ public class Teleporter : MonoBehaviour, IFadeable {
         */
     }
 
-    public IEnumerator FadeIn() {
+    public override IEnumerator FadeIn() {
         for (float i = 0; i < 1f; i += 0.025f) {
             if (spriteRenderer != null) {
                 Color color = spriteRenderer.color;
@@ -85,7 +85,7 @@ public class Teleporter : MonoBehaviour, IFadeable {
         yield break;
     }
 
-    public IEnumerator FadeOut() {
+    public override IEnumerator FadeOut() {
         for (float i = 1; i > 0f; i -= 0.025f) {
             if (spriteRenderer != null) {
                 Color color = spriteRenderer.color;
@@ -97,7 +97,7 @@ public class Teleporter : MonoBehaviour, IFadeable {
         yield break;
     }
 
-    public void PartiallyFade(float alpha) {
+    public override void PartialFade(float alpha) {
         spriteRenderer.color = new Color(spriteRenderer.color.r, spriteRenderer.color.g, spriteRenderer.color.b, alpha);
     }
 }

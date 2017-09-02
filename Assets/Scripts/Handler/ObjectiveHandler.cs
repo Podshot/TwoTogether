@@ -5,7 +5,7 @@ using TwoTogether.Character;
 using System;
 using TwoTogether.Fading;
 
-public class ObjectiveHandler : IFader {
+public class ObjectiveHandler : Fadeable {
 
     private Text helpText;
     public GameObject[] fadeables;

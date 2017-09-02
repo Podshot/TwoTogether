@@ -5,6 +5,8 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour {
 
+    public string nextLevel;
+
     public delegate void FadeEvent(TwoTogether.Fading.FadeType type, float value);
     public static event FadeEvent FadeActivated;
 
@@ -44,6 +46,7 @@ public class GameManager : MonoBehaviour {
 	void Update () {
         if (smallCubeObjectiveMet && bigCubeObjectiveMet) {
             FadeActivated(TwoTogether.Fading.FadeType.FADE_OUT, 0.0f);
+            StartCoroutine(LoadNextLevel());
             /*
             //foreach (IFadeable fader in levelGameObject.GetComponentsInChildren(typeof(IFadeable))) {
             foreach (GameObject _fader in fadeables) {
@@ -59,10 +62,10 @@ public class GameManager : MonoBehaviour {
 	}
 
     IEnumerator LoadNextLevel() {
-        yield return new WaitForSeconds(2f);
-        int nextLevel = (int)ConfigHandler.Config["Progress"].n;
+        yield return new WaitForSeconds(2.5f);
+        //int nextLevel = (int)ConfigHandler.Config["Progress"].n;
         //yield return null;
-        SceneManager.LoadScene("Level_" + nextLevel);
+        SceneManager.LoadScene(nextLevel);
         // Instantiate a new prefab
     }
 }

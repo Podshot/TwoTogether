@@ -35,7 +35,7 @@ namespace TwoTogether.Character {
     }
 
     [RequireComponent(typeof(Rigidbody2D), typeof(SpriteRenderer))]
-    public class Controller : IFader {
+    public class Controller : Fadeable {
 
         // Editor Fields
         [SerializeField]

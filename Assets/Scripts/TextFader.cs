@@ -1,17 +1,23 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
+using TwoTogether.Fading;
 
-public class TextFader : MonoBehaviour, IFadeable {
+public class TextFader : Fadeable {
 
     private Text text;
 
-    public void Start() {
+    public void Awake() {
+        base.Awake();
         text = GetComponent<Text>();
     }
 
+    public void Start() {
+        
+    }
+
     // Public fuction for fading in the character
-    public IEnumerator FadeIn() {
+    public override IEnumerator FadeIn() {
         for (float i = 0; i < 1f; i += 0.025f) {
             Color color = text.color;
             color.a = i;
@@ -22,7 +28,7 @@ public class TextFader : MonoBehaviour, IFadeable {
     }
 
     // Public fuction for fading out the character
-    public IEnumerator FadeOut() {
+    public override IEnumerator FadeOut() {
         for (float i = 1; i > 0f; i -= 0.025f) {
             Color color = text.color;
             color.a = i;
@@ -32,7 +38,7 @@ public class TextFader : MonoBehaviour, IFadeable {
         yield break;
     }
 
-    public void PartiallyFade(float alpha) {
+    public override void PartialFade(float alpha) {
         text.color = new Color(text.color.r, text.color.g, text.color.b, alpha);
     }
 }

@@ -11,11 +11,11 @@ namespace TwoTogether.SpecialTerrain {
 
         public CharacterType targetType;
 
-        private SpawnHandler handler;
+        private Vector3 spawnLocation;
         private SpriteRenderer spriteRenderer;
 
         public void Start() {
-            handler = GameObject.FindGameObjectWithTag("SpawnController").GetComponent<SpawnHandler>();
+            spawnLocation = GameObject.Find(targetType.GetID()).transform.position;
             spriteRenderer = GetComponent<SpriteRenderer>();
             spriteRenderer.color = new Color(spriteRenderer.color.r, spriteRenderer.color.g, spriteRenderer.color.b, 0.0f);
         }
@@ -23,6 +23,9 @@ namespace TwoTogether.SpecialTerrain {
         void OnCollisionEnter2D(Collision2D collision) {
             CharacterType type = collision.gameObject.GetComponent<Controller>().Type;
             if (type == targetType) {
+                collision.gameObject.transform.position = spawnLocation;
+                collision.gameObject.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+                /*
                 if (targetType == CharacterType.BigCube) {
                     handler.ResetBlueCube();
                 } else if (targetType == CharacterType.SmallCube) {
@@ -30,6 +33,7 @@ namespace TwoTogether.SpecialTerrain {
                 } else {
                     print(string.Format("This shouldn't ever display. TargetTag={0}", targetType.GetID()));
                 }
+                */
             }
         }
 

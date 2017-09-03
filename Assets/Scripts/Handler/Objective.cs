@@ -7,7 +7,7 @@ public class Objective : MonoBehaviour {
 
 	public GameObject handler;
 	public GameObject lookingFor;
-    public bool running = true;
+    public bool disableSnapping;
 
 	private ObjectiveHandler objectiveHandler;
 	private Color originalColor;
@@ -34,7 +34,7 @@ public class Objective : MonoBehaviour {
 	void OnTriggerEnter2D(Collider2D otherObject) {
 		if (otherObject.transform.tag == lookingForTag) {
 			spriteRenderer.color = Color.black;
-            if (startTime == 0.0f) {
+            if ((startTime == 0.0f) && !disableSnapping) {
                 startTime = Time.time;
                 originalPosition = otherObject.transform.position;
                 StartCoroutine(SnapIn(otherObject.gameObject));
